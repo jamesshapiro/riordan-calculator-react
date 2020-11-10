@@ -1,30 +1,53 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from '../actions/calcActionTypes';
 import { updateObject } from '../../shared/utility';
-import reducer from './burgerBuilder';
 
 const initialState = {
-    fSequence: 'catalan',
-    gSequence: 'catalan',
-    fSequenceIsFreeform: false,
-    gSequenceIsFreeform: false,
-    fSequenceLeadingZeros: 0,
-    gSequenceLeadingZeros: 1
+    fSequence: {
+        sequenceName: 'catalan',
+        sequenceIsFreeform: false,
+        leadingZeroes: 0
+    },
+    gSequence: {
+        sequenceName: 'catalan',
+        sequenceIsFreeform: false,
+        leadingZeroes: 1
+    }
 };
 
+// const purchaseBurgerSuccess = (state, action) => {
+//     const newOrder = {
+//         ...action.orderData,
+//         id: action.orderId
+//     };
+//     return updateObject(state, { 
+//         loading: false,
+//         purchased: true,
+//         orders: state.orders.concat(newOrder)
+//     });
+// }
+
 const setSequence = (state, action) => {
-    return updateObject(state, {
-        ingredients: {
-            lettuce: action.ingredients.lettuce,
-            bacon: action.ingredients.bacon,
-            cheese: action.ingredients.cheese,
-            beef: action.ingredients.beef
-        },
-        totalPrice: 4,
-        error: false,
-        building: false
-    });
+    const sequenceId = action.sequenceId;
+    let sequenceIsFreeform = false;
+    if (action.sequenceName === 'freeform') {
+        sequenceIsFreeform = true;
+    }
+    const newSequence = {
+        sequenceName: action.sequenceName,
+        sequenceIsFreeform: sequenceIsFreeform,
+        leadingZeroes: action.leadingZeroes
+    }
+    if (sequenceId === 'g') {
+        return updateObject(state, { gSequence: newSequence });
+    }
+    return updateObject(state, { fSequence: newSequence });
 }
 
-
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case actionTypes.SET_SEQUENCE: return setSequence(state, action);
+        default: return state;
+    }
+};
 
 export default reducer;

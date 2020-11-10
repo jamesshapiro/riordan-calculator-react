@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import classes from './Layout.module.css';
 import Aux from '../Auxiliary/Auxiliary'
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
+//import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
+//import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
 
 
 
@@ -32,10 +32,10 @@ class Layout extends Component {
                 <SideDrawer
                     isAuth={this.props.isAuthenticated}
                     open={this.state.showSideDrawer} 
-                    closed={this.sideDrawerClosedHandler} />
+                    closed={this.sideDrawerClosedHandler} /> */}
                 <main className={classes.Content}>
                     {this.props.children}
-                </main> */}
+                </main>
             </Aux>
         )
     }

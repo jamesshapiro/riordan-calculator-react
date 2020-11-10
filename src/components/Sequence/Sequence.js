@@ -13,37 +13,34 @@ import { sequenceMap, sequenceNames } from '../../data/sequenceData'
 
 class Sequence extends Component {
     state = {
-        orderForm: {
-            name: {
-                elementType: 'input',
+        sequenceContainer: {
+            // name: {
+            //     elementType: 'input',
+            //     elementConfig: {
+            //         type: 'text',
+            //         placeholder: 'Your Name'
+            //     },
+            //     value: '',
+            //     validation: {
+            //         required: true
+            //     },
+            //     valid: false,
+            //     touched: false
+            // },
+            deliveryMethod: {
+                elementType: 'select',
                 elementConfig: {
-                    type: 'text',
-                    placeholder: 'Your Name'
+                    options: sequenceNames.map(sequenceName => {
+                        return { value: sequenceName, displayValue: sequenceName };
+                    })
                 },
-                value: '',
-                validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false
-            },
-        },
-        deliveryMethod: {
-            elementType: 'select',
-            elementConfig: {
-                // options: [
-                //     {value: 'fastest', displayValue: 'Fastest'},
-                //     {value: 'cheapest', displayValue: 'Cheapest'},
-                // ]
-                options: sequenceNames.map(sequenceName => {
-                    return {value: sequenceName, displayValue: sequenceName};
-                })
-            },
-            validation: {},
-            value: 'fastest',
-            valid: true
+                validation: {},
+                value: 'fastest',
+                valid: true
+            }
         },
         formIsValid: false
+
     }
 
     // orderHandler = (event) => {
@@ -61,59 +58,62 @@ class Sequence extends Component {
     //     this.props.onOrderBurger(order, this.props.token);
     // }
 
-    // inputChangedHandler = (event, inputIdentifier) => {
-    //     const updatedOrderFormElement = updateObject(this.state.orderForm[inputIdentifier], {
-    //         value: event.target.value,
-    //         valid: checkValidity(
-    //             event.target.value,
-    //             this.state.orderForm[inputIdentifier].validation
-    //         ),
-    //         touched: true
-    //     });
+    inputChangedHandler = (event, inputIdentifier) => {
+        const updatedOrderFormElement = updateObject(this.state.sequenceContainer[inputIdentifier], {
+            value: event.target.value,
+            valid: checkValidity(
+                event.target.value,
+                this.state.sequenceContainer[inputIdentifier].validation
+            ),
+            touched: true
+        });
 
-    //     const updatedOrderForm = updateObject(this.state.orderForm, {
-    //         [inputIdentifier]: updatedOrderFormElement
-    //     });
-        
-    //     let formIsValid = true;
-    //     for (let inputIdentifier in updatedOrderForm) {
-    //         formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
-    //     }
-    //     this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
-    // }
+        const updatedOrderForm = updateObject(this.state.sequenceContainer, {
+            [inputIdentifier]: updatedOrderFormElement
+        });
+
+        let formIsValid = true;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+        }
+        this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
+        this.props.onSetSequence('f', event.target.value, 0)
+    }
 
     render() {
         const formElementsArray = [];
-        for (let key in this.state.orderForm) {
+        for (let key in this.state.sequenceContainer) {
             formElementsArray.push({
                 id: key,
-                config: this.state.orderForm[key]
+                config: this.state.sequenceContainer[key]
             });
         }
         let form = (
             <form onSubmit={this.orderHandler}>
                 {formElementsArray.map(formElement => (
-                    <Input 
+                    <Input
                         key={formElement.id}
-                        elementType={formElement.config.elementType} 
+                        elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
-                        value={formElement.config.value}
                         invalid={!formElement.config.valid}
                         shouldValidate={formElement.config.validation}
                         touched={formElement.config.touched}
                         changed={(event) => this.inputChangedHandler(event, formElement.id)}
                     />
                 ))}
-                <Button disabled={!this.state.formIsValid} btnType="Success">ORDER</Button>
+                {/* <Button disabled={!this.state.formIsValid} btnType="Success">ORDER</Button> */}
             </form>
         );
         if (this.props.loading) {
             form = <Spinner />
         }
+        const seq = sequenceMap[this.props.sequenceStore.sequenceName];
+
         return (
-            <div className={classes.ContactData}>
+            <div>
                 <h4>Enter your Contact Data</h4>
                 {form}
+                {this.props.sequenceId}-Sequence: {seq.join(', ')}
             </div>
         )
     }
@@ -122,17 +122,18 @@ class Sequence extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading,
-        token: state.auth.token,
-        userId: state.auth.userId
+        // ings: state.burgerBuilder.ingredients,
+        // price: state.burgerBuilder.totalPrice,
+        // sequenceStore: state.order.loading,
+        // token: state.auth.token,
+        sequenceStore: state.calc.fSequence
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
+        // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
+        onSetSequence: (sequenceId, sequenceName, leadingZeroes) => dispatch(actions.setSequence(sequenceId, sequenceName, leadingZeroes))
     }
 };
 
