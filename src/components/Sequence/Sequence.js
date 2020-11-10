@@ -77,7 +77,7 @@ class Sequence extends Component {
             formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
         this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
-        this.props.onSetSequence('f', event.target.value, 0)
+        this.props.onSetSequence(this.props.sequenceId, event.target.value, 0)
     }
 
     render() {
@@ -88,10 +88,19 @@ class Sequence extends Component {
                 config: this.state.sequenceContainer[key]
             });
         }
+
+        //console.log(this.props.fSequence)
+        let seq = sequenceMap[this.props.gSequence.sequenceName];
+        if (this.props.sequenceId === 'f') {
+            seq = sequenceMap[this.props.fSequence.sequenceName];
+        }
+
         let form = (
-            <form onSubmit={this.orderHandler}>
+            <form className={classes.SequenceForm} onSubmit={this.orderHandler}>
+                {this.props.sequenceId}-Sequence:
                 {formElementsArray.map(formElement => (
                     <Input
+                        className={classes.SequenceSelector}
                         key={formElement.id}
                         elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
@@ -102,18 +111,19 @@ class Sequence extends Component {
                     />
                 ))}
                 {/* <Button disabled={!this.state.formIsValid} btnType="Success">ORDER</Button> */}
+
+                {seq.join(', ')}
             </form>
         );
         if (this.props.loading) {
             form = <Spinner />
         }
-        const seq = sequenceMap[this.props.sequenceStore.sequenceName];
+
 
         return (
             <div>
-                <h4>Enter your Contact Data</h4>
                 {form}
-                {this.props.sequenceId}-Sequence: {seq.join(', ')}
+
             </div>
         )
     }
@@ -126,7 +136,8 @@ const mapStateToProps = state => {
         // price: state.burgerBuilder.totalPrice,
         // sequenceStore: state.order.loading,
         // token: state.auth.token,
-        sequenceStore: state.calc.fSequence
+        fSequence: state.calc.fSequence,
+        gSequence: state.calc.gSequence
     }
 }
 
