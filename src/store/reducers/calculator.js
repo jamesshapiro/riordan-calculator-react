@@ -18,11 +18,10 @@ const initialState = {
         sequence: sequenceMap['catalan']
     },
     numCellsToDisplay: 11,
-    maxDisplayableCells: Math.min(sequenceMap['catalan'].length, sequenceMap['catalan'].length)
+    maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length)
 };
 
 const setSequence = (state, action) => {
-    console.log(action.sequenceId);
     const sequenceId = action.sequenceId;
     let sequenceIsFreeform = false;
     if (action.sequenceName === 'freeform') {
@@ -41,8 +40,7 @@ const setSequence = (state, action) => {
             sequence: sequenceMap[action.sequenceName],
             leadingZeroes: 0
         }
-        console.log(Math.min(newSequence.sequence.length, state.fSequence.sequence.length))
-        return updateObject(state, { 
+        return updateObject(state, {
             gSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
             numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
@@ -54,35 +52,42 @@ const setSequence = (state, action) => {
             sequence: sequenceMap[action.sequenceName],
             leadingZeroes: 0
         }
-        console.log(Math.min(newSequence.sequence.length, state.gSequence.sequence.length))
         return updateObject(state, {
             fSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
             numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
         });
     }
-    
+
 }
 
 const addZero = (state, action) => {
     let sequence = action.sequence;
     if (action.sequence.sequenceId === 'g') {
         const newZeroes = state.gSequence.leadingZeroes + 1
-        console.log(newZeroes)
         return {
             ...state,
             gSequence: {
                 ...state.gSequence,
                 leadingZeroes: newZeroes
-            }
+            },
+            maxDisplayableCells: Math.min(
+                newZeroes                     + state.gSequence.sequence.length, 
+                state.fSequence.leadingZeroes + state.fSequence.sequence.length
+            )
         }
-    }
-    const newZeroes = state.fSequence.leadingZeroes + 1
-    return {
-        ...state,
-        fSequence: {
-            ...state.fSequence,
-            leadingZeroes: newZeroes
+    } else {
+        const newZeroes = state.fSequence.leadingZeroes + 1
+        return {
+            ...state,
+            fSequence: {
+                ...state.fSequence,
+                leadingZeroes: newZeroes
+            },
+            maxDisplayableCells: Math.min(
+                state.gSequence.leadingZeroes + state.gSequence.sequence.length, 
+                newZeroes                     + state.fSequence.sequence.length
+            )
         }
     }
 }
