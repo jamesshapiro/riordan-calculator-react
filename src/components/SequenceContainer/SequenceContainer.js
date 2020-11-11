@@ -44,6 +44,7 @@ class SequenceContainer extends Component {
 
         const addTermButton = (<SequenceButton
             clicked={() => this.displayMoreTerms()}
+            disabled={this.props.maxDisplayableCells <= this.props.numCellsToDisplay}
             content="+"
         />)
 
@@ -77,7 +78,8 @@ const mapStateToProps = state => {
         // token: state.auth.token,
         // sequence: state.calc.gSequence,
         numCellsToDisplay: state.calc.numCellsToDisplay,
-        enableDisplayFewerButton: state.calc.numCellsToDisplay > 0
+        enableDisplayFewerButton: state.calc.numCellsToDisplay > 0,
+        maxDisplayableCells: state.calc.maxDisplayableCells
     }
 }
 

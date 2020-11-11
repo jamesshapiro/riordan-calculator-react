@@ -18,10 +18,11 @@ const initialState = {
         sequence: sequenceMap['catalan']
     },
     numCellsToDisplay: 11,
-    maxDisplayableCells: Math.max(sequenceMap['catalan'].length, sequenceMap['catalan'].length)
+    maxDisplayableCells: Math.min(sequenceMap['catalan'].length, sequenceMap['catalan'].length)
 };
 
 const setSequence = (state, action) => {
+    console.log(action.sequenceId);
     const sequenceId = action.sequenceId;
     let sequenceIsFreeform = false;
     if (action.sequenceName === 'freeform') {
@@ -40,9 +41,11 @@ const setSequence = (state, action) => {
             sequence: sequenceMap[action.sequenceName],
             leadingZeroes: 0
         }
+        console.log(Math.min(newSequence.sequence.length, state.fSequence.sequence.length))
         return updateObject(state, { 
             gSequence: newSequence,
-            maxDisplayableCells: Math.max(newSequence.sequence.length, state.fSequence.sequence.length)
+            maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
         });
     } else {
         let newSequence = {
@@ -51,9 +54,11 @@ const setSequence = (state, action) => {
             sequence: sequenceMap[action.sequenceName],
             leadingZeroes: 0
         }
+        console.log(Math.min(newSequence.sequence.length, state.gSequence.sequence.length))
         return updateObject(state, {
             fSequence: newSequence,
-            maxDisplayableCells: Math.max(newSequence.sequence.length, state.gSequence.sequence.length)
+            maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
         });
     }
     

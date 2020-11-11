@@ -53,6 +53,7 @@ class App extends Component {
     return (
       <div>
         <Layout>
+          <h1>Welcome to the Riordan Calculator v2</h1>
           <SequenceContainer sequence={this.props.gSequence} />
           <SequenceContainer sequence={this.props.fSequence} />
         </Layout>
