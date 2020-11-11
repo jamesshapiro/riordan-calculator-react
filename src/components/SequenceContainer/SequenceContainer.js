@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Select from 'react-dropdown-select';
+
 
 import * as actions from '../../store/actions/calcIndex';
 import { sequenceMap, sequenceNames } from '../../data/sequenceData';
@@ -7,6 +9,7 @@ import SequenceSelector from './SequenceSelector/SequenceSelector';
 import SequenceButton from './SequenceButton/SequenceButton';
 import Sequence from './Sequence/Sequence';
 import classes from './SequenceContainer.module.css';
+import { options } from "../../data/options";
 
 class SequenceContainer extends Component {
     state = {
@@ -65,11 +68,73 @@ class SequenceContainer extends Component {
 
         const sequence = <Sequence sequence={seq} />
 
-        return (
-            <div className={classes.SequenceContainer}>
-                <div>{sequenceSelector}{shiftButton}{sequence}{addTermButton}{deleteTermButton}</div>
-            </div>
+        const bsProps = {
+            multi: false,
+            disabled: false,
+            loading: false,
+            contentRenderer: false,
+            dropdownRenderer: false,
+            inputRenderer: false,
+            itemRenderer: false,
+            optionRenderer: false,
+            noDataRenderer: false,
+            selectValues: [],
+            searchBy: "username",
+            clearable: false,
+            searchable: true,
+            create: false,
+            separator: false,
+            forceOpen: false,
+            handle: true,
+            addPlaceholder: " (select a preset or search by OEIS id, e.g. A000055)",
+            labelField: "username",
+            valueField: "email",
+            color: "#0074D9",
+            keepSelectedInList: true,
+            closeOnSelect: false,
+            dropdownPosition: "bottom",
+            direction: "ltr",
+            dropdownHeight: "300px"
+        }
+
+        const bigSelect = (<Select
+            placeholder="Select peoples"
+            addPlaceholder={bsProps.addPlaceholder}
+            color={bsProps.color}
+            disabled={bsProps.disabled}
+            loading={bsProps.loading}
+            searchBy={bsProps.searchBy}
+            separator={bsProps.separator}
+            clearable={bsProps.clearable}
+            searchable={bsProps.searchable}
+            create={bsProps.create}
+            keepOpen={bsProps.forceOpen}
+            dropdownHandle={bsProps.handle}
+            dropdownHeight={bsProps.dropdownHeight}
+            direction={bsProps.direction}
+            multi={bsProps.multi}
+            values={[options.find(opt => opt.username === "Delphine")]}
+            labelField={bsProps.labelField}
+            valueField={bsProps.valueField}
+            options={options}
+            dropdownGap={5}
+            keepSelectedInList={bsProps.keepSelectedInList}
+            onDropdownOpen={() => undefined}
+            onDropdownClose={() => undefined}
+            onClearAll={() => undefined}
+            onSelectAll={() => undefined}
+            onChange={values => this.setValues(values)}
+            noDataLabel="No matches found"
+            closeOnSelect={bsProps.closeOnSelect}
+            />
         )
+
+            return (
+                <div className={classes.SequenceContainer}>
+                    <div>{sequenceSelector}{shiftButton}{addTermButton}{deleteTermButton}{sequence}</div>
+                    {bigSelect}
+                </div>
+            )
     }
 }
 

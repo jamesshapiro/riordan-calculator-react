@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/calcActionTypes';
 import { updateObject } from '../../shared/utility';
-import { sequenceMap, sequenceNames } from '../../data/sequenceData';
+import { sequenceMap } from '../../data/sequenceData';
 
 const initialState = {
     gSequence: {
@@ -24,15 +24,9 @@ const initialState = {
 const setSequence = (state, action) => {
     const sequenceId = action.sequenceId;
     let sequenceIsFreeform = false;
-    if (action.sequenceName === 'freeform') {
-        sequenceIsFreeform = true;
-    }
-    let newSequence = {
-        sequenceId: action.sequenceId,
-        sequenceName: action.sequenceName,
-        sequenceIsFreeform: sequenceIsFreeform,
-        leadingZeroes: 0
-    }
+    // if (action.sequenceName === 'freeform') {
+    //     sequenceIsFreeform = true;
+    // }
     if (sequenceId === 'g') {
         let newSequence = {
             ...state.gSequence,
@@ -62,7 +56,6 @@ const setSequence = (state, action) => {
 }
 
 const addZero = (state, action) => {
-    let sequence = action.sequence;
     if (action.sequence.sequenceId === 'g') {
         const newZeroes = state.gSequence.leadingZeroes + 1
         return {
