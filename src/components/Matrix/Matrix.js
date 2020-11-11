@@ -11,7 +11,7 @@ class SequenceContainer extends Component {
 
     render() {
         let matrix = null;
-        if (this.props.loading) {
+        if (this.props.loadingMatrix) {
             matrix = <Spinner />
         }
         return (
@@ -25,7 +25,7 @@ class SequenceContainer extends Component {
 const mapStateToProps = state => {
     return {
         numCellsToDisplay: state.calc.numCellsToDisplay,
-        loading: state.calc.loading
+        loadingMatrix: state.calc.loadingMatrix
     }
 }
 

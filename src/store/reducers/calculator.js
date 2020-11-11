@@ -19,7 +19,23 @@ const initialState = {
     },
     numCellsToDisplay: 11,
     maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length),
-    loading: false
+    loadingMatrix: false,
+    a_seq: null,
+    b_seq: null,
+    riordan_group_elem: null,
+    riordan_pseudo: true,
+    stieltjes: null,
+    tweedle_left: null,
+    tweedle_left_a_seq: null,
+    tweedle_left_b_seq: null,
+    tweedle_left_pseudo: true,
+    tweedle_left_z_seq: null,
+    tweedle_right: null,
+    tweedle_right_a_seq: null,
+    tweedle_right_b_seq: null,
+    tweedle_right_pseudo: true,
+    tweedle_right_z_seq: null,
+    z_seq: null
 };
 
 const setCustomSequence = (state, action) => {
@@ -92,7 +108,7 @@ const addZero = (state, action) => {
                 leadingZeroes: newZeroes
             },
             maxDisplayableCells: Math.min(
-                newZeroes                     + state.gSequence.sequence.length, 
+                newZeroes + state.gSequence.sequence.length,
                 state.fSequence.leadingZeroes + state.fSequence.sequence.length
             )
         }
@@ -105,8 +121,8 @@ const addZero = (state, action) => {
                 leadingZeroes: newZeroes
             },
             maxDisplayableCells: Math.min(
-                state.gSequence.leadingZeroes + state.gSequence.sequence.length, 
-                newZeroes                     + state.fSequence.sequence.length
+                state.gSequence.leadingZeroes + state.gSequence.sequence.length,
+                newZeroes + state.fSequence.sequence.length
             )
         }
     }
@@ -122,8 +138,29 @@ const displayMoreTerms = (state, action) => {
     return updateObject(state, { numCellsToDisplay: newNumCellsToDisplay });
 }
 
-const fetchMatrix = (state) => {
-    return updateObject(state, { loading: true });
+const fetchMatrixSuccess = (state, action) => {
+    const json_body = action.json_body;
+    console.log(json_body)
+
+    return updateObject(state, {
+        loadingMatrix: false,
+        a_seq: json_body['a seq'],
+        b_seq: json_body['b seq'],
+        riordan_group_elem: json_body['riordan group elem'],
+        riordan_pseudo: json_body['riordan pseudo'],
+        stieltjes: json_body.stieltjes,
+        tweedle_left: json_body['tweedle left'],
+        tweedle_left_a_seq: json_body['tweedle left a seq'],
+        tweedle_left_b_seq: json_body['tweedle left b seq'],
+        tweedle_left_pseudo: json_body['tweedle left pseudo'],
+        tweedle_left_z_seq: json_body['tweedle left z seq'],
+        tweedle_right: json_body['tweedle right'],
+        tweedle_right_a_seq: json_body['tweedle right a seq'],
+        tweedle_right_b_seq: json_body['tweedle right b seq'],
+        tweedle_right_pseudo: json_body['tweedle right pseudo'],
+        tweedle_right_z_seq: json_body['tweedle right z seq'],
+        z_seq: json_body['z seq']
+    });
 }
 
 const reducer = (state = initialState, action) => {
@@ -133,9 +170,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_ZERO: return addZero(state, action);
         case actionTypes.DISPLAY_FEWER_TERMS: return displayFewerTerms(state, action);
         case actionTypes.DISPLAY_MORE_TERMS: return displayMoreTerms(state, action);
-        case actionTypes.FETCH_MATRIX_START: return updateObject(state, { loading: true });
-        case actionTypes.FETCH_MATRIX_SUCCESS: return updateObject(state, { loading: false });
-        case actionTypes.FETCH_MATRIX_FAIL: return updateObject(state, { loading: false });
+        case actionTypes.FETCH_MATRIX_START: return updateObject(state, { loadingMatrix: true });
+        case actionTypes.FETCH_MATRIX_SUCCESS: return fetchMatrixSuccess(state, action);
+        case actionTypes.FETCH_MATRIX_FAIL: return updateObject(state, { loadingMatrix: false });
         default: return state;
     }
 };

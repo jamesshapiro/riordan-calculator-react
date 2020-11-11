@@ -74,10 +74,10 @@ export const fetchMatrixStart = () => {
 };
 
 
-export const fetchMatrixSuccess = (res) => {
+export const fetchMatrixSuccess = (json_body) => {
     return {
         type: actionTypes.FETCH_MATRIX_SUCCESS,
-        res: res
+        json_body: json_body
     }
 }
 
@@ -94,13 +94,10 @@ export const fetchMatrix = () => {
     return (dispatch, getState) => {
         dispatch(fetchMatrixStart())
         const url = 'https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix'
-        console.log(getState());
         const state = getState();
         const numCellsToDisplay = state.calc.numCellsToDisplay;
         const gSeq = Array(state.calc.gSequence.leadingZeroes).fill(0).concat(state.calc.gSequence.sequence).slice(0, numCellsToDisplay).join();
         const fSeq = Array(state.calc.fSequence.leadingZeroes).fill(0).concat(state.calc.fSequence.sequence).slice(0, numCellsToDisplay).join();
-        console.log(gSeq);
-        console.log(fSeq);
         const payload = {
             "g": gSeq,
             "f": fSeq
@@ -108,7 +105,6 @@ export const fetchMatrix = () => {
         axios.put(url, payload)
             .then(res => {
                 const json_body = JSON.parse(res.data.body)
-                console.log(json_body)
                 dispatch(fetchMatrixSuccess(json_body));
             })
             .catch(err => {
