@@ -133,7 +133,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_ZERO: return addZero(state, action);
         case actionTypes.DISPLAY_FEWER_TERMS: return displayFewerTerms(state, action);
         case actionTypes.DISPLAY_MORE_TERMS: return displayMoreTerms(state, action);
-        case actionTypes.FETCH_MATRIX: return fetchMatrix(state, action);
+        case actionTypes.FETCH_MATRIX_START: return updateObject(state, { loading: true });
+        case actionTypes.FETCH_MATRIX_SUCCESS: return updateObject(state, { loading: false });
+        case actionTypes.FETCH_MATRIX_FAIL: return updateObject(state, { loading: false });
         default: return state;
     }
 };
