@@ -21,12 +21,39 @@ const initialState = {
     maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length)
 };
 
-const setSequence = (state, action) => {
+const setCustomSequence = (state, action) => {
+    console.log('[SET Custom Sequence]');
+    console.log(action);
     const sequenceId = action.sequenceId;
-    let sequenceIsFreeform = false;
-    // if (action.sequenceName === 'freeform') {
-    //     sequenceIsFreeform = true;
-    // }
+    if (sequenceId === 'g') {
+        let newSequence = {
+            ...state.gSequence,
+            sequenceName: 'custom',
+            sequence: action.sequence,
+            leadingZeroes: 0
+        }
+        return updateObject(state, {
+            gSequence: newSequence,
+            maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
+        });
+    } else {
+        let newSequence = {
+            ...state.fSequence,
+            sequenceName: 'custom',
+            sequence: action.sequence,
+            leadingZeroes: 0
+        }
+        return updateObject(state, {
+            fSequence: newSequence,
+            maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
+        });
+    }
+}
+
+const selectSequence = (state, action) => {
+    const sequenceId = action.sequenceId;
     if (sequenceId === 'g') {
         let newSequence = {
             ...state.gSequence,
@@ -52,11 +79,10 @@ const setSequence = (state, action) => {
             numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
         });
     }
-
 }
 
 const addZero = (state, action) => {
-    if (action.sequence.sequenceId === 'g') {
+    if (action.sequenceId === 'g') {
         const newZeroes = state.gSequence.leadingZeroes + 1
         return {
             ...state,
@@ -97,7 +123,8 @@ const displayMoreTerms = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.SET_SEQUENCE: return setSequence(state, action);
+        case actionTypes.SELECT_SEQUENCE: return selectSequence(state, action);
+        case actionTypes.SET_CUSTOM_SEQUENCE: return setCustomSequence(state, action);
         case actionTypes.ADD_ZERO: return addZero(state, action);
         case actionTypes.DISPLAY_FEWER_TERMS: return displayFewerTerms(state, action);
         case actionTypes.DISPLAY_MORE_TERMS: return displayMoreTerms(state, action);

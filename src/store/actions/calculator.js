@@ -1,31 +1,44 @@
 import * as actionTypes from './calcActionTypes';
 //import axios from 'axios';
 
-export const setSeq = ( sequenceId, sequenceName, leadingZeroes ) => {
+export const selectSeq = ( sequenceId, sequenceName ) => {
     return {
-        type: actionTypes.SET_SEQUENCE,
+        type: actionTypes.SELECT_SEQUENCE,
         sequenceId: sequenceId,
-        sequenceName: sequenceName,
-        leadingZeroes: leadingZeroes
+        sequenceName: sequenceName
     };
 }
 
-export const setSequence = ( sequenceId, sequenceName, leadingZeroes ) => {
+export const selectSequence = ( sequenceId, sequenceName ) => {
     return dispatch => {
-        dispatch(setSeq(sequenceId, sequenceName, leadingZeroes));
+        dispatch(selectSeq(sequenceId, sequenceName));
     };
 };
 
-export const addLeadingZero = ( sequence, sequenceName, leadingZeroes ) => {
+export const setCustomSeq = ( sequenceId, sequence ) => {
     return {
-        type: actionTypes.ADD_ZERO,
+        type: actionTypes.SET_CUSTOM_SEQUENCE,
+        sequenceId: sequenceId,
         sequence: sequence
     };
 }
 
-export const addZero = ( sequence ) => {
+export const setCustomSequence = ( sequenceId, sequence ) => {
     return dispatch => {
-        dispatch(addLeadingZero(sequence));
+        dispatch(setCustomSeq(sequenceId, sequence));
+    };
+};
+
+export const addLeadingZero = ( sequenceId ) => {
+    return {
+        type: actionTypes.ADD_ZERO,
+        sequenceId: sequenceId
+    };
+}
+
+export const addZero = ( sequenceId ) => {
+    return dispatch => {
+        dispatch(addLeadingZero(sequenceId));
     };
 };
 

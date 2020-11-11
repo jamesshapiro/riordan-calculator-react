@@ -1,5 +1,6 @@
 export {
-    setSequence,
+    selectSequence,
+    setCustomSequence,
     addZero,
     displayFewerTerms,
     displayMoreTerms

@@ -4,26 +4,48 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/calcIndex'
 import classes from './Sequence.module.css';
 import SequenceCell from './SequenceCell/SequenceCell';
-
-const changed = () => {
-    return
-}
+import SequenceButton from '../SequenceButton/SequenceButton'
 
 class Sequence extends Component {
-    //console.log(props.sequence)
+    state = {
+        sequenceId: this.props.sequenceId,
+        sequence: this.props.sequence
+    }
+
+    addLeadingZero(sequence) {
+        const seqCopy = this.state.sequence.slice();
+        const newArray = [0].concat(seqCopy)
+        this.setState({sequence: newArray})
+        this.props.onAddZero(this.props.sequenceId);
+    }
+
+    changed = (itemIdx, newValue) => {
+        const seqCopy = this.state.sequence.slice();
+        seqCopy[itemIdx] = +newValue;
+        console.log(seqCopy);
+        this.setState({sequence: seqCopy})
+        this.props.onSetCustomSequence(this.state.sequenceId, seqCopy)
+    }
+
     render () {
-        const sequence = this.props.sequence.slice(0, this.props.numCellsToDisplay).map((seqValue, index) => {
+
+        const shiftButton = (<SequenceButton
+            clicked={() => this.addLeadingZero(this.props.sequence)}
+            content="+0"
+        />)
+        console.log("SEQUENCE RENDER: ")
+        const sequence = this.state.sequence.slice(0, this.props.numCellsToDisplay).map((seqValue, idx) => {
             return <SequenceCell 
-                key={index}
+                key={idx}
+                index={idx}
                 value={seqValue}
-                changed={() => this.changed()}
+                changed={(itemIdx, newValue) => this.changed(itemIdx, newValue)}
             />
         })
-        //console.log(sequence)
 
         return (
             <div className={classes.Sequence}>
-                {sequence}
+                {shiftButton}{sequence}
             </div>
         )
     }
@@ -31,15 +53,16 @@ class Sequence extends Component {
 
 const mapStateToProps = state => {
     return {
-        numCellsToDisplay: state.calc.numCellsToDisplay
+        numCellsToDisplay: state.calc.numCellsToDisplay,
+        gLeadingZeroes: state.calc.gSequence.gLeadingZeroes,
+        fLeadingZeroes: state.calc.fSequence.fLeadingZeroes
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
-        onSetSequence: (sequenceId, sequenceName, leadingZeroes) => dispatch(actions.setSequence(sequenceId, sequenceName, leadingZeroes)),
-        onAddZero: (sequence) => dispatch(actions.addZero(sequence))
+        onSetCustomSequence: (sequenceId, sequence) => dispatch(actions.setCustomSequence(sequenceId, sequence)),
+        onAddZero: (sequenceId) => dispatch(actions.addZero(sequenceId))
     }
 };
 

@@ -7,7 +7,8 @@ const sequenceCell = (props) => {
         type="number" 
         className={classes.SequenceCell}
         value={props.value}
-        onChange={props.changed}></input>
+        index={props.index}
+        onChange={(event) => props.changed(props.index, event.target.value)}></input>
 
     return cell;
 };

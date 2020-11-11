@@ -21,3 +21,11 @@ export const sequenceMap = {
 };
 
 export const sequenceNames = Object.keys(sequenceMap);
+
+export const options = sequenceNames.map((sequenceName, index) => {
+    return {
+        id: index,
+        name: sequenceName,
+        sequence: sequenceMap[sequenceName]
+    }
+})
