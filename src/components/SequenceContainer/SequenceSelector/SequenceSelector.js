@@ -2,7 +2,7 @@ import React from 'react'
 
 import classes from './SequenceSelector.module.css'
 
-const input = (props) => {
+const sequenceSelector = (props) => {
     const selector = (
         <select
             className={classes.SequenceSelector}
@@ -25,4 +25,4 @@ const input = (props) => {
     )
 }
 
-export default input
+export default sequenceSelector;

@@ -1,159 +1,57 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-//import Button from '../../components/UI/Button/Button';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import classes from './SequenceContainer.module.css';
-//import axios from '../../../axios-orders';
-import Input from '../../components/UI/Input/Input';
-//import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/calcIndex';
-import { updateObject, checkValidity } from '../../shared/utility';
 import { sequenceMap, sequenceNames } from '../../data/sequenceData';
-import SequenceSelector from './SequenceSelector/SequenceSelector'
-
+import SequenceSelector from './SequenceSelector/SequenceSelector';
+import SequenceButton from './SequenceButton/SequenceButton';
 
 class Sequence extends Component {
     state = {
-        sequenceContainer: {
-            // name: {
-            //     elementType: 'input',
-            //     elementConfig: {
-            //         type: 'text',
-            //         placeholder: 'Your Name'
-            //     },
-            //     value: '',
-            //     validation: {
-            //         required: true
-            //     },
-            //     valid: false,
-            //     touched: false
-            // },
-            deliveryMethod: {
-                elementType: 'select',
-                elementConfig: {
-                    options: sequenceNames.map(sequenceName => {
-                        return { value: sequenceName, displayValue: sequenceName };
-                    })
-                },
-                validation: {},
-                value: 'fastest',
-                valid: true
-            }
-        },
-        formIsValid: false
+        elementConfig: {
+            options: sequenceNames.map(sequenceName => {
+                return { value: sequenceName, displayValue: sequenceName };
+            })
+        }
     }
 
-
-    // orderHandler = (event) => {
-    //     event.preventDefault();
-    //     const formData = {};
-    //     for (let formElementIdentifier in this.state.orderForm){
-    //         formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
-    //     }
-    //     const order = {
-    //         ingredients: this.props.ings,
-    //         price: this.props.price,
-    //         orderData: formData,
-    //         userId: this.props.userId
-    //     }
-    //     this.props.onOrderBurger(order, this.props.token);
-    // }
-
     inputChangedHandler = (event, inputIdentifier) => {
-        // const updatedOrderFormElement = updateObject(this.state.sequenceContainer[inputIdentifier], {
-        //     value: event.target.value,
-        //     valid: checkValidity(
-        //         event.target.value,
-        //         this.state.sequenceContainer[inputIdentifier].validation
-        //     ),
-        //     touched: true
-        // });
-
-        // const updatedOrderForm = updateObject(this.state.sequenceContainer, {
-        //     [inputIdentifier]: updatedOrderFormElement
-        // });
-
-        // let formIsValid = true;
-        // for (let inputIdentifier in updatedOrderForm) {
-        //     formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
-        // }
-        // this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
         this.props.onSetSequence(this.props.sequence.sequenceId, event.target.value, this.props.sequence.leadingZeroes)
     }
 
     addLeadingZero(sequence) {
-        // console.log("SEQUENCE");
-        // console.log(sequence);
         this.props.onAddZero(sequence);
     }
 
     render() {
         let seq = Array(this.props.sequence.leadingZeroes).fill(0)
         seq = seq.concat(sequenceMap[this.props.sequence.sequenceName]);
-        const formElementsArray = [];
-        for (let key in this.state.sequenceContainer) {
-            formElementsArray.push({
-                id: key,
-                config: this.state.sequenceContainer[key]
-            });
-        }
 
-        // console.log('SEQUENCESEQUENCE')
-        // console.log(this.props.sequence)
-        const shiftButton = <button type="button" onClick={() => this.addLeadingZero(this.props.sequence)}>&gt;</button>
+        const shiftButton = (<SequenceButton
+            clicked={() => this.addLeadingZero(this.props.sequence)}
+            content="&gt;&gt;"
+        />)
+
         const sequenceSelector = (
-            <SequenceSelector 
-                label={this.props.sequence.sequenceId + '-sequence'} 
-                elementConfig={formElementsArray[0].config.elementConfig}
+            <SequenceSelector
+                label={this.props.sequence.sequenceId + '-sequence'}
+                elementConfig={this.state.elementConfig}
                 changed={(event) => this.inputChangedHandler(event, 1)}
             />
         )
-        let form = (
-            <form className={classes.SequenceForm} onSubmit={this.orderHandler}>
-                {this.props.sequence.sequenceId}-Sequence:
-                <button type="button" onClick={() => this.addLeadingZero(this.props.sequence)}>&gt;</button>
-                {formElementsArray.map(formElement => (
-                    <Input
-                        key={formElement.id}
-                        elementType={formElement.config.elementType}
-                        elementConfig={formElement.config.elementConfig}
-                        invalid={!formElement.config.valid}
-                        shouldValidate={formElement.config.validation}
-                        touched={formElement.config.touched}
-                        selected={this.props.sequence.sequenceName}
-                        changed={(event) => this.inputChangedHandler(event, formElement.id)}
-                    />
-                ))}
-                {/* <Button disabled={!this.state.formIsValid} btnType="Success">ORDER</Button> */}
-
-                {seq.join(', ')}
-            </form>
-        );
-        if (this.props.loading) {
-            form = <Spinner />
-        }
-
 
         return (
             <div>
-                <div>{shiftButton}{sequenceSelector}{seq.join(', ')}</div>
-                
-                {/* {form} */}
-
+                <div>{sequenceSelector}{shiftButton}{seq.join(', ')}</div>
             </div>
         )
     }
-
 }
 
 const mapStateToProps = state => {
     return {
-        // ings: state.burgerBuilder.ingredients,
-        // price: state.burgerBuilder.totalPrice,
-        // sequenceStore: state.order.loading,
         // token: state.auth.token,
-        //sequence: this.props.sequenceId === 'g' ? state.calc.gSequence : state.calc.fSequence
+        // sequence: state.calc.gSequence
     }
 }
 
