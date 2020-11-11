@@ -13,7 +13,8 @@ const initialState = {
         sequenceName: 'catalan',
         sequenceIsFreeform: false,
         leadingZeroes: 1
-    }    
+    },
+    numCellsToDisplay: 11 
 };
 
 const setSequence = (state, action) => {

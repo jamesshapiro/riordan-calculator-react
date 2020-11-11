@@ -31,7 +31,7 @@ class SequenceContainer extends Component {
 
         const shiftButton = (<SequenceButton
             clicked={() => this.addLeadingZero(this.props.sequence)}
-            content="&gt;&gt;"
+            content="0-pad"
         />)
 
         const sequenceSelector = (
