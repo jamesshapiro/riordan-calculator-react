@@ -9,7 +9,7 @@ import Layout from './hoc/Layout/Layout';
 //import Logout from './containers/Auth/Logout/Logout';
 //import { authCheckState } from './store/actions';
 import * as actions from './store/actions/index';
-import Sequence from './components/Sequence/Sequence'
+import SequenceContainer from './components/SequenceContainer/SequenceContainer'
 
 // const asyncCheckout = asyncComponent(() => {
 //   return import('./containers/Checkout/Checkout');
@@ -53,8 +53,8 @@ class App extends Component {
     return (
       <div>
         <Layout>
-          <Sequence sequence={this.props.gSequence} />
-          <Sequence sequence={this.props.fSequence} />
+          <SequenceContainer sequence={this.props.gSequence} />
+          <SequenceContainer sequence={this.props.fSequence} />
         </Layout>
       </div>
     );
