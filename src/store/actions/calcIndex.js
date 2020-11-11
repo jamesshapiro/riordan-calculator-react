@@ -1,3 +1,4 @@
 export {
-    setSequence
+    setSequence,
+    addZero
 } from './calculator'

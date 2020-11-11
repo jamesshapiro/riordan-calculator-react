@@ -53,8 +53,8 @@ class App extends Component {
     return (
       <div>
         <Layout>
-          <Sequence sequenceId="g" />
-          <Sequence sequenceId="f" />
+          <Sequence sequence={this.props.gSequence} />
+          <Sequence sequence={this.props.fSequence} />
         </Layout>
       </div>
     );
@@ -63,7 +63,9 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.token !== null
+    isAuthenticated: state.auth.token !== null,
+    fSequence: state.calc.fSequence,
+    gSequence: state.calc.gSequence
   }
 }
 

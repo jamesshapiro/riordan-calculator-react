@@ -16,3 +16,17 @@ export const setSequence = ( sequenceId, sequenceName, leadingZeroes ) => {
         dispatch(setSeq(sequenceId, sequenceName, leadingZeroes));
     };
 };
+
+export const addLeadingZero = ( sequence, sequenceName, leadingZeroes ) => {
+    return {
+        type: actionTypes.ADD_ZERO,
+        sequence: sequence
+    };
+}
+
+export const addZero = ( sequence ) => {
+    console.log('CALL ADD ZERO', sequence)
+    return dispatch => {
+        dispatch(addLeadingZero(sequence));
+    };
+};

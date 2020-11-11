@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../../components/UI/Button/Button';
+//import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Sequence.module.css';
 //import axios from '../../../axios-orders';
@@ -40,8 +40,8 @@ class Sequence extends Component {
             }
         },
         formIsValid: false
-
     }
+
 
     // orderHandler = (event) => {
     //     event.preventDefault();
@@ -77,10 +77,17 @@ class Sequence extends Component {
             formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
         this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
-        this.props.onSetSequence(this.props.sequenceId, event.target.value, 0)
+        this.props.onSetSequence(this.props.sequence.sequenceId, event.target.value, this.props.sequence.leadingZeroes)
+    }
+
+    addLeadingZero(sequence) {
+        console.log("SEQUENCE");
+        console.log(sequence);
+        this.props.onAddZero(sequence);
     }
 
     render() {
+        let seq = sequenceMap[this.props.sequence.sequenceName];
         const formElementsArray = [];
         for (let key in this.state.sequenceContainer) {
             formElementsArray.push({
@@ -89,24 +96,23 @@ class Sequence extends Component {
             });
         }
 
-        //console.log(this.props.fSequence)
-        let seq = sequenceMap[this.props.gSequence.sequenceName];
-        if (this.props.sequenceId === 'f') {
-            seq = sequenceMap[this.props.fSequence.sequenceName];
-        }
+        console.log('SEQUENCESEQUENCE')
+        console.log(this.props.sequence)
+        
 
         let form = (
             <form className={classes.SequenceForm} onSubmit={this.orderHandler}>
-                {this.props.sequenceId}-Sequence:
+                {this.props.sequence.sequenceId}-Sequence:
+                <button type="button" onClick={() => this.addLeadingZero(this.props.sequence)}>&gt;</button>
                 {formElementsArray.map(formElement => (
                     <Input
-                        className={classes.SequenceSelector}
                         key={formElement.id}
                         elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         invalid={!formElement.config.valid}
                         shouldValidate={formElement.config.validation}
                         touched={formElement.config.touched}
+                        selected={this.props.sequence.sequenceName}
                         changed={(event) => this.inputChangedHandler(event, formElement.id)}
                     />
                 ))}
@@ -136,15 +142,15 @@ const mapStateToProps = state => {
         // price: state.burgerBuilder.totalPrice,
         // sequenceStore: state.order.loading,
         // token: state.auth.token,
-        fSequence: state.calc.fSequence,
-        gSequence: state.calc.gSequence
+        //sequence: this.props.sequenceId === 'g' ? state.calc.gSequence : state.calc.fSequence
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
-        onSetSequence: (sequenceId, sequenceName, leadingZeroes) => dispatch(actions.setSequence(sequenceId, sequenceName, leadingZeroes))
+        onSetSequence: (sequenceId, sequenceName, leadingZeroes) => dispatch(actions.setSequence(sequenceId, sequenceName, leadingZeroes)),
+        onAddZero: (sequence) => dispatch(actions.addZero(sequence))
     }
 };
 
