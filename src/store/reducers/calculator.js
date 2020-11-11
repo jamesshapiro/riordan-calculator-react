@@ -18,7 +18,8 @@ const initialState = {
         sequence: sequenceMap['catalan']
     },
     numCellsToDisplay: 11,
-    maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length)
+    maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length),
+    loading: false
 };
 
 const setCustomSequence = (state, action) => {

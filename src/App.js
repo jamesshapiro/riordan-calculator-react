@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 //import asyncComponent from './hoc/asyncComponent/asyncComponent';
 
 import Layout from './hoc/Layout/Layout';
-//import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 //import Logout from './containers/Auth/Logout/Logout';
 //import { authCheckState } from './store/actions';
 import * as actions from './store/actions/index';
-import SequenceContainer from './components/SequenceContainer/SequenceContainer'
+import Matrix from './components/Matrix/Matrix';
+import SequenceContainer from './components/SequenceContainer/SequenceContainer';
+import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton';
 
 // const asyncCheckout = asyncComponent(() => {
 //   return import('./containers/Checkout/Checkout');
@@ -50,12 +51,19 @@ class App extends Component {
     //   );
     // }
 
+    const computeButton = (<SequenceButton
+      clicked={() => this.fetchMatrix()}
+      content="Compute"
+    />)
+
     return (
       <div>
         <Layout>
           <h1>Welcome to the Riordan Calculator v2</h1>
           <SequenceContainer sequence={this.props.gSequence} />
           <SequenceContainer sequence={this.props.fSequence} />
+          {computeButton}
+          <Matrix />
         </Layout>
       </div>
     );
