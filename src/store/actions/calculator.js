@@ -1,5 +1,5 @@
 import * as actionTypes from './calcActionTypes';
-//import axios from 'axios';
+import axios from 'axios';
 
 export const selectSeq = ( sequenceId, sequenceName ) => {
     return {
@@ -66,3 +66,17 @@ export const displayMoreTerms = () => {
         dispatch(displayOneMoreTerms());
     }
 }
+
+
+
+export const fetchMat = ( sequenceId, sequenceName ) => {
+    return {
+        type: actionTypes.FETCH_MATRIX
+    };
+}
+
+export const fetchMatrix = () => {
+    return dispatch => {
+        dispatch(fetchMat());
+    };
+};

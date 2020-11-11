@@ -122,6 +122,10 @@ const displayMoreTerms = (state, action) => {
     return updateObject(state, { numCellsToDisplay: newNumCellsToDisplay });
 }
 
+const fetchMatrix = (state) => {
+    return updateObject(state, { loading: true });
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SELECT_SEQUENCE: return selectSequence(state, action);
@@ -129,6 +133,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_ZERO: return addZero(state, action);
         case actionTypes.DISPLAY_FEWER_TERMS: return displayFewerTerms(state, action);
         case actionTypes.DISPLAY_MORE_TERMS: return displayMoreTerms(state, action);
+        case actionTypes.FETCH_MATRIX: return fetchMatrix(state, action);
         default: return state;
     }
 };

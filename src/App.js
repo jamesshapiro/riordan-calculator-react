@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import Layout from './hoc/Layout/Layout';
 //import Logout from './containers/Auth/Logout/Logout';
 //import { authCheckState } from './store/actions';
-import * as actions from './store/actions/index';
+import * as calcActions from './store/actions/calcIndex';
+import * as authActions from './store/actions/index';
 import Matrix from './components/Matrix/Matrix';
 import SequenceContainer from './components/SequenceContainer/SequenceContainer';
 import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton';
@@ -27,6 +28,10 @@ import SequenceButton from './components/SequenceContainer/SequenceButton/Sequen
 class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
+  }
+
+  fetchMatrix() {
+    this.props.onFetchMatrix()
   }
 
   render() {
@@ -80,7 +85,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
+    onFetchMatrix: () => dispatch(calcActions.fetchMatrix()),
+    onTryAutoSignup: () => dispatch(authActions.authCheckState())
   };
 };
 

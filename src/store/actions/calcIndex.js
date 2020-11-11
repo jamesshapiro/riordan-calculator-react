@@ -3,5 +3,6 @@ export {
     setCustomSequence,
     addZero,
     displayFewerTerms,
-    displayMoreTerms
+    displayMoreTerms,
+    fetchMatrix
 } from './calculator'
