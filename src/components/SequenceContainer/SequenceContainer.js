@@ -25,18 +25,33 @@ class SequenceContainer extends Component {
         this.props.onAddZero(sequence);
     }
 
+    displayFewerTerms() {
+        this.props.onDisplayFewerTerms()
+    }
+
     render() {
         let seq = Array(this.props.sequence.leadingZeroes).fill(0)
         seq = seq.concat(sequenceMap[this.props.sequence.sequenceName]);
 
         const shiftButton = (<SequenceButton
             clicked={() => this.addLeadingZero(this.props.sequence)}
-            content="0-pad"
+            content="+0"
+        />)
+
+        const addTermButton = (<SequenceButton
+            clicked={() => this.addLeadingZero(this.props.sequence)}
+            content="+"
+        />)
+
+        const deleteTermButton = (<SequenceButton
+            clicked={() => this.displayFewerTerms()}
+            disabled={!this.props.enableDisplayFewerButton}
+            content="-"
         />)
 
         const sequenceSelector = (
             <SequenceSelector
-                label={this.props.sequence.sequenceId + '-sequence'}
+                label={this.props.sequence.sequenceId + '-sequence: '}
                 elementConfig={this.state.elementConfig}
                 selectedSequence={this.props.sequence.sequenceName}
                 changed={(event) => this.inputChangedHandler(event, 1)}
@@ -47,7 +62,7 @@ class SequenceContainer extends Component {
 
         return (
             <div className={classes.SequenceContainer}>
-                <div>{sequenceSelector}{shiftButton}{sequence}</div>
+                <div>{sequenceSelector}{shiftButton}{sequence}{addTermButton}{deleteTermButton}</div>
             </div>
         )
     }
@@ -56,7 +71,9 @@ class SequenceContainer extends Component {
 const mapStateToProps = state => {
     return {
         // token: state.auth.token,
-        // sequence: state.calc.gSequence
+        // sequence: state.calc.gSequence,
+        numCellsToDisplay: state.calc.numCellsToDisplay,
+        enableDisplayFewerButton: state.calc.numCellsToDisplay > 0
     }
 }
 
@@ -64,7 +81,8 @@ const mapDispatchToProps = dispatch => {
     return {
         // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
         onSetSequence: (sequenceId, sequenceName, leadingZeroes) => dispatch(actions.setSequence(sequenceId, sequenceName, leadingZeroes)),
-        onAddZero: (sequence) => dispatch(actions.addZero(sequence))
+        onAddZero: (sequence) => dispatch(actions.addZero(sequence)),
+        onDisplayFewerTerms: () => dispatch(actions.displayFewerTerms())
     }
 };
 

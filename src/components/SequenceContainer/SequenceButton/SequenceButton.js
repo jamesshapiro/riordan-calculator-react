@@ -7,6 +7,7 @@ const sequenceButton = (props) => {
         <button
             className={classes.SequenceButton}
             onClick={props.clicked}
+            disabled={props.disabled}
         >
         {props.content}
         </button>

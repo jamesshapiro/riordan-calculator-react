@@ -1,2 +1,3 @@
 export const SET_SEQUENCE = 'SET_SEQUENCE';
 export const ADD_ZERO = 'ADD_ZERO';
+export const DISPLAY_FEWER_TERMS = 'DISPLAY_FEWER_TERMS';

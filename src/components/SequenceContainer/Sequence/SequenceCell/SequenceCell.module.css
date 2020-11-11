@@ -3,5 +3,7 @@
     height: 45px;
     font-size: 20px;
     text-align: center;
-    margin: 5px;
+    margin: 2px;
+    background-color: #ddd;
+    border: 0px;
 }

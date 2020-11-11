@@ -11,7 +11,6 @@ export const setSeq = ( sequenceId, sequenceName, leadingZeroes ) => {
 }
 
 export const setSequence = ( sequenceId, sequenceName, leadingZeroes ) => {
-    console.log('CALL SET SEQUENCE', sequenceId, sequenceName, leadingZeroes)
     return dispatch => {
         dispatch(setSeq(sequenceId, sequenceName, leadingZeroes));
     };
@@ -25,8 +24,21 @@ export const addLeadingZero = ( sequence, sequenceName, leadingZeroes ) => {
 }
 
 export const addZero = ( sequence ) => {
-    // console.log('CALL ADD ZERO', sequence)
     return dispatch => {
         dispatch(addLeadingZero(sequence));
     };
 };
+
+
+export const displayOneFewerTerms = () => {
+    return {
+        type: actionTypes.DISPLAY_FEWER_TERMS
+    };
+}
+
+
+export const displayFewerTerms = () => {
+    return dispatch => {
+        dispatch(displayOneFewerTerms());
+    }
+}
