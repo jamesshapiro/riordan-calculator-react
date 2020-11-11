@@ -5,7 +5,7 @@ import * as actions from '../../store/actions/calcIndex';
 import Spinner from '../UI/Spinner/Spinner'
 import MatrixTable from './MatrixTable/MatrixTable'
 
-class SequenceContainer extends Component {
+class Matrix extends Component {
     state = {
 
     }
@@ -17,7 +17,8 @@ class SequenceContainer extends Component {
             case 'riordan':
                 matrixData = this.props.riordanGroupElem
                 break;
-        
+            case 'stieltjes':
+                matrixData = this.props.stieltjes
             default:
                 break;
         }
@@ -26,7 +27,12 @@ class SequenceContainer extends Component {
             matrix = <Spinner />
         }
         if (matrixData) {
-            matrix = <MatrixTable matrixData={matrixData} />
+            matrix = (
+                <div>
+                    <h1>{this.props.matrixName}</h1>
+                    <MatrixTable matrixData={matrixData} />
+                </div>
+            )
         }
         return (
             <div>
@@ -40,15 +46,9 @@ const mapStateToProps = state => {
     return {
         numCellsToDisplay: state.calc.numCellsToDisplay,
         loadingMatrix: state.calc.loadingMatrix,
-        riordanGroupElem: state.calc.riordan_group_elem
+        riordanGroupElem: state.calc.riordan_group_elem,
+        stieltjes: state.calc.stieltjes
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
-        onSelectSequence: (sequenceId, sequenceName) => dispatch(actions.selectSequence(sequenceId, sequenceName)),
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SequenceContainer);
+export default connect(mapStateToProps)(Matrix);

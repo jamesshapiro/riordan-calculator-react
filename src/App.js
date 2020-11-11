@@ -10,6 +10,7 @@ import Layout from './hoc/Layout/Layout';
 import * as calcActions from './store/actions/calcIndex';
 import * as authActions from './store/actions/index';
 import Matrix from './components/Matrix/Matrix';
+import Vector from './components/Vector/Vector';
 import SequenceContainer from './components/SequenceContainer/SequenceContainer';
 import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton';
 
@@ -61,6 +62,22 @@ class App extends Component {
       content="Compute"
     />)
 
+    const aSequence = (
+      <Vector sequenceSelector="A-sequence" />
+    )
+
+    let bSequence = null
+
+    if (this.props.riordanIsPseudo) {
+      bSequence = (
+        <Vector sequenceSelector="B-sequence" />
+      )
+    }
+    
+    const zSequence = (
+      <Vector sequenceSelector="Z-sequence" />
+    )
+
     return (
       <div>
         <Layout>
@@ -68,7 +85,17 @@ class App extends Component {
           <SequenceContainer sequence={this.props.gSequence} />
           <SequenceContainer sequence={this.props.fSequence} />
           {computeButton}
-          <Matrix matrixSelector="riordan" />
+          <Matrix 
+            matrixSelector="riordan"
+            matrixName="Riordan Group Element: "
+          />
+          {aSequence}
+          {bSequence}
+          {zSequence}
+          <Matrix 
+            matrixSelector="stieltjes"
+            matrixName="Stieltjes: "
+          />
         </Layout>
       </div>
     );
@@ -79,7 +106,8 @@ const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
     fSequence: state.calc.fSequence,
-    gSequence: state.calc.gSequence
+    gSequence: state.calc.gSequence,
+    riordanIsPseudo: state.calc.riordan_is_pseudo
   }
 }
 

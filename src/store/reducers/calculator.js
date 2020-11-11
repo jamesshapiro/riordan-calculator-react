@@ -20,22 +20,22 @@ const initialState = {
     numCellsToDisplay: 11,
     maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length),
     loadingMatrix: false,
-    a_seq: null,
-    b_seq: null,
+    a_sequence: null,
+    b_sequence: null,
     riordan_group_elem: null,
-    riordan_pseudo: true,
+    riordan_is_pseudo: true,
     stieltjes: null,
     tweedle_left: null,
-    tweedle_left_a_seq: null,
-    tweedle_left_b_seq: null,
-    tweedle_left_pseudo: true,
-    tweedle_left_z_seq: null,
+    tweedle_left_a_sequence: null,
+    tweedle_left_b_sequence: null,
+    tweedle_left_is_pseudo: true,
+    tweedle_left_z_sequence: null,
     tweedle_right: null,
-    tweedle_right_a_seq: null,
-    tweedle_right_b_seq: null,
-    tweedle_right_pseudo: true,
-    tweedle_right_z_seq: null,
-    z_seq: null
+    tweedle_right_a_sequence: null,
+    tweedle_right_b_sequence: null,
+    tweedle_right_is_pseudo: true,
+    tweedle_right_z_sequence: null,
+    z_sequence: null
 };
 
 const setCustomSequence = (state, action) => {
@@ -143,22 +143,22 @@ const fetchMatrixSuccess = (state, action) => {
 
     return updateObject(state, {
         loadingMatrix: false,
-        a_seq: json_body['a seq'],
-        b_seq: json_body['b seq'],
+        a_sequence: json_body['a seq'],
+        b_sequence: json_body['b seq'],
         riordan_group_elem: json_body['riordan group elem'],
-        riordan_pseudo: json_body['riordan pseudo'],
+        riordan_is_pseudo: json_body['riordan pseudo'],
         stieltjes: json_body.stieltjes,
         tweedle_left: json_body['tweedle left'],
-        tweedle_left_a_seq: json_body['tweedle left a seq'],
-        tweedle_left_b_seq: json_body['tweedle left b seq'],
-        tweedle_left_pseudo: json_body['tweedle left pseudo'],
-        tweedle_left_z_seq: json_body['tweedle left z seq'],
+        tweedle_left_a_sequence: json_body['tweedle left a seq'],
+        tweedle_left_b_sequence: json_body['tweedle left b seq'],
+        tweedle_left_is_pseudo: json_body['tweedle left pseudo'],
+        tweedle_left_z_sequence: json_body['tweedle left z seq'],
         tweedle_right: json_body['tweedle right'],
-        tweedle_right_a_seq: json_body['tweedle right a seq'],
-        tweedle_right_b_seq: json_body['tweedle right b seq'],
-        tweedle_right_pseudo: json_body['tweedle right pseudo'],
-        tweedle_right_z_seq: json_body['tweedle right z seq'],
-        z_seq: json_body['z seq']
+        tweedle_right_a_sequence: json_body['tweedle right a seq'],
+        tweedle_right_b_sequence: json_body['tweedle right b seq'],
+        tweedle_right_is_pseudo: json_body['tweedle right pseudo'],
+        tweedle_right_z_sequence: json_body['tweedle right z seq'],
+        z_sequence: json_body['z seq']
     });
 }
 
