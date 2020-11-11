@@ -81,13 +81,14 @@ class Sequence extends Component {
     }
 
     addLeadingZero(sequence) {
-        console.log("SEQUENCE");
-        console.log(sequence);
+        // console.log("SEQUENCE");
+        // console.log(sequence);
         this.props.onAddZero(sequence);
     }
 
     render() {
-        let seq = sequenceMap[this.props.sequence.sequenceName];
+        let seq = Array(this.props.sequence.leadingZeroes).fill(0)
+        seq = seq.concat(sequenceMap[this.props.sequence.sequenceName]);
         const formElementsArray = [];
         for (let key in this.state.sequenceContainer) {
             formElementsArray.push({
@@ -96,8 +97,8 @@ class Sequence extends Component {
             });
         }
 
-        console.log('SEQUENCESEQUENCE')
-        console.log(this.props.sequence)
+        // console.log('SEQUENCESEQUENCE')
+        // console.log(this.props.sequence)
         
 
         let form = (

@@ -26,7 +26,7 @@ const setSequence = (state, action) => {
         sequenceId: action.sequenceId,
         sequenceName: action.sequenceName,
         sequenceIsFreeform: sequenceIsFreeform,
-        leadingZeroes: action.leadingZeroes
+        leadingZeroes: 0
     }
     if (sequenceId === 'g') {
         return updateObject(state, { gSequence: newSequence });
@@ -34,29 +34,29 @@ const setSequence = (state, action) => {
     return updateObject(state, { fSequence: newSequence });
 }
 
-
-// const addIngredient = (state, action) => {
-//     const updatedIngredient = { [action.ingredientName]: state.ingredients[action.ingredientName] + 1 }
-//     const updatedIngredients = updateObject(state.ingredients, updatedIngredient)
-//     const updatedState = {
-//         ingredients: updatedIngredients,
-//         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
-//         building: true
-//     }
-//     return updateObject(state, updatedState)
-// }
-
 const addZero = (state, action) => {
-    console.log('ACTION')
-    console.log(action)
     let sequence = action.sequence;
-    console.log('ACTION SEQUENCE')
-    console.log(action.sequence)
-    const updatedZeroes = {[action.sequence.leadingZeroes]: action.sequence.leadingZeroes + 1}
-    if (action.sequenceId === 'g') {
-        return updateObject(state, { ...state.gSequence, leadingZeroes: state.gSequence.leadingZeroes + 1 });
+    if (action.sequence.sequenceId === 'g') {
+        console.log('SEQUENCE ID IS G')
+        const newZeroes = state.gSequence.leadingZeroes + 1
+        console.log(newZeroes)
+        return {
+            ...state,
+            gSequence: {
+                ...state.gSequence,
+                leadingZeroes: newZeroes
+            }
+        }
     }
-    return updateObject(state, { ...state.fSequence, leadingZeroes: state.fSequence.leadingZeroes + 1 });
+    console.log('SEQUENCE ID IS F')
+    const newZeroes = state.fSequence.leadingZeroes + 1
+    return {
+        ...state,
+        fSequence: {
+            ...state.fSequence,
+            leadingZeroes: newZeroes
+        }
+    }
 }
 
 const reducer = (state = initialState, action) => {

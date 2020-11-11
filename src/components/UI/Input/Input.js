@@ -10,8 +10,8 @@ const input = (props) => {
         inputClasses.push(classes.Invalid)
     }
 
-    console.log(props)
-    console.log(props.selected)
+    // console.log(props)
+    // console.log(props.selected)
 
     switch (props.elementType) {
         case ('input'):
@@ -29,8 +29,8 @@ const input = (props) => {
                 onChange={props.changed} />;
             break;
         case ('select'):
-            console.log('props.selected')
-            console.log(props.selected)
+            // console.log('props.selected')
+            // console.log(props.selected)
             inputElement = (
                 <select
                     className={inputClasses.join(' ')}

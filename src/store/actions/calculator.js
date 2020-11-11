@@ -25,7 +25,7 @@ export const addLeadingZero = ( sequence, sequenceName, leadingZeroes ) => {
 }
 
 export const addZero = ( sequence ) => {
-    console.log('CALL ADD ZERO', sequence)
+    // console.log('CALL ADD ZERO', sequence)
     return dispatch => {
         dispatch(addLeadingZero(sequence));
     };
