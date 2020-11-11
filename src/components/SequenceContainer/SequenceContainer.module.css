@@ -1,11 +1,12 @@
-.Sequence {
-    width: 100%;
+.SequenceContainer {
+    /* width: 100%;
     margin: auto;
     height: 250px;
     overflow: auto;
     text-align: center;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.2rem; */
+    padding: 10px;
 }
 
 .SequenceForm {

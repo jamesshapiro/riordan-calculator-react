@@ -5,8 +5,10 @@ import * as actions from '../../store/actions/calcIndex';
 import { sequenceMap, sequenceNames } from '../../data/sequenceData';
 import SequenceSelector from './SequenceSelector/SequenceSelector';
 import SequenceButton from './SequenceButton/SequenceButton';
+import Sequence from './Sequence/Sequence';
+import classes from './SequenceContainer.module.css';
 
-class Sequence extends Component {
+class SequenceContainer extends Component {
     state = {
         elementConfig: {
             options: sequenceNames.map(sequenceName => {
@@ -36,13 +38,16 @@ class Sequence extends Component {
             <SequenceSelector
                 label={this.props.sequence.sequenceId + '-sequence'}
                 elementConfig={this.state.elementConfig}
+                selectedSequence={this.props.sequence.sequenceName}
                 changed={(event) => this.inputChangedHandler(event, 1)}
             />
         )
 
+        const sequence = <Sequence sequence={seq} />
+
         return (
-            <div>
-                <div>{sequenceSelector}{shiftButton}{seq.join(', ')}</div>
+            <div className={classes.SequenceContainer}>
+                <div>{sequenceSelector}{shiftButton}{sequence}</div>
             </div>
         )
     }
@@ -63,4 +68,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sequence);
+export default connect(mapStateToProps, mapDispatchToProps)(SequenceContainer);
