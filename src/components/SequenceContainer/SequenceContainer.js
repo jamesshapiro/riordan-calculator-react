@@ -29,6 +29,10 @@ class SequenceContainer extends Component {
         this.props.onDisplayFewerTerms()
     }
 
+    displayMoreTerms() {
+        this.props.onDisplayMoreTerms()
+    }
+
     render() {
         let seq = Array(this.props.sequence.leadingZeroes).fill(0)
         seq = seq.concat(sequenceMap[this.props.sequence.sequenceName]);
@@ -39,7 +43,7 @@ class SequenceContainer extends Component {
         />)
 
         const addTermButton = (<SequenceButton
-            clicked={() => this.addLeadingZero(this.props.sequence)}
+            clicked={() => this.displayMoreTerms()}
             content="+"
         />)
 
@@ -82,7 +86,8 @@ const mapDispatchToProps = dispatch => {
         // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
         onSetSequence: (sequenceId, sequenceName, leadingZeroes) => dispatch(actions.setSequence(sequenceId, sequenceName, leadingZeroes)),
         onAddZero: (sequence) => dispatch(actions.addZero(sequence)),
-        onDisplayFewerTerms: () => dispatch(actions.displayFewerTerms())
+        onDisplayFewerTerms: () => dispatch(actions.displayFewerTerms()),
+        onDisplayMoreTerms: () => dispatch(actions.displayMoreTerms())
     }
 };
 

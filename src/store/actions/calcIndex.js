@@ -1,5 +1,6 @@
 export {
     setSequence,
     addZero,
-    displayFewerTerms
+    displayFewerTerms,
+    displayMoreTerms
 } from './calculator'

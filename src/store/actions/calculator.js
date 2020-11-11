@@ -29,16 +29,27 @@ export const addZero = ( sequence ) => {
     };
 };
 
-
 export const displayOneFewerTerms = () => {
     return {
         type: actionTypes.DISPLAY_FEWER_TERMS
     };
 }
 
-
 export const displayFewerTerms = () => {
     return dispatch => {
         dispatch(displayOneFewerTerms());
+    }
+}
+
+export const displayOneMoreTerms = () => {
+    return {
+        type: actionTypes.DISPLAY_MORE_TERMS
+    };
+}
+
+
+export const displayMoreTerms = () => {
+    return dispatch => {
+        dispatch(displayOneMoreTerms());
     }
 }

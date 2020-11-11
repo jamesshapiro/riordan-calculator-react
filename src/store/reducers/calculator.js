@@ -1,20 +1,24 @@
 import * as actionTypes from '../actions/calcActionTypes';
 import { updateObject } from '../../shared/utility';
+import { sequenceMap, sequenceNames } from '../../data/sequenceData';
 
 const initialState = {
     gSequence: {
         sequenceId: 'g',
         sequenceName: 'catalan',
         sequenceIsFreeform: false,
-        leadingZeroes: 0
+        leadingZeroes: 0,
+        sequence: sequenceMap['catalan']
     },
     fSequence: {
         sequenceId: 'f',
         sequenceName: 'catalan',
         sequenceIsFreeform: false,
-        leadingZeroes: 1
+        leadingZeroes: 1,
+        sequence: sequenceMap['catalan']
     },
-    numCellsToDisplay: 11 
+    numCellsToDisplay: 11,
+    maxDisplayableCells: Math.max(sequenceMap['catalan'].length, sequenceMap['catalan'].length)
 };
 
 const setSequence = (state, action) => {
@@ -23,16 +27,36 @@ const setSequence = (state, action) => {
     if (action.sequenceName === 'freeform') {
         sequenceIsFreeform = true;
     }
-    const newSequence = {
+    let newSequence = {
         sequenceId: action.sequenceId,
         sequenceName: action.sequenceName,
         sequenceIsFreeform: sequenceIsFreeform,
         leadingZeroes: 0
     }
     if (sequenceId === 'g') {
-        return updateObject(state, { gSequence: newSequence });
+        let newSequence = {
+            ...state.gSequence,
+            sequenceName: action.sequenceName,
+            sequence: sequenceMap[action.sequenceName],
+            leadingZeroes: 0
+        }
+        return updateObject(state, { 
+            gSequence: newSequence,
+            maxDisplayableCells: Math.max(newSequence.sequence.length, state.fSequence.sequence.length)
+        });
+    } else {
+        let newSequence = {
+            ...state.fSequence,
+            sequenceName: action.sequenceName,
+            sequence: sequenceMap[action.sequenceName],
+            leadingZeroes: 0
+        }
+        return updateObject(state, {
+            fSequence: newSequence,
+            maxDisplayableCells: Math.max(newSequence.sequence.length, state.gSequence.sequence.length)
+        });
     }
-    return updateObject(state, { fSequence: newSequence });
+    
 }
 
 const addZero = (state, action) => {
@@ -63,11 +87,17 @@ const displayFewerTerms = (state, action) => {
     return updateObject(state, { numCellsToDisplay: newNumCellsToDisplay });
 }
 
+const displayMoreTerms = (state, action) => {
+    const newNumCellsToDisplay = state.numCellsToDisplay + 1;
+    return updateObject(state, { numCellsToDisplay: newNumCellsToDisplay });
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_SEQUENCE: return setSequence(state, action);
         case actionTypes.ADD_ZERO: return addZero(state, action);
         case actionTypes.DISPLAY_FEWER_TERMS: return displayFewerTerms(state, action);
+        case actionTypes.DISPLAY_MORE_TERMS: return displayMoreTerms(state, action);
         default: return state;
     }
 };
