@@ -1,0 +1,16 @@
+.MatrixTable {
+    table-layout: fixed;
+    width: auto;
+    min-height: 50%;
+    border: 1px solid black;
+    /* border-collapse: collapse; */
+    display: table;
+    color: #000;
+    font-size: 20px;
+}
+
+.MatrixCell {
+    border: 1px solid black;
+    padding: 1px;
+    margin: 1px;
+}

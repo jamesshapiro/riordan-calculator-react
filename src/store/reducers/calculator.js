@@ -140,7 +140,6 @@ const displayMoreTerms = (state, action) => {
 
 const fetchMatrixSuccess = (state, action) => {
     const json_body = action.json_body;
-    console.log(json_body)
 
     return updateObject(state, {
         loadingMatrix: false,

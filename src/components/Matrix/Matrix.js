@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions/calcIndex';
 import Spinner from '../UI/Spinner/Spinner'
+import MatrixTable from './MatrixTable/MatrixTable'
 
 class SequenceContainer extends Component {
     state = {
@@ -10,9 +11,22 @@ class SequenceContainer extends Component {
     }
 
     render() {
+        const matrixSelector = this.props.matrixSelector
+        let matrixData = null
+        switch (matrixSelector) {
+            case 'riordan':
+                matrixData = this.props.riordanGroupElem
+                break;
+        
+            default:
+                break;
+        }
         let matrix = null;
         if (this.props.loadingMatrix) {
             matrix = <Spinner />
+        }
+        if (matrixData) {
+            matrix = <MatrixTable matrixData={matrixData} />
         }
         return (
             <div>
@@ -25,7 +39,8 @@ class SequenceContainer extends Component {
 const mapStateToProps = state => {
     return {
         numCellsToDisplay: state.calc.numCellsToDisplay,
-        loadingMatrix: state.calc.loadingMatrix
+        loadingMatrix: state.calc.loadingMatrix,
+        riordanGroupElem: state.calc.riordan_group_elem
     }
 }
 

@@ -68,7 +68,7 @@ class App extends Component {
           <SequenceContainer sequence={this.props.gSequence} />
           <SequenceContainer sequence={this.props.fSequence} />
           {computeButton}
-          <Matrix />
+          <Matrix matrixSelector="riordan" />
         </Layout>
       </div>
     );
