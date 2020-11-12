@@ -9,6 +9,18 @@
     padding: 10px;
 }
 
+.FSequenceContainer {
+    /* width: 100%;
+    margin: auto;
+    height: 250px;
+    overflow: auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem; */
+    padding: 10px;
+    margin: 0 0 0 4.5px;
+}
+
 .SequenceForm {
     display: block;
     padding: 10px;

@@ -112,8 +112,13 @@ class SequenceContainer extends Component {
             />
         })
 
+        let className= classes.SequenceContainer
+        if (this.state.sequenceId === 'f') {
+            className = classes.FSequenceContainer
+        }
+
         return (
-            <div className={classes.SequenceContainer}>
+            <div className={className}>
                 {sequenceSelector}
                 {shiftButton}
                 {backshiftButton}
