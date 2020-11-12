@@ -47,14 +47,31 @@ class SequenceContainer extends Component {
         this.props.onSetCustomSequence(this.state.sequenceId, seqCopy)
     }
 
+    isValidOEISSequenceID = (sequenceId) => {
+        if (sequenceId.length === 6) {
+            return /^\d+$/.test(sequenceId)
+        } else if (sequenceId.length === 7) {
+            if (sequenceId.slice(0,1).toLowerCase() === 'a') {
+                return /^\d+$/.test(sequenceId.slice(1))
+            } else {
+                return false
+            }
+        }
+        return false
+    }
+
     sequenceSelectHandler = (event, inputIdentifier) => {
         const lowercased = event.target.value.toLowerCase()
         const leadingZeroes = []
-        if (this.state.sequenceId === 'f')
-        leadingZeroes.push(0)
+        if (this.state.sequenceId === 'f') {
+            leadingZeroes.push(0)
+        }
         if (sequenceNames.includes(lowercased)) {
             this.setState({ sequence: leadingZeroes.concat(sequenceMap[lowercased]) });
             this.props.onSelectSequence(this.state.sequenceId, lowercased);
+        } else if (this.isValidOEISSequenceID(event.target.value)) {
+            console.log(event.target.value)
+            console.log('VALID')
         }
     }
 
