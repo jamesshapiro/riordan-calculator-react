@@ -88,7 +88,7 @@ const selectSequence = (state, action) => {
             ...state.fSequence,
             sequenceName: action.sequenceName,
             sequence: sequenceMap[action.sequenceName],
-            leadingZeroes: 0
+            leadingZeroes: 1
         }
         return updateObject(state, {
             fSequence: newSequence,

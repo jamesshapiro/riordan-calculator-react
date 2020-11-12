@@ -49,8 +49,11 @@ class SequenceContainer extends Component {
 
     sequenceSelectHandler = (event, inputIdentifier) => {
         const lowercased = event.target.value.toLowerCase()
+        const leadingZeroes = []
+        if (this.state.sequenceId === 'f')
+        leadingZeroes.push(0)
         if (sequenceNames.includes(lowercased)) {
-            this.setState({ sequence: sequenceMap[lowercased] });
+            this.setState({ sequence: leadingZeroes.concat(sequenceMap[lowercased]) });
             this.props.onSelectSequence(this.state.sequenceId, lowercased);
         }
     }
