@@ -5,8 +5,34 @@ import * as actions from '../../../store/actions/calcIndex';
 import classes from './MatrixTable.module.css';
 
 class MatrixTable extends Component {
+    state = {
+        renderRowSums: false
+    }
+
+    toggleRowSums = (event) => {
+        this.setState({ renderRowSums: !this.state.renderRowSums })
+    }
+
     render() {
+        const showRowSumsCheckbox = (
+            <div>
+                <input
+                    type="checkbox"
+                    id="showRowSums"
+                    name="showRowSums"
+                    value="showRowSums"
+                    checked={this.state.renderRowSums}
+                    onClick={this.toggleRowSums}></input>
+                <label htmlFor="showRowSums"> Show Row Sums</label>
+            </div>
+        )
+
         const matrixData = this.props.matrixData;
+        const rowSums = matrixData.map(row => {
+            return row.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+        })
         const oeisRow = matrixData[0].map((elem, index) => {
             const subsequence = matrixData.slice(index).map(row => row[index])
             return (
@@ -19,9 +45,22 @@ class MatrixTable extends Component {
                 </td>
             )
         })
+        const rowSumsOEISButton = (
+            <td key={"oeis-row-sums"} className={classes.MatrixCell}>
+                <a
+                    target="_blank"
+                    href={"http://oeis.org/search?q=" + rowSums.join("%2C") + "&language=english&go=Search"} >
+                    <button> OEIS </button>
+                </a>
+            </td>
+        )
+        if (this.state.renderRowSums) {
+            oeisRow.push(rowSumsOEISButton)
+        }
 
         const tableRows = matrixData.map((row, rowIdx) => {
             const subsequence = matrixData[rowIdx].slice(0, rowIdx + 1)
+            const rowSum = rowSums[rowIdx]
             return (
                 <tr key={"row-" + rowIdx}>
                     <td key={"oeis-row-" + rowIdx} className={classes.MatrixCell}>
@@ -41,6 +80,7 @@ class MatrixTable extends Component {
                             </td>
                         )
                     })}
+                    {this.state.renderRowSums ? <td key={"rowSum-" + rowIdx} className={classes.RowSumCell}>{rowSum}</td> : null }
                 </tr>
             )
         })
@@ -56,6 +96,7 @@ class MatrixTable extends Component {
                         {tableRows}
                     </tbody>
                 </table>
+                {showRowSumsCheckbox}
             </div>
         )
     }

@@ -93,7 +93,7 @@ class App extends Component {
           id="hideStieltjes"
           name="hideStieltjes"
           value="hideStieltjes"
-          checked={this.state.hideStieltjes}
+          defaultChecked={this.state.hideStieltjes}
           onClick={this.toggleStieltjes}></input>
         <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
       </div>

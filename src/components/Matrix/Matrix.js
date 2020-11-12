@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../store/actions/calcIndex';
+//import * as actions from '../../store/actions/calcIndex';
 import Spinner from '../UI/Spinner/Spinner'
 import MatrixTable from './MatrixTable/MatrixTable'
 
@@ -19,6 +19,7 @@ class Matrix extends Component {
                 break;
             case 'stieltjes':
                 matrixData = this.props.stieltjes
+                break;
             default:
                 break;
         }

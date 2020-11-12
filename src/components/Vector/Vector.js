@@ -18,8 +18,10 @@ class Vector extends Component {
                 break;
             case "B-sequence":
                 sequenceData = this.props.bSequence
+                break;
             case "Z-sequence":
                 sequenceData = this.props.zSequence
+                break;
             default:
                 break;
         }
