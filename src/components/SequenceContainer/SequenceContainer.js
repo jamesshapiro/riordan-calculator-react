@@ -40,7 +40,7 @@ class SequenceContainer extends Component {
     }
 
     changed = (itemIdx, newValue) => {
-        const seqCopy = this.state.sequence.slice();
+        const seqCopy = this.state.sequence.slice(0, this.props.numCellsToDisplay);
         seqCopy[itemIdx] = +newValue;
         console.log(seqCopy);
         this.setState({ sequence: seqCopy })
