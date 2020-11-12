@@ -27,12 +27,20 @@ import SequenceButton from './components/SequenceContainer/SequenceButton/Sequen
 // });
 
 class App extends Component {
+  state = {
+    hideStieltjes: true
+  }
+
   componentDidMount() {
     this.props.onTryAutoSignup();
   }
 
   fetchMatrix() {
     this.props.onFetchMatrix()
+  }
+
+  toggleStieltjes = (event) => {
+    this.setState({hideStieltjes: !this.state.hideStieltjes})
   }
 
   render() {
@@ -73,11 +81,41 @@ class App extends Component {
         <Vector sequenceSelector="B-sequence" />
       )
     }
-    
+
     const zSequence = (
       <Vector sequenceSelector="Z-sequence" />
     )
 
+    const hideStieltjesCheckbox = (
+      <div>
+        <input
+          type="checkbox"
+          id="hideStieltjes"
+          name="hideStieltjes"
+          value="hideStieltjes"
+          checked={this.state.hideStieltjes}
+          onClick={this.toggleStieltjes}></input>
+        <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
+      </div>
+    )
+
+    const riordanGroupElem = (
+      <Matrix
+        matrixSelector="riordan"
+        matrixName="Riordan Group Element: "
+      />
+    )
+
+    let stieltjes = null
+    if (!this.state.hideStieltjes) {
+      stieltjes = (
+        <Matrix
+          matrixSelector="stieltjes"
+          matrixName="Stieltjes: "
+        />
+      )
+    }
+    
     return (
       <div>
         <Layout>
@@ -85,17 +123,12 @@ class App extends Component {
           <SequenceContainer sequence={this.props.gSequence} />
           <SequenceContainer sequence={this.props.fSequence} />
           {computeButton}
-          <Matrix 
-            matrixSelector="riordan"
-            matrixName="Riordan Group Element: "
-          />
+          {riordanGroupElem}
           {aSequence}
           {bSequence}
           {zSequence}
-          <Matrix 
-            matrixSelector="stieltjes"
-            matrixName="Stieltjes: "
-          />
+          {hideStieltjesCheckbox}
+          {stieltjes}
         </Layout>
       </div>
     );
