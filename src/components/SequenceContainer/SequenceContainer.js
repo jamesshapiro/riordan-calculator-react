@@ -5,7 +5,7 @@ import * as actions from '../../store/actions/calcIndex';
 import { sequenceMap, sequenceNames } from '../../data/sequenceData';
 import SequenceSelector from './SequenceSelector/SequenceSelector';
 import SequenceButton from './SequenceButton/SequenceButton';
-import SequenceCell from './Sequence/SequenceCell/SequenceCell';
+import SequenceCell from './SequenceCell/SequenceCell';
 import classes from './SequenceContainer.module.css';
 
 class SequenceContainer extends Component {
@@ -14,7 +14,7 @@ class SequenceContainer extends Component {
             return { value: this.titleCase(sequenceName), displayValue: this.titleCase(sequenceName) };
         }),
         sequenceId: this.props.sequence.sequenceId,
-        sequence: Array(this.props.sequence.leadingZeroes).fill(0).concat(this.props.sequence.sequence)
+        selectorValue: ''
     }
 
     titleCase(str) {
@@ -26,33 +26,32 @@ class SequenceContainer extends Component {
     }
 
     addLeadingZero() {
-        const seqCopy = this.state.sequence.slice();
+        const seqCopy = this.props.sequence.sequence.slice();
         const newArray = [0].concat(seqCopy)
         this.setState({ sequence: newArray })
         this.props.onSetCustomSequence(this.state.sequenceId, newArray)
     }
 
     chopFirst() {
-        const seqCopy = this.state.sequence.slice();
+        const seqCopy = this.props.sequence.sequence.slice();
         const newArray = seqCopy.slice(1);
         this.setState({ sequence: newArray })
         this.props.onSetCustomSequence(this.state.sequenceId, newArray)
     }
 
-    changed = (itemIdx, newValue) => {
-        const seqCopy = this.state.sequence.slice(0, this.props.numCellsToDisplay);
-        seqCopy[itemIdx] = +newValue;
-        console.log(seqCopy);
-        this.setState({ sequence: seqCopy })
-        this.props.onSetCustomSequence(this.state.sequenceId, seqCopy)
+    isInteger = (input) => {
+        if (input.length === 0) {
+            return false
+        }
+        return /^\d+$/.test(input)
     }
 
     isValidOEISSequenceID = (sequenceId) => {
         if (sequenceId.length === 6) {
-            return /^\d+$/.test(sequenceId)
+            return this.isInteger(sequenceId)
         } else if (sequenceId.length === 7) {
             if (sequenceId.slice(0,1).toLowerCase() === 'a') {
-                return /^\d+$/.test(sequenceId.slice(1))
+                return this.isInteger(sequenceId.slice(1))
             } else {
                 return false
             }
@@ -60,18 +59,37 @@ class SequenceContainer extends Component {
         return false
     }
 
-    sequenceSelectHandler = (event, inputIdentifier) => {
-        const lowercased = event.target.value.toLowerCase()
-        const leadingZeroes = []
-        if (this.state.sequenceId === 'f') {
-            leadingZeroes.push(0)
+    formatOEISSequenceId = (sequenceId) => {
+        if (sequenceId.length === 6) {
+            return 'A'  + sequenceId;
+        } else {
+            return 'A' + sequenceId.slice(1);
         }
+    }
+
+    isValidCustomSequence = (input) => {
+        if ((input.match(/,/g)||[]).length < 2) {
+            return false
+        }
+        const integers = input.split(',')
+        for (let x of integers) {
+            if (!this.isInteger(x)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    sequenceSelectHandler = (event) => {
+        this.setState({selectorValue: event.target.value})
+        const lowercased = event.target.value.toLowerCase()
         if (sequenceNames.includes(lowercased)) {
-            this.setState({ sequence: leadingZeroes.concat(sequenceMap[lowercased]) });
             this.props.onSelectSequence(this.state.sequenceId, lowercased);
         } else if (this.isValidOEISSequenceID(event.target.value)) {
-            console.log(event.target.value)
-            console.log('VALID')
+            this.props.onSetOEISSequence(this.state.sequenceId, this.formatOEISSequenceId(event.target.value))
+        } else if (this.isValidCustomSequence(event.target.value)) {
+            const newSequence = event.target.value.split(',').map(strInput => { return parseInt(strInput) })
+            this.props.onSetCustomSequence(this.state.sequenceId, newSequence)
         }
     }
 
@@ -105,8 +123,9 @@ class SequenceContainer extends Component {
             <SequenceSelector
                 label={this.state.sequenceId + ': '}
                 options={this.state.options}
-                selectedSequence={this.state.sequence.sequenceName}
-                changed={(event) => this.sequenceSelectHandler(event, 1)}
+                value={this.state.selectorValue}
+                selectedSequence={this.props.sequence.sequenceName}
+                changed={(event) => this.sequenceSelectHandler(event)}
             />
         )
 
@@ -120,7 +139,7 @@ class SequenceContainer extends Component {
             content="&lt;"
         />)
 
-        const sequence = this.state.sequence.slice(0, this.props.numCellsToDisplay).map((seqValue, idx) => {
+        let sequence = this.props.sequence.sequence.slice(0, this.props.numCellsToDisplay).map((seqValue, idx) => {
             return <SequenceCell
                 key={idx}
                 index={idx}
@@ -159,11 +178,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
         onSelectSequence: (sequenceId, sequenceName) => dispatch(actions.selectSequence(sequenceId, sequenceName)),
         onDisplayFewerTerms: () => dispatch(actions.displayFewerTerms()),
         onDisplayMoreTerms: () => dispatch(actions.displayMoreTerms()),
         onSetCustomSequence: (sequenceId, sequence) => dispatch(actions.setCustomSequence(sequenceId, sequence)),
+        onSetOEISSequence: (sequenceId, oeisSequenceId) => dispatch(actions.fetchOEISSequence(sequenceId, oeisSequenceId))
     }
 };
 

@@ -10,7 +10,7 @@ const sequenceSelector = (props) => {
                 type="text" 
                 list="sequences"
                 label={props.label}
-                value={props.selectedSequence}
+                value={props.value}
                 onChange={props.changed}
             />
             <datalist id="sequences">

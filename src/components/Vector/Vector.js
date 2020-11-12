@@ -4,13 +4,9 @@ import { connect } from 'react-redux';
 import classes from '../Matrix/MatrixTable/MatrixTable.module.css'
 
 class Vector extends Component {
-    state = {
-
-    }
-
+    
     render() {
         const sequenceSelector = this.props.sequenceSelector
-        console.log(sequenceSelector)
         let sequenceData = null
         switch (sequenceSelector) {
             case "A-sequence":
@@ -26,7 +22,6 @@ class Vector extends Component {
                 break;
         }
         let sequence = null;
-        console.log(sequenceData)
         if (this.props.loadingMatrix) {
             sequence = 'Loading...'
         }

@@ -7,15 +7,13 @@ const initialState = {
         sequenceId: 'g',
         sequenceName: 'catalan',
         sequenceIsFreeform: false,
-        leadingZeroes: 0,
         sequence: sequenceMap['catalan']
     },
     fSequence: {
         sequenceId: 'f',
         sequenceName: 'catalan',
         sequenceIsFreeform: false,
-        leadingZeroes: 1,
-        sequence: sequenceMap['catalan']
+        sequence: [0].concat(sequenceMap['catalan'])
     },
     numCellsToDisplay: 11,
     maxDisplayableCells: Math.min(0 + sequenceMap['catalan'].length, 1 + sequenceMap['catalan'].length),
@@ -35,36 +33,33 @@ const initialState = {
     tweedle_right_b_sequence: null,
     tweedle_right_is_pseudo: true,
     tweedle_right_z_sequence: null,
-    z_sequence: null
+    z_sequence: null,
+    newSequenceLoading: false
 };
 
 const setCustomSequence = (state, action) => {
-    console.log('[SET Custom Sequence]');
-    console.log(action);
     const sequenceId = action.sequenceId;
     if (sequenceId === 'g') {
         let newSequence = {
             ...state.gSequence,
             sequenceName: 'custom',
-            sequence: action.sequence,
-            leadingZeroes: 0
+            sequence: action.sequence
         }
         return updateObject(state, {
             gSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
-            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.fSequence.sequence.length)
         });
     } else {
         let newSequence = {
             ...state.fSequence,
             sequenceName: 'custom',
-            sequence: action.sequence,
-            leadingZeroes: 0
+            sequence: action.sequence
         }
         return updateObject(state, {
             fSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
-            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.gSequence.sequence.length)
         });
     }
 }
@@ -75,8 +70,7 @@ const selectSequence = (state, action) => {
         let newSequence = {
             ...state.gSequence,
             sequenceName: action.sequenceName,
-            sequence: sequenceMap[action.sequenceName],
-            leadingZeroes: 0
+            sequence: sequenceMap[action.sequenceName]
         }
         return updateObject(state, {
             gSequence: newSequence,
@@ -87,44 +81,13 @@ const selectSequence = (state, action) => {
         let newSequence = {
             ...state.fSequence,
             sequenceName: action.sequenceName,
-            sequence: sequenceMap[action.sequenceName],
-            leadingZeroes: 1
+            sequence: [0].concat(sequenceMap[action.sequenceName])
         }
         return updateObject(state, {
             fSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
             numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay)
         });
-    }
-}
-
-const addZero = (state, action) => {
-    if (action.sequenceId === 'g') {
-        const newZeroes = state.gSequence.leadingZeroes + 1
-        return {
-            ...state,
-            gSequence: {
-                ...state.gSequence,
-                leadingZeroes: newZeroes
-            },
-            maxDisplayableCells: Math.min(
-                newZeroes + state.gSequence.sequence.length,
-                state.fSequence.leadingZeroes + state.fSequence.sequence.length
-            )
-        }
-    } else {
-        const newZeroes = state.fSequence.leadingZeroes + 1
-        return {
-            ...state,
-            fSequence: {
-                ...state.fSequence,
-                leadingZeroes: newZeroes
-            },
-            maxDisplayableCells: Math.min(
-                state.gSequence.leadingZeroes + state.gSequence.sequence.length,
-                newZeroes + state.fSequence.sequence.length
-            )
-        }
     }
 }
 
@@ -162,16 +125,49 @@ const fetchMatrixSuccess = (state, action) => {
     });
 }
 
+const fetchOEISSequenceSuccess = (state, action) => {
+    console.log('calling success!')
+    const sequenceId = action.sequenceId;
+    const sequence = action.sequence
+    if (sequenceId === 'g') {
+        let newSequence = {
+            ...state.gSequence,
+            sequenceName: 'custom',
+            sequence: sequence
+        }
+        return updateObject(state, {
+            gSequence: newSequence,
+            maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay),
+            newSequenceLoading: false
+        });
+    } else {
+        let newSequence = {
+            ...state.fSequence,
+            sequenceName: 'custom',
+            sequence: [0].concat(sequence)
+        }
+        return updateObject(state, {
+            fSequence: newSequence,
+            maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
+            numCellsToDisplay: Math.min(newSequence.sequence.length, state.numCellsToDisplay),
+            newSequenceLoading: false
+        });
+    }
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SELECT_SEQUENCE: return selectSequence(state, action);
         case actionTypes.SET_CUSTOM_SEQUENCE: return setCustomSequence(state, action);
-        case actionTypes.ADD_ZERO: return addZero(state, action);
         case actionTypes.DISPLAY_FEWER_TERMS: return displayFewerTerms(state, action);
         case actionTypes.DISPLAY_MORE_TERMS: return displayMoreTerms(state, action);
         case actionTypes.FETCH_MATRIX_START: return updateObject(state, { loadingMatrix: true });
         case actionTypes.FETCH_MATRIX_SUCCESS: return fetchMatrixSuccess(state, action);
         case actionTypes.FETCH_MATRIX_FAIL: return updateObject(state, { loadingMatrix: false });
+        case actionTypes.FETCH_OEIS_SEQUENCE_START: return updateObject(state, { newSequenceLoading: true });
+        case actionTypes.FETCH_OEIS_SEQUENCE_SUCCESS: return fetchOEISSequenceSuccess(state, action);
+        case actionTypes.FETCH_OEIS_SEQUENCE_FAIL: return updateObject(state, { newSequenceLoading: false });
         default: return state;
     }
 };

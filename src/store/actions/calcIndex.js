@@ -4,5 +4,6 @@ export {
     addZero,
     displayFewerTerms,
     displayMoreTerms,
-    fetchMatrix
+    fetchMatrix,
+    fetchOEISSequence
 } from './calculator'

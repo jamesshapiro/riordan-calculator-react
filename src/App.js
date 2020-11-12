@@ -120,8 +120,8 @@ class App extends Component {
       <div>
         <Layout>
           <h1>Welcome to the Riordan Calculator v2</h1>
-          <SequenceContainer sequence={this.props.gSequence} />
-          <SequenceContainer sequence={this.props.fSequence} />
+          <SequenceContainer sequence={this.props.gSequence} newSeq={this.props.newSequenceLoading} />
+          <SequenceContainer sequence={this.props.fSequence} newSeq={this.props.newSequenceLoading} />
           {computeButton}
           {riordanGroupElem}
           {aSequence}
@@ -140,7 +140,8 @@ const mapStateToProps = state => {
     isAuthenticated: state.auth.token !== null,
     fSequence: state.calc.fSequence,
     gSequence: state.calc.gSequence,
-    riordanIsPseudo: state.calc.riordan_is_pseudo
+    riordanIsPseudo: state.calc.riordan_is_pseudo,
+    newSequenceLoading: state.calc.newSequenceLoading
   }
 }
 

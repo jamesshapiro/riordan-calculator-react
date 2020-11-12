@@ -88,23 +88,24 @@ export const fetchMatrixFail = (error) => {
     };
 };
 
-
-
 export const fetchMatrix = () => {
+    console.log('fetching matrix')
     return (dispatch, getState) => {
         dispatch(fetchMatrixStart())
         const url = 'https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix'
         const state = getState();
         const numCellsToDisplay = state.calc.numCellsToDisplay;
-        const gSeq = Array(state.calc.gSequence.leadingZeroes).fill(0).concat(state.calc.gSequence.sequence).slice(0, numCellsToDisplay).join();
-        const fSeq = Array(state.calc.fSequence.leadingZeroes).fill(0).concat(state.calc.fSequence.sequence).slice(0, numCellsToDisplay).join();
+        const gSeq = state.calc.gSequence.sequence.slice(0, numCellsToDisplay).join();
+        const fSeq = state.calc.fSequence.sequence.slice(0, numCellsToDisplay).join();
         const payload = {
             "g": gSeq,
             "f": fSeq
         }
+        console.log(payload)
         axios.put(url, payload)
             .then(res => {
                 const json_body = JSON.parse(res.data.body)
+                console.log(json_body)
                 dispatch(fetchMatrixSuccess(json_body));
             })
             .catch(err => {
@@ -114,9 +115,42 @@ export const fetchMatrix = () => {
 }
 
 
-// export const fetchMatrix = () => {
-//     return dispatch => {
-//         dispatch(fetchMatrixStart())
-//         dispatch(fetchMat());
-//     };
-// };
+export const fetchOEISSequenceStart = () => {
+    return {
+        type: actionTypes.FETCH_OEIS_SEQUENCE_START
+    };
+};
+
+
+export const fetchOEISSequenceSuccess = (sequenceId, sequence) => {
+    return {
+        type: actionTypes.FETCH_OEIS_SEQUENCE_SUCCESS,
+        sequenceId: sequenceId,
+        sequence: sequence
+    }
+}
+
+export const fetchOEISSequenceFail = (error) => {
+    return {
+        type: actionTypes.FETCH_OEIS_SEQUENCE_FAIL,
+        error: error
+    };
+};
+
+export const fetchOEISSequence = (sequenceId, oeisSequenceId) => {
+    return (dispatch, getState) => {
+        dispatch(fetchOEISSequenceStart())
+        const url = 'https://fh3cm0x1k4.execute-api.us-east-1.amazonaws.com/prod/getsequence'
+        const state = getState();
+        const queryParams = '?sequence=' + oeisSequenceId;
+        axios.get(url + queryParams)
+             .then(res => {
+                const oeisSequence = res.data.oeis_sequence
+                dispatch(fetchOEISSequenceSuccess(sequenceId, oeisSequence));
+             })
+             .catch(err => {
+                 console.log(err)
+                 dispatch(fetchOEISSequenceFail(err))
+             });
+    }
+}

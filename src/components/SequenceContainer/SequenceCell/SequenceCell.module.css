@@ -1,0 +1,27 @@
+.SequenceCell {
+    max-width: 150px;
+    height: 45px;
+    min-width: 60px;
+    min-height: 45px;
+    font-size: 20px;
+    text-align: center;
+    margin: 2px;
+    background-color: #ddd;
+    border: 0px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px 0 5px;
+}
+
+.Centered
+{
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.Centerer
+{
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
