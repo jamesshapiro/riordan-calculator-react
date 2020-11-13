@@ -6,7 +6,7 @@ import classes from './MatrixTable.module.css';
 
 class MatrixTable extends Component {
     state = {
-        renderRowSums: false
+        renderRowSums: true
     }
 
     toggleRowSums = (event) => {
