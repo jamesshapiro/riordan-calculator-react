@@ -21,7 +21,7 @@ class MatrixTable extends Component {
                     id="showRowSums"
                     name="showRowSums"
                     value="showRowSums"
-                    checked={this.state.renderRowSums}
+                    defaultChecked={this.state.renderRowSums}
                     onClick={this.toggleRowSums}></input>
                 <label htmlFor="showRowSums"> Show Row Sums</label>
             </div>
@@ -33,6 +33,23 @@ class MatrixTable extends Component {
                 return a + b;
             }, 0);
         })
+
+        const alternatingRowSums = matrixData.map(row => {
+            const newVector = new Array(row.length).fill(1);
+            for (let idx in newVector) {
+                if (idx % 2 == 1) {
+                    newVector[idx] = -1
+                }
+            }
+            const unreducedProduct = row.map((elem, idx) => {
+                return elem * newVector[idx]
+            })
+            return unreducedProduct.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+        })
+        console.log(alternatingRowSums)
+
         const oeisRow = matrixData[0].map((elem, index) => {
             const subsequence = matrixData.slice(index).map(row => row[index])
             return (
@@ -54,13 +71,26 @@ class MatrixTable extends Component {
                 </a>
             </td>
         )
+
+        const alternatingRowSumsOEISButton = (
+            <td key={"oeis-row-sums"} className={classes.MatrixCell}>
+                <a
+                    target="_blank"
+                    href={"http://oeis.org/search?q=" + alternatingRowSums.join("%2C") + "&language=english&go=Search"} >
+                    <button> OEIS </button>
+                </a>
+            </td>
+        ) 
+
         if (this.state.renderRowSums) {
             oeisRow.push(rowSumsOEISButton)
+            oeisRow.push(alternatingRowSumsOEISButton)
         }
 
         const tableRows = matrixData.map((row, rowIdx) => {
             const subsequence = matrixData[rowIdx].slice(0, rowIdx + 1)
             const rowSum = rowSums[rowIdx]
+            const alternatingRowSum = alternatingRowSums[rowIdx]
             return (
                 <tr key={"row-" + rowIdx}>
                     <td key={"oeis-row-" + rowIdx} className={classes.MatrixCell}>
@@ -81,6 +111,7 @@ class MatrixTable extends Component {
                         )
                     })}
                     {this.state.renderRowSums ? <td key={"rowSum-" + rowIdx} className={classes.RowSumCell}>{rowSum}</td> : null }
+                    {this.state.renderRowSums ? <td key={"alternatingRowSum-" + rowIdx} className={classes.AlternatingRowSumCell}>{alternatingRowSum}</td> : null }
                 </tr>
             )
         })

@@ -21,3 +21,10 @@
     margin: 1px;
     background-color: #ebfff0;
 }
+
+.AlternatingRowSumCell {
+    border: 1px solid black;
+    padding: 1px;
+    margin: 1px;
+    background-color: #faf7b9;
+}
