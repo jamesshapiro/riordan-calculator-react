@@ -109,8 +109,6 @@ class SequenceContainer extends Component {
 
     sequenceClicked(sequenceSelector) {
         this.setState({selectorValue: ''})
-        console.log('sequence clicked')
-        sequenceSelector.target.click()
     }
 
     sequenceUnclicked() {
