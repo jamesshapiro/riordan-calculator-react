@@ -14,7 +14,8 @@ class SequenceContainer extends Component {
             return { value: this.titleCase(sequenceName), displayValue: this.titleCase(sequenceName) };
         }),
         sequenceId: this.props.sequence.sequenceId,
-        selectorValue: ''
+        selectorValue: '',
+        storedValue: ''
     }
 
     titleCase(str) {
@@ -81,7 +82,7 @@ class SequenceContainer extends Component {
     }
 
     sequenceSelectHandler = (event) => {
-        this.setState({selectorValue: event.target.value})
+        this.setState({storedValue: event.target.value, selectorValue: event.target.value})
         const lowercased = event.target.value.toLowerCase()
         if (sequenceNames.includes(lowercased)) {
             this.props.onSelectSequence(this.state.sequenceId, lowercased);
@@ -106,6 +107,16 @@ class SequenceContainer extends Component {
         this.props.onDisplayMoreTerms()
     }
 
+    sequenceClicked(sequenceSelector) {
+        this.setState({selectorValue: ''})
+        console.log('sequence clicked')
+        sequenceSelector.target.click()
+    }
+
+    sequenceUnclicked() {
+        this.setState({selectorValue: this.state.storedValue})
+    }
+
     render() {
         const addTermButton = (<SequenceButton
             clicked={() => this.displayMoreTerms()}
@@ -126,6 +137,8 @@ class SequenceContainer extends Component {
                 value={this.state.selectorValue}
                 selectedSequence={this.props.sequence.sequenceName}
                 changed={(event) => this.sequenceSelectHandler(event)}
+                clicked={(sequenceSelector) => this.sequenceClicked(sequenceSelector)}
+                unclicked={() => this.sequenceUnclicked()}
             />
         )
 

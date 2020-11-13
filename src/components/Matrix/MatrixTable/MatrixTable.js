@@ -48,7 +48,6 @@ class MatrixTable extends Component {
                 return a + b;
             }, 0);
         })
-        console.log(alternatingRowSums)
 
         const oeisRow = matrixData[0].map((elem, index) => {
             const subsequence = matrixData.slice(index).map(row => row[index])
@@ -73,7 +72,7 @@ class MatrixTable extends Component {
         )
 
         const alternatingRowSumsOEISButton = (
-            <td key={"oeis-row-sums"} className={classes.MatrixCell}>
+            <td key={"oeis-alternating-row-sums"} className={classes.MatrixCell}>
                 <a
                     target="_blank"
                     href={"http://oeis.org/search?q=" + alternatingRowSums.join("%2C") + "&language=english&go=Search"} >
