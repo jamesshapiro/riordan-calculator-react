@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 //import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 //import asyncComponent from './hoc/asyncComponent/asyncComponent';
 
-import Layout from './hoc/Layout/Layout';
+import Layout from "./hoc/Layout/Layout";
 //import Logout from './containers/Auth/Logout/Logout';
 //import { authCheckState } from './store/actions';
-import * as calcActions from './store/actions/calcIndex';
-import * as authActions from './store/actions/index';
-import Matrix from './components/Matrix/Matrix';
-import Vector from './components/Vector/Vector';
-import SequenceContainer from './components/SequenceContainer/SequenceContainer';
-import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton';
-import ModeSelector from './components/ModeSelector/ModeSelector';
-import classes from './App.module.css';
+import * as calcActions from "./store/actions/calcIndex";
+import * as authActions from "./store/actions/index";
+import Matrix from "./components/Matrix/Matrix";
+import Vector from "./components/Vector/Vector";
+import SequenceContainer from "./components/SequenceContainer/SequenceContainer";
+import SequenceButton from "./components/SequenceContainer/SequenceButton/SequenceButton";
+import ModeSelector from "./components/ModeSelector/ModeSelector";
+import classes from "./App.module.css";
 
 // const asyncCheckout = asyncComponent(() => {
 //   return import('./containers/Checkout/Checkout');
@@ -31,29 +31,29 @@ import classes from './App.module.css';
 class App extends Component {
   state = {
     hideStieltjes: true,
-    mode: 'Normal',
-    showTutorial: true
-  }
+    mode: "Normal",
+    showTutorial: true,
+  };
 
   componentDidMount() {
     this.props.onTryAutoSignup();
   }
 
   fetchMatrix() {
-    this.props.onFetchMatrix(this.state.mode)
+    this.props.onFetchMatrix(this.state.mode);
   }
 
   toggleStieltjes = (event) => {
-    this.setState({ hideStieltjes: !this.state.hideStieltjes })
-  }
+    this.setState({ hideStieltjes: !this.state.hideStieltjes });
+  };
 
   selectMode = (event) => {
-    this.setState({ mode: event.target.value })
-  }
+    this.setState({ mode: event.target.value });
+  };
 
   toggleTutorial = () => {
-    this.setState({ showTutorial: !this.state.showTutorial })
-  }
+    this.setState({ showTutorial: !this.state.showTutorial });
+  };
 
   render() {
     // let routes = (
@@ -77,28 +77,21 @@ class App extends Component {
     //   );
     // }
 
-    const computeButton = (<SequenceButton
-      clicked={() => this.fetchMatrix()}
-      content="Compute"
-    />)
+    const computeButton = (
+      <SequenceButton clicked={() => this.fetchMatrix()} content="Compute" />
+    );
 
-    const aSequence = (
-      <Vector sequenceSelector="A-sequence" />
-    )
+    const aSequence = <Vector sequenceSelector="A-sequence" />;
 
-    let bSequence = null
+    let bSequence = null;
 
     if (this.props.riordanIsPseudo) {
-      bSequence = (
-        <Vector sequenceSelector="B-sequence" />
-      )
+      bSequence = <Vector sequenceSelector="B-sequence" />;
     }
 
-    const zSequence = (
-      <Vector sequenceSelector="Z-sequence" />
-    )
+    const zSequence = <Vector sequenceSelector="Z-sequence" />;
 
-    let hideStieltjesCheckbox = null
+    let hideStieltjesCheckbox = null;
     if (this.props.riordanGroupElem) {
       hideStieltjesCheckbox = (
         <div>
@@ -108,28 +101,22 @@ class App extends Component {
             name="hideStieltjes"
             value="hideStieltjes"
             defaultChecked={this.state.hideStieltjes}
-            onClick={this.toggleStieltjes}></input>
+            onClick={this.toggleStieltjes}
+          ></input>
           <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
         </div>
-      )
+      );
     }
-    
 
     const riordanGroupElem = (
-      <Matrix
-        matrixSelector="riordan"
-        matrixName="Riordan Group Element: "
-      />
-    )
+      <Matrix matrixSelector="riordan" matrixName="Riordan Group Element: " />
+    );
 
-    let stieltjes = null
+    let stieltjes = null;
     if (!this.state.hideStieltjes) {
       stieltjes = (
-        <Matrix
-          matrixSelector="stieltjes"
-          matrixName="Stieltjes: "
-        />
-      )
+        <Matrix matrixSelector="stieltjes" matrixName="Stieltjes: " />
+      );
     }
 
     let sequences = (
@@ -137,27 +124,34 @@ class App extends Component {
         <SequenceContainer sequence={this.props.gSequence} />
         <SequenceContainer sequence={this.props.fSequence} />
       </span>
-    )
+    );
 
-    if (this.state.mode === 'Bell Subgroup') {
+    if (this.state.mode === "Bell Subgroup") {
       sequences = (
         <span>
           <SequenceContainer sequence={this.props.gSequence} />
-          <SequenceContainer sequence={{ ...this.props.gSequence, sequence: [0].concat(this.props.gSequence.sequence) }} disableControls={true} />
+          <SequenceContainer
+            sequence={{
+              ...this.props.gSequence,
+              sequence: [0].concat(this.props.gSequence.sequence),
+            }}
+            disableControls={true}
+          />
         </span>
-      )
+      );
     }
 
     const tutorialToggle = (
       <span>
         <br />
-          <strong>{"Quick Tutorial: "}</strong><a href="#" onClick={() => this.toggleTutorial()}>
-            {this.state.showTutorial ? "(Hide)" : "(Show)"}
-          </a>
+        <strong>{"Quick Tutorial: "}</strong>
+        <a href="#" onClick={() => this.toggleTutorial()}>
+          {this.state.showTutorial ? "(Hide)" : "(Show)"}
+        </a>
       </span>
-    )
+    );
 
-    let tutorialText = null
+    let tutorialText = null;
     if (this.state.showTutorial) {
       tutorialText = (
         <div>
@@ -165,41 +159,88 @@ class App extends Component {
             <li>
               <strong>{"Selecting a sequence:"}</strong>
               <ul>
-                <li>{"Select a preset sequence from the dropdown by clicking the input box next to 'g' or 'f'."}</li>
-                <li>{"*Note: you must click the box "}<strong>{" twice "}</strong>{" to select a new preset if one is already selected."}</li>
-                <li>{"Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456'). Note: You may have to wait a second for it to load."}</li>
-                <li>{"Use a custom sequence by typing it into sequence box: (e.g. '1,2,3,4,5,6,7'). Custom sequences must contain at least three terms."}</li>
+                <li>
+                  {
+                    "Select a preset sequence from the dropdown by clicking the input box next to 'g' or 'f'."
+                  }
+                </li>
+                <li>
+                  {"*Note: you must click the box "}
+                  <strong>{" twice "}</strong>
+                  {" to select a new preset if one is already selected."}
+                </li>
+                <li>
+                  {
+                    "Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456'). Note: You may have to wait a second for it to load."
+                  }
+                </li>
+                <li>
+                  {
+                    "Use a custom sequence by typing it into sequence box: (e.g. '1,2,3,4,5,6,7'). Custom sequences must contain at least three terms."
+                  }
+                </li>
               </ul>
             </li>
             <li>
               <strong>{"Modifying sequences and changing the window:"}</strong>
               <ul>
-                <li>{"Press the '+0' button to prepend a zero to the sequence."}</li>
-                <li>{"Press the '<' to delete the first term from the sequence."}</li>
-                <li>{"Press the '+' button to reveal one more term from the sequence."}</li>
-                <li>{"Press the '-' button to conceal the last displayed term from the sequence."}</li>
+                <li>
+                  {"Press the '+0' button to prepend a zero to the sequence."}
+                </li>
+                <li>
+                  {"Press the '<' to delete the first term from the sequence."}
+                </li>
+                <li>
+                  {
+                    "Press the '+' button to reveal one more term from the sequence."
+                  }
+                </li>
+                <li>
+                  {
+                    "Press the '-' button to conceal the last displayed term from the sequence."
+                  }
+                </li>
               </ul>
             </li>
             <li>
               <strong>{"Computing the Riordan Group:"}</strong>
               <ul>
-                <li>{"Once 'g' and 'f' are as desired, click the 'Compute' button."}</li>
-                <li>{"Check the 'Show Row Sums' button to reveal the row sums and alternating-row sums."}</li>
-                <li>{"The OEIS buttons for each row and column take you to the OEIS search page for that row or column."}</li>
-                <li>{"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'."}</li>
+                <li>
+                  {
+                    "Once 'g' and 'f' are as desired, click the 'Compute' button."
+                  }
+                </li>
+                <li>
+                  {
+                    "Check the 'Show Row Sums' button to reveal the row sums and alternating-row sums."
+                  }
+                </li>
+                <li>
+                  {
+                    "The OEIS buttons for each row and column take you to the OEIS search page for that row or column."
+                  }
+                </li>
+                <li>
+                  {"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'."}
+                </li>
               </ul>
             </li>
             <li>
               <strong>{"Selecting a mode"}</strong>
               <ul>
-                <li><strong>{"Normal Mode: "}</strong>{" the 'g' and 'f' sequences can be edited independently."}</li>
-                <li><strong>{"Bell Subgroup: "}</strong>{" the 'f' sequence is determined by the 'g' sequence."}</li>
+                <li>
+                  <strong>{"Normal Mode: "}</strong>
+                  {" the 'g' and 'f' sequences can be edited independently."}
+                </li>
+                <li>
+                  <strong>{"Bell Subgroup: "}</strong>
+                  {" the 'f' sequence is determined by the 'g' sequence."}
+                </li>
               </ul>
             </li>
-
           </ul>
         </div>
-      )
+      );
     }
 
     return (
@@ -218,7 +259,6 @@ class App extends Component {
             {stieltjes}
             {tutorialToggle}
             {tutorialText}
-
           </div>
         </Layout>
       </div>
@@ -226,21 +266,21 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     fSequence: state.calc.fSequence,
     gSequence: state.calc.gSequence,
     riordanIsPseudo: state.calc.riordan_is_pseudo,
     newSequenceLoading: state.calc.newSequenceLoading,
-    riordanGroupElem: state.calc.riordan_group_elem
-  }
-}
+    riordanGroupElem: state.calc.riordan_group_elem,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onFetchMatrix: (mode) => dispatch(calcActions.fetchMatrix(mode)),
-    onTryAutoSignup: () => dispatch(authActions.authCheckState())
+    onTryAutoSignup: () => dispatch(authActions.authCheckState()),
   };
 };
 

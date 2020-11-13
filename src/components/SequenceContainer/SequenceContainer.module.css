@@ -1,56 +1,56 @@
 .SequenceContainer {
-    /* width: 100%;
+  /* width: 100%;
     margin: auto;
     height: 250px;
     overflow: auto;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem; */
-    padding: 10px;
+  padding: 10px;
 }
 
 .FSequenceContainer {
-    /* width: 100%;
+  /* width: 100%;
     margin: auto;
     height: 250px;
     overflow: auto;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem; */
-    padding: 10px;
-    margin: 0 0 0 4.5px;
+  padding: 10px;
+  margin: 0 0 0 4.5px;
 }
 
 .SequenceForm {
-    display: block;
-    padding: 10px;
+  display: block;
+  padding: 10px;
 }
 
 .SequenceTitle {
-    display: inline;
+  display: inline;
 }
 
 .SequenceSelector {
-    width: 100px
+  width: 100px;
 }
 
 @media (min-width: 500px) and (max-height: 400px) {
-    .Sequence {
-        width: 350px;
-        height: 300px;
-    }
+  .Sequence {
+    width: 350px;
+    height: 300px;
+  }
 }
 
 @media (min-width: 500px) and (min-height: 401px) {
-    .Sequence {
-        width: 450px;
-        height: 400px;
-    }
+  .Sequence {
+    width: 450px;
+    height: 400px;
+  }
 }
 
 @media (min-width: 1000px) and (min-height: 700px) {
-    .Sequence {
-        width: 700px;
-        height: 600px;
-    }
+  .Sequence {
+    width: 700px;
+    height: 600px;
+  }
 }
