@@ -98,18 +98,22 @@ class App extends Component {
       <Vector sequenceSelector="Z-sequence" />
     )
 
-    const hideStieltjesCheckbox = (
-      <div>
-        <input
-          type="checkbox"
-          id="hideStieltjes"
-          name="hideStieltjes"
-          value="hideStieltjes"
-          defaultChecked={this.state.hideStieltjes}
-          onClick={this.toggleStieltjes}></input>
-        <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
-      </div>
-    )
+    let hideStieltjesCheckbox = null
+    if (this.props.riordanGroupElem) {
+      hideStieltjesCheckbox = (
+        <div>
+          <input
+            type="checkbox"
+            id="hideStieltjes"
+            name="hideStieltjes"
+            value="hideStieltjes"
+            defaultChecked={this.state.hideStieltjes}
+            onClick={this.toggleStieltjes}></input>
+          <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
+        </div>
+      )
+    }
+    
 
     const riordanGroupElem = (
       <Matrix
@@ -179,17 +183,17 @@ class App extends Component {
             <li>
               <strong>{"Computing the Riordan Group:"}</strong>
               <ul>
-                <li>{"Once 'g' and 'f' are as desired, click the 'Compute' button"}</li>
+                <li>{"Once 'g' and 'f' are as desired, click the 'Compute' button."}</li>
                 <li>{"Check the 'Show Row Sums' button to reveal the row sums and alternating-row sums."}</li>
-                <li>{"The OEIS buttons for each row and column take you to the OEIS page for that row or column"}</li>
-                <li>{"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'"}</li>
+                <li>{"The OEIS buttons for each row and column take you to the OEIS page for that row or column."}</li>
+                <li>{"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'."}</li>
               </ul>
             </li>
             <li>
               <strong>{"Selecting a mode"}</strong>
               <ul>
-                <li><strong>{"Normal Mode: "}</strong>{" the 'g' and 'f' sequences can be edited independently"}</li>
-                <li><strong>{"Bell Subgroup: "}</strong>{" the 'f' sequence is determined by the 'g' sequence"}</li>
+                <li><strong>{"Normal Mode: "}</strong>{" the 'g' and 'f' sequences can be edited independently."}</li>
+                <li><strong>{"Bell Subgroup: "}</strong>{" the 'f' sequence is determined by the 'g' sequence."}</li>
               </ul>
             </li>
 
@@ -228,7 +232,8 @@ const mapStateToProps = state => {
     fSequence: state.calc.fSequence,
     gSequence: state.calc.gSequence,
     riordanIsPseudo: state.calc.riordan_is_pseudo,
-    newSequenceLoading: state.calc.newSequenceLoading
+    newSequenceLoading: state.calc.newSequenceLoading,
+    riordanGroupElem: state.calc.riordan_group_elem
   }
 }
 
