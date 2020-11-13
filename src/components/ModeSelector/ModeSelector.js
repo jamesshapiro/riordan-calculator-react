@@ -16,7 +16,7 @@ const modeSelector = (props) => {
 
     return (
         <div className={classes.Input}>
-            <label className={classes.Label}>Mode Selector: </label>
+            <label className={classes.Label}>Mode: </label>
             {selector}
         </div>
     )
