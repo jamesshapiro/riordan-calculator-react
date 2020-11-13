@@ -139,7 +139,7 @@ class App extends Component {
       sequences = (
         <span>
           <SequenceContainer sequence={this.props.gSequence} />
-          <SequenceContainer sequence={{...this.props.gSequence, sequence: [0].concat(this.props.gSequence.sequence)}} disableControls={true} />
+          <SequenceContainer sequence={{ ...this.props.gSequence, sequence: [0].concat(this.props.gSequence.sequence) }} disableControls={true} />
         </span>
       )
     }
@@ -158,15 +158,23 @@ class App extends Component {
     if (this.state.showTutorial) {
       tutorialText = (
         <div>
-          <ol>
-            <li>{"Select a preset sequence by clicking the input box next to 'g' or 'f'"}</li>
-            <li>{"Double-click the box to select a new preset"}</li>
-            <li>{"You can fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456')"}</li>
-          </ol>
+          <ul>
+            <li>
+              {"Selecting a sequence:"}
+              <ol>
+                <li>{"Select a preset sequence from the dropdown by clicking the input box next to 'g' or 'f'"}</li>
+                <li>{"Note: you must **double-click** the box to select a new preset if one is already selected"}</li>
+                <li>{"Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456')"}</li>
+                <li>{"Use a custom sequence by typing it into sequence box: (e.g. '1,2,3,4,5,6,7'). Custom sequences must contain at least three terms"}</li>
+              </ol>
+            </li>
+
+          </ul>
+
           <br /><br />
           <a href="#" onClick={() => this.toggleTutorial()}>
-          {"(Hide Tutorial)"}
-        </a><br /><br />
+            {"(Hide Tutorial)"}
+          </a><br /><br />
         </div>
       )
     }
@@ -187,7 +195,7 @@ class App extends Component {
             {stieltjes}
             {tutorialToggle}
             {tutorialText}
-            
+
           </div>
         </Layout>
       </div>

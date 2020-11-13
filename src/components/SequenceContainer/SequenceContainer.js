@@ -69,10 +69,14 @@ class SequenceContainer extends Component {
     }
 
     isValidCustomSequence = (input) => {
+        console.log(input)
+        console.log((input.match(/,/g)||[]).length)
         if ((input.match(/,/g)||[]).length < 2) {
             return false
         }
-        const integers = input.split(',')
+        const nospaces = input.replace(/\s/g, '');
+        console.log(nospaces)
+        const integers = nospaces.split(',')
         for (let x of integers) {
             if (!this.isInteger(x)) {
                 return false
@@ -82,6 +86,7 @@ class SequenceContainer extends Component {
     }
 
     sequenceSelectHandler = (event) => {
+        console.log('in sequence select')
         this.setState({storedValue: event.target.value, selectorValue: event.target.value})
         const lowercased = event.target.value.toLowerCase()
         if (sequenceNames.includes(lowercased)) {
