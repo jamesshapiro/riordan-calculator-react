@@ -13,6 +13,7 @@ import Matrix from './components/Matrix/Matrix';
 import Vector from './components/Vector/Vector';
 import SequenceContainer from './components/SequenceContainer/SequenceContainer';
 import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton';
+import classes from './App.module.css';
 
 // const asyncCheckout = asyncComponent(() => {
 //   return import('./containers/Checkout/Checkout');
@@ -40,7 +41,7 @@ class App extends Component {
   }
 
   toggleStieltjes = (event) => {
-    this.setState({hideStieltjes: !this.state.hideStieltjes})
+    this.setState({ hideStieltjes: !this.state.hideStieltjes })
   }
 
   render() {
@@ -115,20 +116,22 @@ class App extends Component {
         />
       )
     }
-    
+
     return (
       <div>
         <Layout>
-          <h1>Welcome to the Riordan Calculator v2</h1>
-          <SequenceContainer sequence={this.props.gSequence} newSeq={this.props.newSequenceLoading} />
-          <SequenceContainer sequence={this.props.fSequence} newSeq={this.props.newSequenceLoading} />
-          {computeButton}
-          {riordanGroupElem}
-          {aSequence}
-          {bSequence}
-          {zSequence}
-          {hideStieltjesCheckbox}
-          {stieltjes}
+          <div className={classes.AppBody}>
+            <h1>Welcome to the Riordan Calculator v2</h1>
+            <SequenceContainer sequence={this.props.gSequence} newSeq={this.props.newSequenceLoading} />
+            <SequenceContainer sequence={this.props.fSequence} newSeq={this.props.newSequenceLoading} />
+            {computeButton}
+            {riordanGroupElem}
+            {aSequence}
+            {bSequence}
+            {zSequence}
+            {hideStieltjesCheckbox}
+            {stieltjes}
+          </div>
         </Layout>
       </div>
     );
