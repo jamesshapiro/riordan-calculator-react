@@ -31,7 +31,8 @@ import classes from './App.module.css';
 class App extends Component {
   state = {
     hideStieltjes: true,
-    mode: 'Normal'
+    mode: 'Normal',
+    showTutorial: false
   }
 
   componentDidMount() {
@@ -50,8 +51,11 @@ class App extends Component {
     this.setState({ mode: event.target.value })
   }
 
+  toggleTutorial = () => {
+    this.setState({ showTutorial: !this.state.showTutorial })
+  }
+
   render() {
-    console.log(this.state.mode)
     // let routes = (
     //   <Switch>
     //     <Route path="/auth" component={asyncAuth} />
@@ -140,6 +144,29 @@ class App extends Component {
       )
     }
 
+    const tutorialToggle = (
+      <span>
+        <br />
+        {"Confused? See the quick guide to using the Riordan Calculator: "}
+        <a href="#" onClick={() => this.toggleTutorial()}>
+          {"HERE"}
+        </a><br /><br />
+      </span>
+    )
+
+    let tutorialText = null
+    if (this.state.showTutorial) {
+      tutorialText = (
+        <div>
+          {"Here is how you use the Riordan Calculator..."}
+          <br /><br />
+          <a href="#" onClick={() => this.toggleTutorial()}>
+          {"(Hide Tutorial)"}
+        </a><br /><br />
+        </div>
+      )
+    }
+
     return (
       <div>
         <Layout>
@@ -154,6 +181,9 @@ class App extends Component {
             {zSequence}
             {hideStieltjesCheckbox}
             {stieltjes}
+            {tutorialToggle}
+            {tutorialText}
+            
           </div>
         </Layout>
       </div>
