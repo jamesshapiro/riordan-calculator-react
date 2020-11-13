@@ -11,10 +11,12 @@ const sequenceSelector = (props) => {
                 list="sequences"
                 label={props.label}
                 value={props.value}
+                // defaultValue={props.value}
                 onChange={props.changed}
                 onClick={props.clicked}
                 onBlur={props.unclicked}
                 disabled={props.disableControls}
+                placeholder={"Click Twice"}
             />
             <datalist id="sequences">
                 {props.options.map(option => (

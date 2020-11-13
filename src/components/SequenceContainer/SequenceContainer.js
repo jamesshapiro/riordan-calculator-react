@@ -14,7 +14,7 @@ class SequenceContainer extends Component {
             return { value: this.titleCase(sequenceName), displayValue: this.titleCase(sequenceName) };
         }),
         sequenceId: this.props.sequence.sequenceId,
-        selectorValue: '',
+        selectorValue: 'Catalan',
         storedValue: ''
     }
 
