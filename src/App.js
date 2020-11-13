@@ -147,7 +147,7 @@ class App extends Component {
     const tutorialToggle = (
       <span>
         <br />
-        {"Confused? See the quick guide to using the Riordan Calculator: "}
+        {"Confused? See the quickstart guide: "}
         <a href="#" onClick={() => this.toggleTutorial()}>
           {"HERE"}
         </a><br /><br />
@@ -158,7 +158,11 @@ class App extends Component {
     if (this.state.showTutorial) {
       tutorialText = (
         <div>
-          {"Here is how you use the Riordan Calculator..."}
+          <ol>
+            <li>{"Select a preset sequence by clicking the input box next to 'g' or 'f'"}</li>
+            <li>{"Double-click the box to select a new preset"}</li>
+            <li>{"You can fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456')"}</li>
+          </ol>
           <br /><br />
           <a href="#" onClick={() => this.toggleTutorial()}>
           {"(Hide Tutorial)"}
