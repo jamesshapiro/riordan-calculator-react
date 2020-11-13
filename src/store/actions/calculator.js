@@ -89,14 +89,17 @@ export const fetchMatrixFail = (error) => {
     };
 };
 
-export const fetchMatrix = () => {
+export const fetchMatrix = (mode) => {
     return (dispatch, getState) => {
         dispatch(fetchMatrixStart())
         const url = 'https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix'
         const state = getState();
         const numCellsToDisplay = state.calc.numCellsToDisplay;
         const gSeq = state.calc.gSequence.sequence.slice(0, numCellsToDisplay).join();
-        const fSeq = state.calc.fSequence.sequence.slice(0, numCellsToDisplay).join();
+        let fSeq = state.calc.fSequence.sequence.slice(0, numCellsToDisplay).join();
+        if (mode === 'Bell Subgroup') {
+            fSeq = [0].concat(state.calc.gSequence.sequence.slice(0, numCellsToDisplay)).join();
+        }
         const payload = {
             "g": gSeq,
             "f": fSeq

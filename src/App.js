@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   fetchMatrix() {
-    this.props.onFetchMatrix()
+    this.props.onFetchMatrix(this.state.mode)
   }
 
   toggleStieltjes = (event) => {
@@ -239,7 +239,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchMatrix: () => dispatch(calcActions.fetchMatrix()),
+    onFetchMatrix: (mode) => dispatch(calcActions.fetchMatrix(mode)),
     onTryAutoSignup: () => dispatch(authActions.authCheckState())
   };
 };
