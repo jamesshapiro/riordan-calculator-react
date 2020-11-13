@@ -128,7 +128,7 @@ class SequenceContainer extends Component {
             <SequenceSelector
                 label={this.state.sequenceId + ': '}
                 options={this.state.options}
-                value={this.state.selectorValue}
+                value={this.props.disableControls ? '' : this.state.selectorValue}
                 selectedSequence={this.props.sequence.sequenceName}
                 changed={(event) => this.sequenceSelectHandler(event)}
                 clicked={(sequenceSelector) => this.sequenceClicked(sequenceSelector)}

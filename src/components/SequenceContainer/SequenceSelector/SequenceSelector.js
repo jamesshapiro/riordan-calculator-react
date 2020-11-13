@@ -16,7 +16,7 @@ const sequenceSelector = (props) => {
                 onClick={props.clicked}
                 onBlur={props.unclicked}
                 disabled={props.disableControls}
-                placeholder={"Click Twice"}
+                placeholder={props.disableControls ? '': "Click Twice"}
             />
             <datalist id="sequences">
                 {props.options.map(option => (
