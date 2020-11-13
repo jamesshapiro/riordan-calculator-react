@@ -49,7 +49,6 @@ const setCustomSequence = (state, action) => {
         if (action.isNewSequence) {
             numCellsToDisplay = Math.min(newSequence.sequence.length, state.fSequence.sequence.length)
         }
-        console.log(numCellsToDisplay)
         return updateObject(state, {
             gSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
@@ -64,7 +63,6 @@ const setCustomSequence = (state, action) => {
         if (action.isNewSequence) {
             numCellsToDisplay = Math.min(newSequence.sequence.length, state.gSequence.sequence.length)
         }
-        console.log(numCellsToDisplay)
         return updateObject(state, {
             fSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
@@ -135,7 +133,6 @@ const fetchMatrixSuccess = (state, action) => {
 }
 
 const fetchOEISSequenceSuccess = (state, action) => {
-    console.log('calling success!')
     const sequenceId = action.sequenceId;
     const sequence = action.sequence
     if (sequenceId === 'g') {

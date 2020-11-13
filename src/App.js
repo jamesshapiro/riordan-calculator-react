@@ -166,8 +166,8 @@ class App extends Component {
               <strong>{"Selecting a sequence:"}</strong>
               <ul>
                 <li>{"Select a preset sequence from the dropdown by clicking the input box next to 'g' or 'f'."}</li>
-                <li>{"*Note: you must "}<strong>{" double-click "}</strong>{" the box to select a new preset if one is already selected."}</li>
-                <li>{"Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456')."}</li>
+                <li>{"*Note: you must click the box "}<strong>{" twice "}</strong>{" to select a new preset if one is already selected."}</li>
+                <li>{"Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456'). Note: You may have to wait a second for it to load."}</li>
                 <li>{"Use a custom sequence by typing it into sequence box: (e.g. '1,2,3,4,5,6,7'). Custom sequences must contain at least three terms."}</li>
               </ul>
             </li>
@@ -185,7 +185,7 @@ class App extends Component {
               <ul>
                 <li>{"Once 'g' and 'f' are as desired, click the 'Compute' button."}</li>
                 <li>{"Check the 'Show Row Sums' button to reveal the row sums and alternating-row sums."}</li>
-                <li>{"The OEIS buttons for each row and column take you to the OEIS page for that row or column."}</li>
+                <li>{"The OEIS buttons for each row and column take you to the OEIS search page for that row or column."}</li>
                 <li>{"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'."}</li>
               </ul>
             </li>
