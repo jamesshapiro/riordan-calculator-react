@@ -82,9 +82,6 @@ class SequenceContainer extends Component {
     }
 
     sequenceSelectHandler = (event) => {
-        if (this.props.disableControls) {
-            return
-        }
         this.setState({storedValue: event.target.value, selectorValue: event.target.value})
         const lowercased = event.target.value.toLowerCase()
         if (sequenceNames.includes(lowercased)) {
@@ -106,9 +103,6 @@ class SequenceContainer extends Component {
     }
 
     sequenceClicked(sequenceSelector) {
-        if (this.props.disableControls) {
-            return
-        }
         this.setState({selectorValue: ''})
     }
 
