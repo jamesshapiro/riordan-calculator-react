@@ -14,6 +14,7 @@ const sequenceSelector = (props) => {
                 onChange={props.changed}
                 onClick={props.clicked}
                 onBlur={props.unclicked}
+                disabled={props.disableControls}
             />
             <datalist id="sequences">
                 {props.options.map(option => (

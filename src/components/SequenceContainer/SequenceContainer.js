@@ -82,6 +82,9 @@ class SequenceContainer extends Component {
     }
 
     sequenceSelectHandler = (event) => {
+        if (this.props.disableControls) {
+            return
+        }
         this.setState({storedValue: event.target.value, selectorValue: event.target.value})
         const lowercased = event.target.value.toLowerCase()
         if (sequenceNames.includes(lowercased)) {
@@ -94,11 +97,6 @@ class SequenceContainer extends Component {
         }
     }
 
-    setValues = selectValues => {
-        this.props.onSetSequence(this.state.sequenceId, selectValues[0])
-        //this.setState({ selectValues });
-    }
-
     displayFewerTerms() {
         this.props.onDisplayFewerTerms()
     }
@@ -108,6 +106,9 @@ class SequenceContainer extends Component {
     }
 
     sequenceClicked(sequenceSelector) {
+        if (this.props.disableControls) {
+            return
+        }
         this.setState({selectorValue: ''})
     }
 
@@ -118,13 +119,13 @@ class SequenceContainer extends Component {
     render() {
         const addTermButton = (<SequenceButton
             clicked={() => this.displayMoreTerms()}
-            disabled={this.props.maxDisplayableCells <= this.props.numCellsToDisplay}
+            disabled={this.props.disableControls || (this.props.maxDisplayableCells <= this.props.numCellsToDisplay)}
             content="+"
         />)
 
         const deleteTermButton = (<SequenceButton
             clicked={() => this.displayFewerTerms()}
-            disabled={!this.props.enableDisplayFewerButton}
+            disabled={this.props.disableControls || !this.props.enableDisplayFewerButton}
             content="-"
         />)
 
@@ -137,17 +138,20 @@ class SequenceContainer extends Component {
                 changed={(event) => this.sequenceSelectHandler(event)}
                 clicked={(sequenceSelector) => this.sequenceClicked(sequenceSelector)}
                 unclicked={() => this.sequenceUnclicked()}
+                disableControls={this.props.disableControls}
             />
         )
 
         const shiftButton = (<SequenceButton
             clicked={() => this.addLeadingZero()}
             content="+0"
+            disabled={this.props.disableControls}
         />)
 
         const backshiftButton = (<SequenceButton
             clicked={() => this.chopFirst()}
             content="&lt;"
+            disabled={this.props.disableControls}
         />)
 
         let sequence = this.props.sequence.sequence.slice(0, this.props.numCellsToDisplay).map((seqValue, idx) => {

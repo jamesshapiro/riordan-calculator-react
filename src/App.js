@@ -13,6 +13,7 @@ import Matrix from './components/Matrix/Matrix';
 import Vector from './components/Vector/Vector';
 import SequenceContainer from './components/SequenceContainer/SequenceContainer';
 import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton';
+import ModeSelector from './components/ModeSelector/ModeSelector';
 import classes from './App.module.css';
 
 // const asyncCheckout = asyncComponent(() => {
@@ -29,7 +30,8 @@ import classes from './App.module.css';
 
 class App extends Component {
   state = {
-    hideStieltjes: true
+    hideStieltjes: true,
+    mode: 'Normal'
   }
 
   componentDidMount() {
@@ -44,7 +46,12 @@ class App extends Component {
     this.setState({ hideStieltjes: !this.state.hideStieltjes })
   }
 
+  selectMode = (event) => {
+    this.setState({ mode: event.target.value })
+  }
+
   render() {
+    console.log(this.state.mode)
     // let routes = (
     //   <Switch>
     //     <Route path="/auth" component={asyncAuth} />
@@ -117,13 +124,29 @@ class App extends Component {
       )
     }
 
+    let sequences = (
+      <span>
+        <SequenceContainer sequence={this.props.gSequence} />
+        <SequenceContainer sequence={this.props.fSequence} />
+      </span>
+    )
+
+    if (this.state.mode === 'Bell Subgroup') {
+      sequences = (
+        <span>
+          <SequenceContainer sequence={this.props.gSequence} />
+          <SequenceContainer sequence={{...this.props.gSequence, sequence: [0].concat(this.props.gSequence.sequence)}} disableControls={true} />
+        </span>
+      )
+    }
+
     return (
       <div>
         <Layout>
           <div className={classes.AppBody}>
             <h1>Welcome to the Riordan Calculator v2</h1>
-            <SequenceContainer sequence={this.props.gSequence} newSeq={this.props.newSequenceLoading} />
-            <SequenceContainer sequence={this.props.fSequence} newSeq={this.props.newSequenceLoading} />
+            <ModeSelector changed={this.selectMode} />
+            {sequences}
             {computeButton}
             {riordanGroupElem}
             {aSequence}
