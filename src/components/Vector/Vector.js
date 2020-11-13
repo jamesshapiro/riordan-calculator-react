@@ -22,9 +22,6 @@ class Vector extends Component {
                 break;
         }
         let sequence = null;
-        if (this.props.loadingMatrix) {
-            sequence = 'Loading...'
-        }
 
         if (sequenceData) {
             sequence = (
