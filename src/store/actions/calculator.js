@@ -90,7 +90,6 @@ export const fetchMatrixFail = (error) => {
 };
 
 export const fetchMatrix = () => {
-    console.log('fetching matrix')
     return (dispatch, getState) => {
         dispatch(fetchMatrixStart())
         const url = 'https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix'
@@ -102,11 +101,9 @@ export const fetchMatrix = () => {
             "g": gSeq,
             "f": fSeq
         }
-        console.log(payload)
         axios.put(url, payload)
             .then(res => {
                 const json_body = JSON.parse(res.data.body)
-                console.log(json_body)
                 dispatch(fetchMatrixSuccess(json_body));
             })
             .catch(err => {
