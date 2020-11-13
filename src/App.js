@@ -32,7 +32,7 @@ class App extends Component {
   state = {
     hideStieltjes: true,
     mode: 'Normal',
-    showTutorial: false
+    showTutorial: true
   }
 
   componentDidMount() {
@@ -147,10 +147,9 @@ class App extends Component {
     const tutorialToggle = (
       <span>
         <br />
-        {"Confused? See the quickstart guide: "}
-        <a href="#" onClick={() => this.toggleTutorial()}>
-          {"HERE"}
-        </a><br /><br />
+          <strong>{"Quick Tutorial: "}</strong><a href="#" onClick={() => this.toggleTutorial()}>
+            {this.state.showTutorial ? "(Hide)" : "(Show)"}
+          </a>
       </span>
     )
 
@@ -160,21 +159,41 @@ class App extends Component {
         <div>
           <ul>
             <li>
-              {"Selecting a sequence:"}
-              <ol>
-                <li>{"Select a preset sequence from the dropdown by clicking the input box next to 'g' or 'f'"}</li>
-                <li>{"Note: you must **double-click** the box to select a new preset if one is already selected"}</li>
-                <li>{"Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456')"}</li>
-                <li>{"Use a custom sequence by typing it into sequence box: (e.g. '1,2,3,4,5,6,7'). Custom sequences must contain at least three terms"}</li>
-              </ol>
+              <strong>{"Selecting a sequence:"}</strong>
+              <ul>
+                <li>{"Select a preset sequence from the dropdown by clicking the input box next to 'g' or 'f'."}</li>
+                <li>{"*Note: you must "}<strong>{" double-click "}</strong>{" the box to select a new preset if one is already selected."}</li>
+                <li>{"Fetch any OEIS sequence by typing its OEIS ID into the sequence box: (e.g. 'A123456' or just '123456')."}</li>
+                <li>{"Use a custom sequence by typing it into sequence box: (e.g. '1,2,3,4,5,6,7'). Custom sequences must contain at least three terms."}</li>
+              </ul>
+            </li>
+            <li>
+              <strong>{"Modifying sequences and changing the window:"}</strong>
+              <ul>
+                <li>{"Press the '+0' button to prepend a zero to the sequence."}</li>
+                <li>{"Press the '<' to delete the first term from the sequence."}</li>
+                <li>{"Press the '+' button to reveal one more term from the sequence."}</li>
+                <li>{"Press the '-' button to conceal the last displayed term from the sequence."}</li>
+              </ul>
+            </li>
+            <li>
+              <strong>{"Computing the Riordan Group:"}</strong>
+              <ul>
+                <li>{"Once 'g' and 'f' are as desired, click the 'Compute' button"}</li>
+                <li>{"Check the 'Show Row Sums' button to reveal the row sums and alternating-row sums."}</li>
+                <li>{"The OEIS buttons for each row and column take you to the OEIS page for that row or column"}</li>
+                <li>{"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'"}</li>
+              </ul>
+            </li>
+            <li>
+              <strong>{"Selecting a mode"}</strong>
+              <ul>
+                <li><strong>{"Normal Mode: "}</strong>{" the 'g' and 'f' sequences can be edited independently"}</li>
+                <li><strong>{"Bell Subgroup: "}</strong>{" the 'f' sequence is determined by the 'g' sequence"}</li>
+              </ul>
             </li>
 
           </ul>
-
-          <br /><br />
-          <a href="#" onClick={() => this.toggleTutorial()}>
-            {"(Hide Tutorial)"}
-          </a><br /><br />
         </div>
       )
     }
