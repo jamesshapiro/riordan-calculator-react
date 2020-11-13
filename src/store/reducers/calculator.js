@@ -39,16 +39,21 @@ const initialState = {
 
 const setCustomSequence = (state, action) => {
     const sequenceId = action.sequenceId;
+    let numCellsToDisplay = Math.min(action.sequence.length, state.numCellsToDisplay)
     if (sequenceId === 'g') {
         let newSequence = {
             ...state.gSequence,
             sequenceName: 'custom',
             sequence: action.sequence
         }
+        if (action.isNewSequence) {
+            numCellsToDisplay = Math.min(newSequence.sequence.length, state.fSequence.sequence.length)
+        }
+        console.log(numCellsToDisplay)
         return updateObject(state, {
             gSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.fSequence.sequence.length),
-            numCellsToDisplay: Math.min(newSequence.sequence.length, state.fSequence.sequence.length)
+            numCellsToDisplay: numCellsToDisplay
         });
     } else {
         let newSequence = {
@@ -56,10 +61,14 @@ const setCustomSequence = (state, action) => {
             sequenceName: 'custom',
             sequence: action.sequence
         }
+        if (action.isNewSequence) {
+            numCellsToDisplay = Math.min(newSequence.sequence.length, state.gSequence.sequence.length)
+        }
+        console.log(numCellsToDisplay)
         return updateObject(state, {
             fSequence: newSequence,
             maxDisplayableCells: Math.min(newSequence.sequence.length, state.gSequence.sequence.length),
-            numCellsToDisplay: Math.min(newSequence.sequence.length, state.gSequence.sequence.length)
+            numCellsToDisplay: numCellsToDisplay
         });
     }
 }

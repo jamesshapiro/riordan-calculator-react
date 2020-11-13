@@ -15,17 +15,18 @@ export const selectSequence = (sequenceId, sequenceName) => {
     };
 };
 
-export const setCustomSeq = (sequenceId, sequence) => {
+export const setCustomSeq = (sequenceId, sequence, isNewSequence) => {
     return {
         type: actionTypes.SET_CUSTOM_SEQUENCE,
         sequenceId: sequenceId,
-        sequence: sequence
+        sequence: sequence,
+        isNewSequence: isNewSequence
     };
 }
 
-export const setCustomSequence = (sequenceId, sequence) => {
+export const setCustomSequence = (sequenceId, sequence, isNewSequence) => {
     return dispatch => {
-        dispatch(setCustomSeq(sequenceId, sequence));
+        dispatch(setCustomSeq(sequenceId, sequence, isNewSequence));
     };
 };
 

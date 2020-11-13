@@ -89,7 +89,7 @@ class SequenceContainer extends Component {
             this.props.onSetOEISSequence(this.state.sequenceId, this.formatOEISSequenceId(event.target.value))
         } else if (this.isValidCustomSequence(event.target.value)) {
             const newSequence = event.target.value.split(',').map(strInput => { return parseInt(strInput) })
-            this.props.onSetCustomSequence(this.state.sequenceId, newSequence)
+            this.props.onSetCustomSequence(this.state.sequenceId, newSequence, true)
         }
     }
 
@@ -181,7 +181,7 @@ const mapDispatchToProps = dispatch => {
         onSelectSequence: (sequenceId, sequenceName) => dispatch(actions.selectSequence(sequenceId, sequenceName)),
         onDisplayFewerTerms: () => dispatch(actions.displayFewerTerms()),
         onDisplayMoreTerms: () => dispatch(actions.displayMoreTerms()),
-        onSetCustomSequence: (sequenceId, sequence) => dispatch(actions.setCustomSequence(sequenceId, sequence)),
+        onSetCustomSequence: (sequenceId, sequence, isNewSequence) => dispatch(actions.setCustomSequence(sequenceId, sequence, isNewSequence)),
         onSetOEISSequence: (sequenceId, oeisSequenceId) => dispatch(actions.fetchOEISSequence(sequenceId, oeisSequenceId))
     }
 };
