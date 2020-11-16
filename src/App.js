@@ -139,6 +139,23 @@ class App extends Component {
           />
         </span>
       );
+    } else if (this.state.mode === "Derivative Subgroup") {
+      sequences = (
+        <span>
+          <SequenceContainer sequence={this.props.gSequence} />
+          <SequenceContainer
+            sequence={{
+              ...this.props.gSequence,
+              sequence: [0].concat(
+                this.props.gSequence.sequence.map((elem, idx) => {
+                  return elem * (idx + 1);
+                })
+              ),
+            }}
+            disableControls={true}
+          />
+        </span>
+      );
     }
 
     const tutorialToggle = (

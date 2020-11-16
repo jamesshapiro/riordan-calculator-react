@@ -17,8 +17,8 @@ class SequenceContainer extends Component {
       };
     }),
     sequenceId: this.props.sequence.sequenceId,
-    selectorValue: "Catalan",
-    storedValue: "Catalan",
+    selectorValue: "",
+    storedValue: "",
   };
 
   titleCase(str) {

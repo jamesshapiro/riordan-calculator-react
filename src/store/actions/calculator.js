@@ -102,6 +102,11 @@ export const fetchMatrix = (mode) => {
       fSeq = [0]
         .concat(state.calc.gSequence.sequence.slice(0, numCellsToDisplay))
         .join();
+    } else if (mode === "Derivative Subgroup") {
+      const derivative = state.calc.gSequence.sequence.map((element, index) => {
+        return element * (index + 1);
+      });
+      fSeq = [0].concat(derivative).join();
     }
     const payload = {
       g: gSeq,

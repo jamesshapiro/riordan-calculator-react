@@ -7,6 +7,7 @@ const modeSelector = (props) => {
     <select name="mode" id="mode" onChange={props.changed}>
       <option value="Normal">Normal</option>
       <option value="Bell Subgroup">Bell Subgroup</option>
+      <option value="Derivative Subgroup">Derivative Subgroup</option>
     </select>
   );
 
