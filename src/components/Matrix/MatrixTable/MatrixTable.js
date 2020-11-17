@@ -73,7 +73,7 @@ class MatrixTable extends Component {
           target="_blank"
           href={
             "http://oeis.org/search?q=" +
-            rowSums.join("%2C") +
+            rowSums.slice(0, -1).join("%2C") +
             "&language=english&go=Search"
           }
         >
@@ -88,7 +88,7 @@ class MatrixTable extends Component {
           target="_blank"
           href={
             "http://oeis.org/search?q=" +
-            alternatingRowSums.join("%2C") +
+            alternatingRowSums.slice(0, -1).join("%2C") +
             "&language=english&go=Search"
           }
         >
@@ -102,10 +102,17 @@ class MatrixTable extends Component {
       oeisRow.push(alternatingRowSumsOEISButton);
     }
 
+    console.log("matrixData.length:", matrixData.length);
+    console.log("matrixData[0].length:", matrixData[0].length);
     const tableRows = matrixData.map((row, rowIdx) => {
       const subsequence = matrixData[rowIdx].slice(0, rowIdx + 1);
       const rowSum = rowSums[rowIdx];
       const alternatingRowSum = alternatingRowSums[rowIdx];
+      console.log(rowIdx);
+      let offset = 0;
+      if (matrixData.length === matrixData[0].length) {
+        offset = 1;
+      }
       return (
         <tr key={"row-" + rowIdx}>
           <td key={"oeis-row-" + rowIdx} className={classes.MatrixCell}>
@@ -132,7 +139,7 @@ class MatrixTable extends Component {
           })}
           {this.state.renderRowSums ? (
             <td key={"rowSum-" + rowIdx} className={classes.RowSumCell}>
-              {rowSum}
+              {rowIdx < matrixData[0].length - offset ? rowSum : "--"}
             </td>
           ) : null}
           {this.state.renderRowSums ? (
@@ -140,7 +147,9 @@ class MatrixTable extends Component {
               key={"alternatingRowSum-" + rowIdx}
               className={classes.AlternatingRowSumCell}
             >
-              {alternatingRowSum}
+              {rowIdx < matrixData[0].length - offset
+                ? alternatingRowSum
+                : "--"}
             </td>
           ) : null}
         </tr>
