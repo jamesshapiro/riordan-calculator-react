@@ -266,7 +266,7 @@ class App extends Component {
       <div>
         <Layout>
           <div className={classes.AppBody}>
-            <h1>Welcome to the Riordan Calculator v2</h1>
+            <h1>Welcome to the Riordan Calculator</h1>
             <ModeSelector changed={this.selectMode} />
             {sequences}
             {computeButton}
