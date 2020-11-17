@@ -140,20 +140,22 @@ class App extends Component {
         </span>
       );
     } else if (this.state.mode === "Derivative Subgroup") {
+      const newGSequence = this.props.fSequence.sequence
+        .slice(1)
+        .map((elem, idx) => {
+          return elem * (idx + 1);
+        });
       sequences = (
         <span>
-          <SequenceContainer sequence={this.props.gSequence} />
           <SequenceContainer
             sequence={{
               ...this.props.gSequence,
-              sequence: [0].concat(
-                this.props.gSequence.sequence.map((elem, idx) => {
-                  return elem * (idx + 1);
-                })
-              ),
+              sequenceId: "g",
+              sequence: newGSequence,
             }}
             disableControls={true}
           />
+          <SequenceContainer sequence={this.props.fSequence} />
         </span>
       );
     }

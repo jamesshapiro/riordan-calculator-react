@@ -94,19 +94,20 @@ export const fetchMatrix = (mode) => {
       "https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix";
     const state = getState();
     const numCellsToDisplay = state.calc.numCellsToDisplay;
-    const gSeq = state.calc.gSequence.sequence
-      .slice(0, numCellsToDisplay)
-      .join();
+    let gSeq = state.calc.gSequence.sequence.slice(0, numCellsToDisplay).join();
     let fSeq = state.calc.fSequence.sequence.slice(0, numCellsToDisplay).join();
     if (mode === "Bell Subgroup") {
       fSeq = [0]
         .concat(state.calc.gSequence.sequence.slice(0, numCellsToDisplay))
         .join();
     } else if (mode === "Derivative Subgroup") {
-      const derivative = state.calc.gSequence.sequence.map((element, index) => {
-        return element * (index + 1);
-      });
-      fSeq = [0].concat(derivative).join();
+      console.log("derivative");
+      const derivative = state.calc.fSequence.sequence
+        .slice(1)
+        .map((element, index) => {
+          return element * (index + 1);
+        });
+      gSeq = derivative.join();
     }
     const payload = {
       g: gSeq,
