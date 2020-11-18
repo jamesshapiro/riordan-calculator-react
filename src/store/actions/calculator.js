@@ -108,6 +108,15 @@ export const fetchMatrix = (mode) => {
           return element * (index + 1);
         });
       gSeq = derivative.join();
+    } else if (mode === "Appell Subgroup") {
+      const newFSequence = Array(state.calc.gSequence.sequence.length).fill(0);
+      newFSequence[1] = 1;
+      fSeq = newFSequence.join();
+    } else if (mode === "Associated (Lagrange) Subgroup") {
+      const newGSequence = Array(state.calc.fSequence.sequence.length).fill(0);
+      newGSequence[0] = 1;
+      gSeq = newGSequence.join();
+    } else if (mode === "2-Bell Subgroup") {
     }
     const payload = {
       g: gSeq,

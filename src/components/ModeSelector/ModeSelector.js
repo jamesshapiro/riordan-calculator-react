@@ -8,6 +8,11 @@ const modeSelector = (props) => {
       <option value="Normal">Normal</option>
       <option value="Bell Subgroup">Bell Subgroup</option>
       <option value="Derivative Subgroup">Derivative Subgroup</option>
+      <option value="Appell Subgroup">Appell Subgroup</option>
+      <option value="Associated (Lagrange) Subgroup">
+        Associated (Lagrange) Subgroup
+      </option>
+      {/* <option value="2-Bell Subgroup">2-Bell Subgroup</option> */}
     </select>
   );
 

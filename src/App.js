@@ -150,7 +150,6 @@ class App extends Component {
           <SequenceContainer
             sequence={{
               ...this.props.gSequence,
-              sequenceId: "g",
               sequence: newGSequence,
             }}
             disableControls={true}
@@ -158,6 +157,37 @@ class App extends Component {
           <SequenceContainer sequence={this.props.fSequence} />
         </span>
       );
+    } else if (this.state.mode === "Appell Subgroup") {
+      const newFSequence = Array(this.props.gSequence.sequence.length).fill(0);
+      newFSequence[1] = 1;
+      sequences = (
+        <span>
+          <SequenceContainer sequence={this.props.gSequence} />
+          <SequenceContainer
+            sequence={{
+              ...this.props.fSequence,
+              sequence: newFSequence,
+            }}
+            disableControls={true}
+          />
+        </span>
+      );
+    } else if (this.state.mode === "Associated (Lagrange) Subgroup") {
+      const newGSequence = Array(this.props.fSequence.sequence.length).fill(0);
+      newGSequence[0] = 1;
+      sequences = (
+        <span>
+          <SequenceContainer
+            sequence={{
+              ...this.props.gSequence,
+              sequence: newGSequence,
+            }}
+            disableControls={true}
+          />
+          <SequenceContainer sequence={this.props.fSequence} />
+        </span>
+      );
+    } else if (this.state.mode === "2-Bell Subgroup") {
     }
 
     const tutorialToggle = (
