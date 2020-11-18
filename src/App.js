@@ -188,6 +188,31 @@ class App extends Component {
         </span>
       );
     } else if (this.state.mode === "2-Bell Subgroup") {
+      let gSquared = Array(this.props.gSequence.sequence.length).fill(0);
+      let i = 0;
+      for (i = 0; i < gSquared.length; i++) {
+        const array_1 = this.props.gSequence.sequence.slice(0, i + 1);
+        const array_2 = this.props.gSequence.sequence.slice(0, i + 1).reverse();
+        const unreducedProduct = array_1.map((elem, idx) => {
+          return elem * array_2[idx];
+        });
+        gSquared[i] = unreducedProduct.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+      }
+      const newFSequence = [0].concat(gSquared);
+      sequences = (
+        <span>
+          <SequenceContainer sequence={this.props.gSequence} />
+          <SequenceContainer
+            sequence={{
+              ...this.props.gSequence,
+              sequence: newFSequence,
+            }}
+            disableControls={true}
+          />
+        </span>
+      );
     }
 
     const tutorialToggle = (

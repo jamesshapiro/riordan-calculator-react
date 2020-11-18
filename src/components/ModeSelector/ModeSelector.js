@@ -12,6 +12,7 @@ const modeSelector = (props) => {
       <option value="Associated (Lagrange) Subgroup">
         Associated (Lagrange) Subgroup
       </option>
+      <option value="2-Bell Subgroup">2-Bell Subgroup</option>
       {/* <option value="2-Bell Subgroup">2-Bell Subgroup</option> */}
     </select>
   );

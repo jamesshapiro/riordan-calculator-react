@@ -117,6 +117,20 @@ export const fetchMatrix = (mode) => {
       newGSequence[0] = 1;
       gSeq = newGSequence.join();
     } else if (mode === "2-Bell Subgroup") {
+      let gSquared = Array(state.calc.gSequence.sequence.length).fill(0);
+      let i = 0;
+      for (i = 0; i < gSquared.length; i++) {
+        const array_1 = state.calc.gSequence.sequence.slice(0, i + 1);
+        const array_2 = state.calc.gSequence.sequence.slice(0, i + 1).reverse();
+        const unreducedProduct = array_1.map((elem, idx) => {
+          return elem * array_2[idx];
+        });
+        gSquared[i] = unreducedProduct.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        const newFSequence = [0].concat(gSquared);
+        fSeq = newFSequence.join();
+      }
     }
     const payload = {
       g: gSeq,
