@@ -90,8 +90,9 @@ export const fetchMatrixFail = (error) => {
 export const fetchMatrix = (mode) => {
   return (dispatch, getState) => {
     dispatch(fetchMatrixStart());
-    const url =
-      "https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix";
+    const url = process.env.REACT_APP_URL
+    // const url =
+    //   "https://dph1lrra6i.execute-api.us-east-1.amazonaws.com/dev/compute-matrix";
     const state = getState();
     const numCellsToDisplay = state.calc.numCellsToDisplay;
     let gSeq = state.calc.gSequence.sequence.slice(0, numCellsToDisplay).join();
@@ -101,7 +102,6 @@ export const fetchMatrix = (mode) => {
         .concat(state.calc.gSequence.sequence.slice(0, numCellsToDisplay))
         .join();
     } else if (mode === "Derivative Subgroup") {
-      console.log("derivative");
       const derivative = state.calc.fSequence.sequence
         .slice(1)
         .map((element, index) => {
@@ -139,7 +139,8 @@ export const fetchMatrix = (mode) => {
     axios
       .put(url, payload)
       .then((res) => {
-        const json_body = JSON.parse(res.data.body);
+        const json_body = JSON.parse(res.data);
+        console.log(json_body)
         dispatch(fetchMatrixSuccess(json_body));
       })
       .catch((err) => {

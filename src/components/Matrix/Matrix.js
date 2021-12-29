@@ -18,12 +18,17 @@ class Matrix extends Component {
       case "stieltjes":
         matrixData = this.props.stieltjes;
         break;
+      case "exponential":
+        matrixData = this.props.exponential;
+        break;
       default:
         break;
     }
     let matrix = null;
     if (this.props.loadingMatrix) {
       matrix = <Spinner />;
+    }
+    if (!this.props.loadingMatrix) {
     }
     if (matrixData) {
       matrix = (
@@ -38,11 +43,15 @@ class Matrix extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log('==============================')
+  // console.log(state.calc.exponential)
+  // console.log('==============================')
   return {
     numCellsToDisplay: state.calc.numCellsToDisplay,
     loadingMatrix: state.calc.loadingMatrix,
     riordanGroupElem: state.calc.riordan_group_elem,
     stieltjes: state.calc.stieltjes,
+    exponential: state.calc.exponential
   };
 };
 

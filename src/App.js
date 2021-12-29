@@ -112,6 +112,10 @@ class App extends Component {
       <Matrix matrixSelector="riordan" matrixName="Riordan Group Element: " />
     );
 
+    const exponential = (
+      <Matrix matrixSelector="exponential" matrixName="Exponential Riordan Group Element: " />
+    )
+
     let stieltjes = null;
     if (!this.state.hideStieltjes) {
       stieltjes = (
@@ -213,6 +217,38 @@ class App extends Component {
           />
         </span>
       );
+    } else if (window.location.search) {
+      // console.log('there are query parameters!')
+      // console.log(window.location.search)
+      const f_and_g = window.location.search.split('&')
+      // console.log(f_and_g)
+      if (f_and_g.length === 2) {
+        var gSequence = f_and_g[1].slice(2).split(',').map(Number)
+        var fSequence = f_and_g[0].slice(3).split(',').map(Number)
+        var minLength = Math.min(gSequence.length, fSequence.length)
+        gSequence = gSequence.slice(0,minLength)
+        fSequence = fSequence.slice(0,minLength)        
+        // const gQuery = f_and_g[1].slice(2).split(',').map(Number)
+        // console.log(gQuery)
+        // const fQuery = f_and_g[0].slice(3).split(',').map(Number)
+        // console.log(fQuery)
+        sequences = (
+          <span>
+            <SequenceContainer
+              sequence={{
+                ...this.props.gSequence,
+                sequence: gSequence,
+              }}
+            />
+            <SequenceContainer
+              sequence={{
+                ...this.props.fSequence,
+                sequence: fSequence,
+              }}
+            />
+          </span>
+        )
+      }
     }
 
     const tutorialToggle = (
@@ -321,7 +357,10 @@ class App extends Component {
       <div>
         <Layout>
           <div className={classes.AppBody}>
-            <h1>Welcome to the Riordan Calculator</h1>
+            <h1>
+              Welcome to the Riordan Calculator: {window.location.hostname} +{' '}
+              {window.location.search}
+            </h1>
             <ModeSelector changed={this.selectMode} />
             {sequences}
             {computeButton}
@@ -333,10 +372,11 @@ class App extends Component {
             {stieltjes}
             {tutorialToggle}
             {tutorialText}
+            {exponential}
           </div>
         </Layout>
       </div>
-    );
+    )
   }
 }
 
@@ -348,6 +388,7 @@ const mapStateToProps = (state) => {
     riordanIsPseudo: state.calc.riordan_is_pseudo,
     newSequenceLoading: state.calc.newSequenceLoading,
     riordanGroupElem: state.calc.riordan_group_elem,
+    exponential: state.calc.exponential
   };
 };
 

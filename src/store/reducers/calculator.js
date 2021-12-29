@@ -21,9 +21,11 @@ const initialState = {
     1 + sequenceMap["catalan"].length
   ),
   loadingMatrix: false,
+  loadingExpMatrix: false,
   a_sequence: null,
   b_sequence: null,
   riordan_group_elem: null,
+  exponential: null,
   riordan_is_pseudo: true,
   stieltjes: null,
   tweedle_left: null,
@@ -140,26 +142,31 @@ const displayMoreTerms = (state, action) => {
 
 const fetchMatrixSuccess = (state, action) => {
   const json_body = action.json_body;
+  // console.log('==============================')
+  // console.log(json_body['exponential'])
+  // console.log('==============================')
 
   return updateObject(state, {
     loadingMatrix: false,
-    a_sequence: json_body["a seq"],
-    b_sequence: json_body["b seq"],
-    riordan_group_elem: json_body["riordan group elem"],
-    riordan_is_pseudo: json_body["riordan pseudo"],
+    loadingExpMatrix: false,
+    a_sequence: json_body['a seq'],
+    b_sequence: json_body['b seq'],
+    riordan_group_elem: json_body['riordan group elem'],
+    exponential: json_body['exponential'],
+    riordan_is_pseudo: json_body['riordan pseudo'],
     stieltjes: json_body.stieltjes,
-    tweedle_left: json_body["tweedle left"],
-    tweedle_left_a_sequence: json_body["tweedle left a seq"],
-    tweedle_left_b_sequence: json_body["tweedle left b seq"],
-    tweedle_left_is_pseudo: json_body["tweedle left pseudo"],
-    tweedle_left_z_sequence: json_body["tweedle left z seq"],
-    tweedle_right: json_body["tweedle right"],
-    tweedle_right_a_sequence: json_body["tweedle right a seq"],
-    tweedle_right_b_sequence: json_body["tweedle right b seq"],
-    tweedle_right_is_pseudo: json_body["tweedle right pseudo"],
-    tweedle_right_z_sequence: json_body["tweedle right z seq"],
-    z_sequence: json_body["z seq"],
-  });
+    tweedle_left: json_body['tweedle left'],
+    tweedle_left_a_sequence: json_body['tweedle left a seq'],
+    tweedle_left_b_sequence: json_body['tweedle left b seq'],
+    tweedle_left_is_pseudo: json_body['tweedle left pseudo'],
+    tweedle_left_z_sequence: json_body['tweedle left z seq'],
+    tweedle_right: json_body['tweedle right'],
+    tweedle_right_a_sequence: json_body['tweedle right a seq'],
+    tweedle_right_b_sequence: json_body['tweedle right b seq'],
+    tweedle_right_is_pseudo: json_body['tweedle right pseudo'],
+    tweedle_right_z_sequence: json_body['tweedle right z seq'],
+    z_sequence: json_body['z seq'],
+  })
 };
 
 const fetchOEISSequenceSuccess = (state, action) => {

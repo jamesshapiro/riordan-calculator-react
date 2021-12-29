@@ -101,14 +101,10 @@ class MatrixTable extends Component {
       oeisRow.push(rowSumsOEISButton);
       oeisRow.push(alternatingRowSumsOEISButton);
     }
-
-    console.log("matrixData.length:", matrixData.length);
-    console.log("matrixData[0].length:", matrixData[0].length);
     const tableRows = matrixData.map((row, rowIdx) => {
       const subsequence = matrixData[rowIdx].slice(0, rowIdx + 1);
       const rowSum = rowSums[rowIdx];
       const alternatingRowSum = alternatingRowSums[rowIdx];
-      console.log(rowIdx);
       let offset = 0;
       if (matrixData.length === matrixData[0].length) {
         offset = 1;
@@ -176,10 +172,12 @@ class MatrixTable extends Component {
 }
 
 const mapStateToProps = (state) => {
+  
   return {
     numCellsToDisplay: state.calc.numCellsToDisplay,
     loadingMatrix: state.calc.loadingMatrix,
     riordanGroupElem: state.calc.riordan_group_elem,
+    exponential: state.calc.exponential
   };
 };
 
