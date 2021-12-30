@@ -97,6 +97,8 @@ export const fetchMatrix = (mode) => {
     const numCellsToDisplay = state.calc.numCellsToDisplay;
     let gSeq = state.calc.gSequence.sequence.slice(0, numCellsToDisplay).join();
     let fSeq = state.calc.fSequence.sequence.slice(0, numCellsToDisplay).join();
+    console.log(`gSeq ${gSeq}`)
+    console.log(`fSeq ${fSeq}`)
     if (mode === "Bell Subgroup") {
       fSeq = [0]
         .concat(state.calc.gSequence.sequence.slice(0, numCellsToDisplay))

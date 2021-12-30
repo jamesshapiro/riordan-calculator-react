@@ -56,26 +56,6 @@ class App extends Component {
   };
 
   render() {
-    // let routes = (
-    //   <Switch>
-    //     <Route path="/auth" component={asyncAuth} />
-    //     <Route path="/" exact component={BurgerBuilder} />
-    //     <Redirect to="/" />
-    //   </Switch>
-    // );
-
-    // if (this.props.isAuthenticated) {
-    //   routes = (
-    //     <Switch>
-    //       <Route path="/checkout" component={asyncCheckout} />
-    //       <Route path="/orders" component={asyncOrders} />
-    //       <Route path="/logout" component={Logout} />
-    //       <Route path="/auth" component={asyncAuth} />
-    //       <Route path="/" exact component={BurgerBuilder} />
-    //       <Redirect to="/" />
-    //     </Switch>
-    //   );
-    // }
 
     const computeButton = (
       <SequenceButton clicked={() => this.fetchMatrix()} content="Compute" />
@@ -218,37 +198,35 @@ class App extends Component {
         </span>
       );
     } else if (window.location.search) {
-      // console.log('there are query parameters!')
-      // console.log(window.location.search)
       const f_and_g = window.location.search.split('&')
-      // console.log(f_and_g)
-      if (f_and_g.length === 2) {
-        var gSequence = f_and_g[1].slice(2).split(',').map(Number)
-        var fSequence = f_and_g[0].slice(3).split(',').map(Number)
-        var minLength = Math.min(gSequence.length, fSequence.length)
-        gSequence = gSequence.slice(0,minLength)
-        fSequence = fSequence.slice(0,minLength)        
-        // const gQuery = f_and_g[1].slice(2).split(',').map(Number)
-        // console.log(gQuery)
-        // const fQuery = f_and_g[0].slice(3).split(',').map(Number)
-        // console.log(fQuery)
-        sequences = (
-          <span>
-            <SequenceContainer
-              sequence={{
-                ...this.props.gSequence,
-                sequence: gSequence,
-              }}
-            />
-            <SequenceContainer
-              sequence={{
-                ...this.props.fSequence,
-                sequence: fSequence,
-              }}
-            />
-          </span>
-        )
-      }
+      var gSequence = f_and_g[0].slice(3).split(',').map(Number)
+      var fSequence = f_and_g[1].slice(2).split(',').map(Number)
+      var minLength = Math.min(gSequence.length, fSequence.length)
+      gSequence = gSequence.slice(0,minLength)
+      fSequence = fSequence.slice(0,minLength)
+      sequences = (
+        <span>
+          <SequenceContainer
+            sequence={{
+              ...this.props.gSequence,
+              sequence: gSequence,
+              sequenceIsFreeform: true,
+              sequenceName: '',
+            }}
+            disableControls={true}
+          />
+          <SequenceContainer
+            sequence={{
+              ...this.props.fSequence,
+              sequence: fSequence,
+              sequenceIsFreeform: true,
+              sequenceName: '',
+            }}
+            disableControls={true}
+          />
+        </span>
+      )
+      
     }
 
     const tutorialToggle = (
@@ -358,8 +336,7 @@ class App extends Component {
         <Layout>
           <div className={classes.AppBody}>
             <h1>
-              Welcome to the Riordan Calculator: {window.location.hostname} +{' '}
-              {window.location.search}
+              Welcome to the Riordan Calculator:
             </h1>
             <ModeSelector changed={this.selectMode} />
             {sequences}

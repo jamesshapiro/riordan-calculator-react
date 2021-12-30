@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/calcActionTypes";
 import { updateObject } from "../../shared/utility";
 import { sequenceMap } from "../../data/sequenceData";
 
-const initialState = {
+var initialState = {
   gSequence: {
     sequenceId: "g",
     sequenceName: "catalan",
@@ -41,6 +41,28 @@ const initialState = {
   z_sequence: null,
   newSequenceLoading: false,
 };
+
+if (window.location.search) {
+  const f_and_g = window.location.search.split('&')
+  var gSequence = f_and_g[0].slice(3).split(',').map(Number)
+  var fSequence = f_and_g[1].slice(2).split(',').map(Number)
+  var minLength = Math.min(gSequence.length, fSequence.length)
+  gSequence = gSequence.slice(0, minLength)
+  fSequence = fSequence.slice(0, minLength)
+  initialState['gSequence'] = {
+    sequenceId: 'g',
+    sequenceName: '',
+    sequenceIsFreeform: true,
+    sequence: gSequence,
+  }
+  initialState['fSequence'] = {
+    sequenceId: 'f',
+    sequenceName: '',
+    sequenceIsFreeform: true,
+    sequence: fSequence,
+  }
+  
+}
 
 const setCustomSequence = (state, action) => {
   const sequenceId = action.sequenceId;
