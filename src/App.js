@@ -55,6 +55,41 @@ class App extends Component {
     this.setState({ showTutorial: !this.state.showTutorial });
   };
 
+  h1Text = () => {
+    if (
+      window.location.toString().toLowerCase().includes('exponential') ||
+      window.location.toString().toLowerCase().includes('localhost:3000')
+    ) {
+      console.log(window.location.toString())
+      return (
+        <h1>
+          Welcome to the <span className="exponential-h1">Exponential</span>{' '}
+          Riordan Calculator: (click{' '}
+          <a
+            className="exponential-h1-link"
+            href="https://riordancalculator.com"
+          >
+            here
+          </a>{' '}
+          for Regular)
+        </h1>
+      )
+    } else {
+      return (
+        <h1>
+          Welcome to the Riordan Calculator: (click{' '}
+          <a
+            className="exponential-h1-link"
+            href="https://exponential.riordancalculator.com"
+          >
+            here
+          </a>{' '}
+          for Exponential)
+        </h1>
+      )
+    }
+  }
+
   render() {
 
     const computeButton = (
@@ -331,13 +366,13 @@ class App extends Component {
       );
     }
 
+
+
     return (
       <div>
         <Layout>
           <div className={classes.AppBody}>
-            <h1>
-              Welcome to the Riordan Calculator:
-            </h1>
+            {this.h1Text()}
             <ModeSelector changed={this.selectMode} />
             {sequences}
             {computeButton}
