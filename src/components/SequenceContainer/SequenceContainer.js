@@ -2,124 +2,140 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "../../store/actions/calcIndex";
-import { sequenceMap, sequenceNames } from "../../data/sequenceData";
+import { sequenceNames } from "../../data/sequenceData";
+import { expSequenceNames } from '../../data/expSequenceData'
 import SequenceSelector from "./SequenceSelector/SequenceSelector";
 import SequenceButton from "./SequenceButton/SequenceButton";
 import SequenceCell from "./SequenceCell/SequenceCell";
 import classes from "./SequenceContainer.module.css";
 
 class SequenceContainer extends Component {
+  isExponential = () => {
+    return (
+      window.location.toString().toLowerCase().includes('exponential') ||
+      window.location.toString().toLowerCase().includes('localhost:3000')
+    )
+  }
+
+  getSequenceNames = () => {
+    if (this.isExponential()) {
+      return expSequenceNames
+    } else {
+      return sequenceNames
+    }
+  }
+
   state = {
-    options: sequenceNames.map((sequenceName) => {
+    options: this.getSequenceNames().map((sequenceName) => {
       return {
         value: this.titleCase(sequenceName),
         displayValue: this.titleCase(sequenceName),
-      };
+      }
     }),
     sequenceId: this.props.sequence.sequenceId,
-    selectorValue: "",
-    storedValue: "",
-  };
+    selectorValue: '',
+    storedValue: '',
+  }
 
   titleCase(str) {
-    str = str.toLowerCase().split(" ");
+    str = str.toLowerCase().split(' ')
     for (var i = 0; i < str.length; i++) {
-      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)
     }
-    return str.join(" ");
+    return str.join(' ')
   }
 
   addLeadingZero() {
-    const seqCopy = this.props.sequence.sequence.slice();
-    const newArray = [0].concat(seqCopy);
-    this.setState({ sequence: newArray });
-    this.props.onSetCustomSequence(this.state.sequenceId, newArray);
+    const seqCopy = this.props.sequence.sequence.slice()
+    const newArray = [0].concat(seqCopy)
+    this.setState({ sequence: newArray })
+    this.props.onSetCustomSequence(this.state.sequenceId, newArray)
   }
 
   chopFirst() {
-    const seqCopy = this.props.sequence.sequence.slice();
-    const newArray = seqCopy.slice(1);
-    this.setState({ sequence: newArray });
-    this.props.onSetCustomSequence(this.state.sequenceId, newArray);
+    const seqCopy = this.props.sequence.sequence.slice()
+    const newArray = seqCopy.slice(1)
+    this.setState({ sequence: newArray })
+    this.props.onSetCustomSequence(this.state.sequenceId, newArray)
   }
 
   isInteger = (input) => {
     if (input.length === 0) {
-      return false;
+      return false
     }
-    return /^\d+$/.test(input);
-  };
+    return /^\d+$/.test(input)
+  }
 
   isValidOEISSequenceID = (sequenceId) => {
     if (sequenceId.length === 6) {
-      return this.isInteger(sequenceId);
+      return this.isInteger(sequenceId)
     } else if (sequenceId.length === 7) {
-      if (sequenceId.slice(0, 1).toLowerCase() === "a") {
-        return this.isInteger(sequenceId.slice(1));
+      if (sequenceId.slice(0, 1).toLowerCase() === 'a') {
+        return this.isInteger(sequenceId.slice(1))
       } else {
-        return false;
+        return false
       }
     }
-    return false;
-  };
+    return false
+  }
 
   formatOEISSequenceId = (sequenceId) => {
     if (sequenceId.length === 6) {
-      return "A" + sequenceId;
+      return 'A' + sequenceId
     } else {
-      return "A" + sequenceId.slice(1);
+      return 'A' + sequenceId.slice(1)
     }
-  };
+  }
 
   isValidCustomSequence = (input) => {
     if ((input.match(/,/g) || []).length < 2) {
-      return false;
+      return false
     }
-    const nospaces = input.replace(/\s/g, "");
-    const integers = nospaces.split(",");
+    const nospaces = input.replace(/\s/g, '')
+    const integers = nospaces.split(',')
     for (let x of integers) {
       if (!this.isInteger(x)) {
-        return false;
+        return false
       }
     }
-    return true;
-  };
+    return true
+  }
 
   sequenceSelectHandler = (event) => {
     this.setState({
       storedValue: event.target.value,
       selectorValue: event.target.value,
-    });
-    const lowercased = event.target.value.toLowerCase();
-    if (sequenceNames.includes(lowercased)) {
-      this.props.onSelectSequence(this.state.sequenceId, lowercased);
+    })
+    const lowercased = event.target.value.toLowerCase()
+    if (this.getSequenceNames().includes(lowercased)) {
+      this.props.onSelectSequence(this.state.sequenceId, lowercased)
     } else if (this.isValidOEISSequenceID(event.target.value)) {
       this.props.onSetOEISSequence(
         this.state.sequenceId,
         this.formatOEISSequenceId(event.target.value)
-      );
+      )
     } else if (this.isValidCustomSequence(event.target.value)) {
-      const newSequence = event.target.value.split(",").map((strInput) => {
-        return parseInt(strInput);
-      });
-      this.props.onSetCustomSequence(this.state.sequenceId, newSequence, true);
+      const newSequence = event.target.value.split(',').map((strInput) => {
+        return parseInt(strInput)
+      })
+      this.props.onSetCustomSequence(this.state.sequenceId, newSequence, true)
     }
-  };
+  }
 
   displayFewerTerms() {
-    this.props.onDisplayFewerTerms();
+    this.props.onDisplayFewerTerms()
   }
 
   displayMoreTerms() {
-    this.props.onDisplayMoreTerms();
+    this.props.onDisplayMoreTerms()
   }
 
   sequenceClicked(sequenceSelector) {
-    this.setState({ selectorValue: "" });
+    this.setState({ selectorValue: '' })
   }
 
   sequenceUnclicked() {
-    this.setState({ selectorValue: this.state.storedValue });
+    this.setState({ selectorValue: this.state.storedValue })
   }
 
   render() {
@@ -132,7 +148,7 @@ class SequenceContainer extends Component {
         }
         content="+"
       />
-    );
+    )
 
     const deleteTermButton = (
       <SequenceButton
@@ -142,20 +158,20 @@ class SequenceContainer extends Component {
         }
         content="-"
       />
-    );
+    )
 
     const sequenceSelector = (
       <SequenceSelector
-        label={this.state.sequenceId + ": "}
+        label={this.state.sequenceId + ': '}
         options={this.state.options}
-        value={this.props.disableControls ? "" : this.state.selectorValue}
+        value={this.props.disableControls ? '' : this.state.selectorValue}
         selectedSequence={this.props.sequence.sequenceName}
         changed={(event) => this.sequenceSelectHandler(event)}
         clicked={(sequenceSelector) => this.sequenceClicked(sequenceSelector)}
         unclicked={() => this.sequenceUnclicked()}
         disableControls={this.props.disableControls}
       />
-    );
+    )
 
     const shiftButton = (
       <SequenceButton
@@ -163,7 +179,7 @@ class SequenceContainer extends Component {
         content="+0"
         disabled={this.props.disableControls}
       />
-    );
+    )
 
     const backshiftButton = (
       <SequenceButton
@@ -171,7 +187,7 @@ class SequenceContainer extends Component {
         content="&lt;"
         disabled={this.props.disableControls}
       />
-    );
+    )
 
     let sequence = this.props.sequence.sequence
       .slice(0, this.props.numCellsToDisplay)
@@ -183,12 +199,12 @@ class SequenceContainer extends Component {
             value={seqValue}
             changed={(itemIdx, newValue) => this.changed(itemIdx, newValue)}
           />
-        );
-      });
+        )
+      })
 
-    let className = classes.SequenceContainer;
-    if (this.state.sequenceId === "f") {
-      className = classes.FSequenceContainer;
+    let className = classes.SequenceContainer
+    if (this.state.sequenceId === 'f') {
+      className = classes.FSequenceContainer
     }
 
     return (
@@ -200,7 +216,7 @@ class SequenceContainer extends Component {
         {deleteTermButton}
         <span className={classes.Sequence}>{sequence}</span>
       </div>
-    );
+    )
   }
 }
 

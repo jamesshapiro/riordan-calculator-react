@@ -1,20 +1,23 @@
-import React, { Component } from "react";
+//  aws s3 cp --recursive build s3://riordan-calculator-01-riordancalculatorwebsites3b-aje7xaa0lcip && aws cloudfront create-invalidation --distribution-id E2MWL5V2A3TXGX --paths "/*"
+//  aws s3 cp --recursive build s3://riordancalculator.com                                          && aws cloudfront create-invalidation --distribution-id E2JU45ZDYZG6SU --paths "/*"
+
+import React, { Component } from 'react'
 //import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 //import asyncComponent from './hoc/asyncComponent/asyncComponent';
 
-import Layout from "./hoc/Layout/Layout";
+import Layout from './hoc/Layout/Layout'
 //import Logout from './containers/Auth/Logout/Logout';
 //import { authCheckState } from './store/actions';
-import * as calcActions from "./store/actions/calcIndex";
-import * as authActions from "./store/actions/index";
-import Matrix from "./components/Matrix/Matrix";
-import Vector from "./components/Vector/Vector";
-import SequenceContainer from "./components/SequenceContainer/SequenceContainer";
-import SequenceButton from "./components/SequenceContainer/SequenceButton/SequenceButton";
-import ModeSelector from "./components/ModeSelector/ModeSelector";
-import classes from "./App.module.css";
+import * as calcActions from './store/actions/calcIndex'
+import * as authActions from './store/actions/index'
+import Matrix from './components/Matrix/Matrix'
+import Vector from './components/Vector/Vector'
+import SequenceContainer from './components/SequenceContainer/SequenceContainer'
+import SequenceButton from './components/SequenceContainer/SequenceButton/SequenceButton'
+import ModeSelector from './components/ModeSelector/ModeSelector'
+import classes from './App.module.css'
 
 // const asyncCheckout = asyncComponent(() => {
 //   return import('./containers/Checkout/Checkout');
@@ -31,36 +34,39 @@ import classes from "./App.module.css";
 class App extends Component {
   state = {
     hideStieltjes: true,
-    mode: "Normal",
+    mode: 'Normal',
     showTutorial: true,
-  };
+  }
 
   componentDidMount() {
-    this.props.onTryAutoSignup();
+    this.props.onTryAutoSignup()
   }
 
   fetchMatrix() {
-    this.props.onFetchMatrix(this.state.mode);
+    this.props.onFetchMatrix(this.state.mode)
   }
 
   toggleStieltjes = (event) => {
-    this.setState({ hideStieltjes: !this.state.hideStieltjes });
-  };
+    this.setState({ hideStieltjes: !this.state.hideStieltjes })
+  }
 
   selectMode = (event) => {
-    this.setState({ mode: event.target.value });
-  };
+    this.setState({ mode: event.target.value })
+  }
 
   toggleTutorial = () => {
-    this.setState({ showTutorial: !this.state.showTutorial });
-  };
+    this.setState({ showTutorial: !this.state.showTutorial })
+  }
 
-  h1Text = () => {
-    if (
+  isExponential = () => {
+    return (
       window.location.toString().toLowerCase().includes('exponential') ||
       window.location.toString().toLowerCase().includes('localhost:3000')
-    ) {
-      console.log(window.location.toString())
+    )
+  }
+
+  h1Text = () => {
+    if (this.isExponential()) {
       return (
         <h1>
           Welcome to the <span className="exponential-h1">Exponential</span>{' '}
@@ -91,22 +97,21 @@ class App extends Component {
   }
 
   render() {
-
     const computeButton = (
       <SequenceButton clicked={() => this.fetchMatrix()} content="Compute" />
-    );
+    )
 
-    const aSequence = <Vector sequenceSelector="A-sequence" />;
+    const aSequence = <Vector sequenceSelector="A-sequence" />
 
-    let bSequence = null;
+    let bSequence = null
 
     if (this.props.riordanIsPseudo) {
-      bSequence = <Vector sequenceSelector="B-sequence" />;
+      bSequence = <Vector sequenceSelector="B-sequence" />
     }
 
-    const zSequence = <Vector sequenceSelector="Z-sequence" />;
+    const zSequence = <Vector sequenceSelector="Z-sequence" />
 
-    let hideStieltjesCheckbox = null;
+    let hideStieltjesCheckbox = null
     if (this.props.riordanGroupElem) {
       hideStieltjesCheckbox = (
         <div>
@@ -120,22 +125,23 @@ class App extends Component {
           ></input>
           <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
         </div>
-      );
+      )
     }
 
     const riordanGroupElem = (
       <Matrix matrixSelector="riordan" matrixName="Riordan Group Element: " />
-    );
-
-    const exponential = (
-      <Matrix matrixSelector="exponential" matrixName="Exponential Riordan Group Element: " />
     )
 
-    let stieltjes = null;
+    const exponential = (
+      <Matrix
+        matrixSelector="exponential"
+        matrixName="Exponential Riordan Group Element: "
+      />
+    )
+
+    let stieltjes = null
     if (!this.state.hideStieltjes) {
-      stieltjes = (
-        <Matrix matrixSelector="stieltjes" matrixName="Stieltjes: " />
-      );
+      stieltjes = <Matrix matrixSelector="stieltjes" matrixName="Stieltjes: " />
     }
 
     let sequences = (
@@ -143,9 +149,9 @@ class App extends Component {
         <SequenceContainer sequence={this.props.gSequence} />
         <SequenceContainer sequence={this.props.fSequence} />
       </span>
-    );
+    )
 
-    if (this.state.mode === "Bell Subgroup") {
+    if (this.state.mode === 'Bell Subgroup') {
       sequences = (
         <span>
           <SequenceContainer sequence={this.props.gSequence} />
@@ -157,13 +163,13 @@ class App extends Component {
             disableControls={true}
           />
         </span>
-      );
-    } else if (this.state.mode === "Derivative Subgroup") {
+      )
+    } else if (this.state.mode === 'Derivative Subgroup') {
       const newGSequence = this.props.fSequence.sequence
         .slice(1)
         .map((elem, idx) => {
-          return elem * (idx + 1);
-        });
+          return elem * (idx + 1)
+        })
       sequences = (
         <span>
           <SequenceContainer
@@ -175,10 +181,10 @@ class App extends Component {
           />
           <SequenceContainer sequence={this.props.fSequence} />
         </span>
-      );
-    } else if (this.state.mode === "Appell Subgroup") {
-      const newFSequence = Array(this.props.gSequence.sequence.length).fill(0);
-      newFSequence[1] = 1;
+      )
+    } else if (this.state.mode === 'Appell Subgroup') {
+      const newFSequence = Array(this.props.gSequence.sequence.length).fill(0)
+      newFSequence[1] = 1
       sequences = (
         <span>
           <SequenceContainer sequence={this.props.gSequence} />
@@ -190,10 +196,10 @@ class App extends Component {
             disableControls={true}
           />
         </span>
-      );
-    } else if (this.state.mode === "Associated (Lagrange) Subgroup") {
-      const newGSequence = Array(this.props.fSequence.sequence.length).fill(0);
-      newGSequence[0] = 1;
+      )
+    } else if (this.state.mode === 'Associated (Lagrange) Subgroup') {
+      const newGSequence = Array(this.props.fSequence.sequence.length).fill(0)
+      newGSequence[0] = 1
       sequences = (
         <span>
           <SequenceContainer
@@ -205,21 +211,21 @@ class App extends Component {
           />
           <SequenceContainer sequence={this.props.fSequence} />
         </span>
-      );
-    } else if (this.state.mode === "2-Bell Subgroup") {
-      let gSquared = Array(this.props.gSequence.sequence.length).fill(0);
-      let i = 0;
+      )
+    } else if (this.state.mode === '2-Bell Subgroup') {
+      let gSquared = Array(this.props.gSequence.sequence.length).fill(0)
+      let i = 0
       for (i = 0; i < gSquared.length; i++) {
-        const array_1 = this.props.gSequence.sequence.slice(0, i + 1);
-        const array_2 = this.props.gSequence.sequence.slice(0, i + 1).reverse();
+        const array_1 = this.props.gSequence.sequence.slice(0, i + 1)
+        const array_2 = this.props.gSequence.sequence.slice(0, i + 1).reverse()
         const unreducedProduct = array_1.map((elem, idx) => {
-          return elem * array_2[idx];
-        });
+          return elem * array_2[idx]
+        })
         gSquared[i] = unreducedProduct.reduce(function (a, b) {
-          return a + b;
-        }, 0);
+          return a + b
+        }, 0)
       }
-      const newFSequence = [0].concat(gSquared);
+      const newFSequence = [0].concat(gSquared)
       sequences = (
         <span>
           <SequenceContainer sequence={this.props.gSequence} />
@@ -231,14 +237,14 @@ class App extends Component {
             disableControls={true}
           />
         </span>
-      );
+      )
     } else if (window.location.search) {
       const f_and_g = window.location.search.split('&')
       var gSequence = f_and_g[0].slice(3).split(',').map(Number)
       var fSequence = f_and_g[1].slice(2).split(',').map(Number)
       var minLength = Math.min(gSequence.length, fSequence.length)
-      gSequence = gSequence.slice(0,minLength)
-      fSequence = fSequence.slice(0,minLength)
+      gSequence = gSequence.slice(0, minLength)
+      fSequence = fSequence.slice(0, minLength)
       sequences = (
         <span>
           <SequenceContainer
@@ -261,26 +267,25 @@ class App extends Component {
           />
         </span>
       )
-      
     }
 
     const tutorialToggle = (
       <span>
         <br />
-        <strong>{"Quick Tutorial: "}</strong>
+        <strong>{'Quick Tutorial: '}</strong>
         <a href="#" onClick={() => this.toggleTutorial()}>
-          {this.state.showTutorial ? "(Hide)" : "(Show)"}
+          {this.state.showTutorial ? '(Hide)' : '(Show)'}
         </a>
       </span>
-    );
+    )
 
-    let tutorialText = null;
+    let tutorialText = null
     if (this.state.showTutorial) {
       tutorialText = (
         <div>
           <ul>
             <li>
-              <strong>{"Selecting a sequence:"}</strong>
+              <strong>{'Selecting a sequence:'}</strong>
               <ul>
                 <li>
                   {
@@ -288,9 +293,9 @@ class App extends Component {
                   }
                 </li>
                 <li>
-                  {"*Note: you must click the box "}
-                  <strong>{" twice "}</strong>
-                  {" to select a new preset if one is already selected."}
+                  {'*Note: you must click the box '}
+                  <strong>{' twice '}</strong>
+                  {' to select a new preset if one is already selected.'}
                 </li>
                 <li>
                   {
@@ -305,7 +310,7 @@ class App extends Component {
               </ul>
             </li>
             <li>
-              <strong>{"Modifying sequences and changing the window:"}</strong>
+              <strong>{'Modifying sequences and changing the window:'}</strong>
               <ul>
                 <li>
                   {"Press the '+0' button to prepend a zero to the sequence."}
@@ -326,7 +331,7 @@ class App extends Component {
               </ul>
             </li>
             <li>
-              <strong>{"Computing the Riordan Group:"}</strong>
+              <strong>{'Computing the Riordan Group:'}</strong>
               <ul>
                 <li>
                   {
@@ -340,7 +345,7 @@ class App extends Component {
                 </li>
                 <li>
                   {
-                    "The OEIS buttons for each row and column take you to the OEIS search page for that row or column."
+                    'The OEIS buttons for each row and column take you to the OEIS search page for that row or column.'
                   }
                 </li>
                 <li>
@@ -349,24 +354,22 @@ class App extends Component {
               </ul>
             </li>
             <li>
-              <strong>{"Selecting a mode"}</strong>
+              <strong>{'Selecting a mode'}</strong>
               <ul>
                 <li>
-                  <strong>{"Normal Mode: "}</strong>
+                  <strong>{'Normal Mode: '}</strong>
                   {" the 'g' and 'f' sequences can be edited independently."}
                 </li>
                 <li>
-                  <strong>{"Bell Subgroup: "}</strong>
+                  <strong>{'Bell Subgroup: '}</strong>
                   {" the 'f' sequence is determined by the 'g' sequence."}
                 </li>
               </ul>
             </li>
           </ul>
         </div>
-      );
+      )
     }
-
-
 
     return (
       <div>
@@ -376,15 +379,15 @@ class App extends Component {
             <ModeSelector changed={this.selectMode} />
             {sequences}
             {computeButton}
-            {riordanGroupElem}
-            {aSequence}
-            {bSequence}
-            {zSequence}
-            {hideStieltjesCheckbox}
-            {stieltjes}
-            {tutorialToggle}
-            {tutorialText}
-            {exponential}
+            {!this.isExponential() && riordanGroupElem}
+            {!this.isExponential() && aSequence}
+            {!this.isExponential() && bSequence}
+            {!this.isExponential() && zSequence}
+            {!this.isExponential() && hideStieltjesCheckbox}
+            {!this.isExponential() && stieltjes}
+            {!this.isExponential() && tutorialToggle}
+            {!this.isExponential() && tutorialText}
+            {this.isExponential() && exponential}
           </div>
         </Layout>
       </div>
@@ -400,15 +403,15 @@ const mapStateToProps = (state) => {
     riordanIsPseudo: state.calc.riordan_is_pseudo,
     newSequenceLoading: state.calc.newSequenceLoading,
     riordanGroupElem: state.calc.riordan_group_elem,
-    exponential: state.calc.exponential
-  };
-};
+    exponential: state.calc.exponential,
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchMatrix: (mode) => dispatch(calcActions.fetchMatrix(mode)),
     onTryAutoSignup: () => dispatch(authActions.authCheckState()),
-  };
-};
+  }
+}
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

@@ -1,24 +1,48 @@
 import * as actionTypes from "../actions/calcActionTypes";
 import { updateObject } from "../../shared/utility";
 import { sequenceMap } from "../../data/sequenceData";
+import { expSequenceMap } from "../../data/expSequenceData";
+
+const isExponential = () => {
+  return (
+    window.location.toString().toLowerCase().includes('exponential') ||
+    window.location.toString().toLowerCase().includes('localhost:3000')
+  )
+}
+
+const getSequenceMap = () => {
+  if (isExponential()) {
+    return expSequenceMap
+  } else {
+    return sequenceMap
+  }
+}
+
+const getDefaultSequence = () => {
+  if (isExponential()) {
+    return 'nonempty block'
+  } else {
+    return 'catalan'
+  }
+}
 
 var initialState = {
   gSequence: {
-    sequenceId: "g",
-    sequenceName: "catalan",
+    sequenceId: 'g',
+    sequenceName: getDefaultSequence(),
     sequenceIsFreeform: false,
-    sequence: sequenceMap["catalan"],
+    sequence: getSequenceMap()[getDefaultSequence()],
   },
   fSequence: {
-    sequenceId: "f",
-    sequenceName: "catalan",
+    sequenceId: 'f',
+    sequenceName: getDefaultSequence(),
     sequenceIsFreeform: false,
-    sequence: [0].concat(sequenceMap["catalan"]),
+    sequence: [0].concat(getSequenceMap()[getDefaultSequence()]),
   },
   numCellsToDisplay: 11,
   maxDisplayableCells: Math.min(
-    0 + sequenceMap["catalan"].length,
-    1 + sequenceMap["catalan"].length
+    0 + getSequenceMap()[getDefaultSequence()].length,
+    1 + getSequenceMap()[getDefaultSequence()].length
   ),
   loadingMatrix: false,
   loadingExpMatrix: false,
@@ -40,7 +64,7 @@ var initialState = {
   tweedle_right_z_sequence: null,
   z_sequence: null,
   newSequenceLoading: false,
-};
+}
 
 if (window.location.search) {
   const f_and_g = window.location.search.split('&')
@@ -115,12 +139,13 @@ const setCustomSequence = (state, action) => {
 
 const selectSequence = (state, action) => {
   const sequenceId = action.sequenceId;
+  console.log('selecting sequence...')
   if (sequenceId === "g") {
     let newSequence = {
       ...state.gSequence,
       sequenceName: action.sequenceName,
-      sequence: sequenceMap[action.sequenceName],
-    };
+      sequence: getSequenceMap()[action.sequenceName],
+    }
     return updateObject(state, {
       gSequence: newSequence,
       maxDisplayableCells: Math.min(
@@ -136,8 +161,8 @@ const selectSequence = (state, action) => {
     let newSequence = {
       ...state.fSequence,
       sequenceName: action.sequenceName,
-      sequence: [0].concat(sequenceMap[action.sequenceName]),
-    };
+      sequence: [0].concat(getSequenceMap()[action.sequenceName]),
+    }
     return updateObject(state, {
       fSequence: newSequence,
       maxDisplayableCells: Math.min(
