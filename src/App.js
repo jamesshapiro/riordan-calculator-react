@@ -123,7 +123,7 @@ class App extends Component {
             defaultChecked={this.state.hideStieltjes}
             onClick={this.toggleStieltjes}
           ></input>
-          <label htmlFor="hideStieltjes"> Hide Stieltjes</label>
+          <label htmlFor="hideStieltjes"> Hide Stieltjes/Projection Matrix</label>
         </div>
       )
     }
@@ -141,7 +141,7 @@ class App extends Component {
 
     let stieltjes = null
     if (!this.state.hideStieltjes) {
-      stieltjes = <Matrix matrixSelector="stieltjes" matrixName="Stieltjes: " />
+      stieltjes = <Matrix matrixSelector="stieltjes" matrixName="Stieltjes/Projection Matrix: " />
     }
 
     let sequences = (
@@ -349,7 +349,7 @@ class App extends Component {
                   }
                 </li>
                 <li>
-                  {"Show the Stieltjes matrix by unchecking 'Hide Stieltjes'."}
+                  {"Show the Stieltjes/Projection Matrix by unchecking 'Hide Stieltjes/Projection Matrix'."}
                 </li>
               </ul>
             </li>
@@ -388,6 +388,8 @@ class App extends Component {
             {!this.isExponential() && tutorialToggle}
             {!this.isExponential() && tutorialText}
             {this.isExponential() && exponential}
+            {this.isExponential() && hideStieltjesCheckbox}
+            {this.isExponential() && stieltjes}
           </div>
         </Layout>
       </div>
