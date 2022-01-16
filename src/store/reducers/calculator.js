@@ -52,6 +52,7 @@ var initialState = {
   exponential: null,
   riordan_is_pseudo: true,
   stieltjes: null,
+  exponentialstieltjes: null,
   tweedle_left: null,
   tweedle_left_a_sequence: null,
   tweedle_left_b_sequence: null,
@@ -189,9 +190,9 @@ const displayMoreTerms = (state, action) => {
 
 const fetchMatrixSuccess = (state, action) => {
   const json_body = action.json_body;
-  // console.log('==============================')
-  // console.log(json_body['exponential'])
-  // console.log('==============================')
+  console.log('==============================')
+  console.log(json_body['exponentialstieltjes'])
+  console.log('==============================')
 
   return updateObject(state, {
     loadingMatrix: false,
@@ -202,6 +203,7 @@ const fetchMatrixSuccess = (state, action) => {
     exponential: json_body['exponential'],
     riordan_is_pseudo: json_body['riordan pseudo'],
     stieltjes: json_body.stieltjes,
+    exponentialstieltjes: json_body.exponentialstieltjes,
     tweedle_left: json_body['tweedle left'],
     tweedle_left_a_sequence: json_body['tweedle left a seq'],
     tweedle_left_b_sequence: json_body['tweedle left b seq'],

@@ -144,6 +144,16 @@ class App extends Component {
       stieltjes = <Matrix matrixSelector="stieltjes" matrixName="Stieltjes/Projection Matrix: " />
     }
 
+    let exponentialstieltjes = null
+    if (!this.state.hideStieltjes) {
+      exponentialstieltjes = (
+        <Matrix
+          matrixSelector="exponentialstieltjes"
+          matrixName="Stieltjes/Projection Matrix: "
+        />
+      )
+    }
+
     let sequences = (
       <span>
         <SequenceContainer sequence={this.props.gSequence} />
@@ -389,7 +399,7 @@ class App extends Component {
             {!this.isExponential() && tutorialText}
             {this.isExponential() && exponential}
             {this.isExponential() && hideStieltjesCheckbox}
-            {this.isExponential() && stieltjes}
+            {this.isExponential() && exponentialstieltjes}
           </div>
         </Layout>
       </div>

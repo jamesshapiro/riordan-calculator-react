@@ -177,7 +177,8 @@ const mapStateToProps = (state) => {
     numCellsToDisplay: state.calc.numCellsToDisplay,
     loadingMatrix: state.calc.loadingMatrix,
     riordanGroupElem: state.calc.riordan_group_elem,
-    exponential: state.calc.exponential
+    exponential: state.calc.exponential,
+    exponentialstieltjes: state.calc.exponentialstieltjes
   };
 };
 
