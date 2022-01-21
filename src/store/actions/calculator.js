@@ -1,6 +1,13 @@
 import * as actionTypes from "./calcActionTypes";
 import axios from "axios";
 
+const isExponential = () => {
+  return (
+    window.location.toString().toLowerCase().includes('exponential') ||
+    window.location.toString().toLowerCase().includes('localhost:3000')
+  )
+}
+
 export const selectSeq = (sequenceId, sequenceName) => {
   return {
     type: actionTypes.SELECT_SEQUENCE,
@@ -103,35 +110,38 @@ export const fetchMatrix = (mode) => {
       fSeq = [0]
         .concat(state.calc.gSequence.sequence.slice(0, numCellsToDisplay))
         .join();
-    } else if (mode === "Derivative Subgroup") {
+    } else if (mode === 'Derivative Subgroup' && isExponential()) {
+      const derivative = state.calc.fSequence.sequence.slice(1)
+      gSeq = derivative.join()
+    } else if (mode === 'Derivative Subgroup') {
       const derivative = state.calc.fSequence.sequence
         .slice(1)
         .map((element, index) => {
-          return element * (index + 1);
-        });
-      gSeq = derivative.join();
-    } else if (mode === "Appell Subgroup") {
-      const newFSequence = Array(state.calc.gSequence.sequence.length).fill(0);
-      newFSequence[1] = 1;
-      fSeq = newFSequence.join();
-    } else if (mode === "Associated (Lagrange) Subgroup") {
-      const newGSequence = Array(state.calc.fSequence.sequence.length).fill(0);
-      newGSequence[0] = 1;
-      gSeq = newGSequence.join();
-    } else if (mode === "2-Bell Subgroup") {
-      let gSquared = Array(state.calc.gSequence.sequence.length).fill(0);
-      let i = 0;
+          return element * (index + 1)
+        })
+      gSeq = derivative.join()
+    } else if (mode === 'Appell Subgroup') {
+      const newFSequence = Array(state.calc.gSequence.sequence.length).fill(0)
+      newFSequence[1] = 1
+      fSeq = newFSequence.join()
+    } else if (mode === 'Associated (Lagrange) Subgroup') {
+      const newGSequence = Array(state.calc.fSequence.sequence.length).fill(0)
+      newGSequence[0] = 1
+      gSeq = newGSequence.join()
+    } else if (mode === '2-Bell Subgroup') {
+      let gSquared = Array(state.calc.gSequence.sequence.length).fill(0)
+      let i = 0
       for (i = 0; i < gSquared.length; i++) {
-        const array_1 = state.calc.gSequence.sequence.slice(0, i + 1);
-        const array_2 = state.calc.gSequence.sequence.slice(0, i + 1).reverse();
+        const array_1 = state.calc.gSequence.sequence.slice(0, i + 1)
+        const array_2 = state.calc.gSequence.sequence.slice(0, i + 1).reverse()
         const unreducedProduct = array_1.map((elem, idx) => {
-          return elem * array_2[idx];
-        });
+          return elem * array_2[idx]
+        })
         gSquared[i] = unreducedProduct.reduce(function (a, b) {
-          return a + b;
-        }, 0);
-        const newFSequence = [0].concat(gSquared);
-        fSeq = newFSequence.join();
+          return a + b
+        }, 0)
+        const newFSequence = [0].concat(gSquared)
+        fSeq = newFSequence.join()
       }
     }
     const payload = {

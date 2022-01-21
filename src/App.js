@@ -175,11 +175,15 @@ class App extends Component {
         </span>
       )
     } else if (this.state.mode === 'Derivative Subgroup') {
-      const newGSequence = this.props.fSequence.sequence
+      var newGSequence = this.props.fSequence.sequence
         .slice(1)
         .map((elem, idx) => {
           return elem * (idx + 1)
         })
+      if (this.isExponential()) {
+        newGSequence = this.props.fSequence.sequence
+          .slice(1)
+      }
       sequences = (
         <span>
           <SequenceContainer
