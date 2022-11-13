@@ -1,5 +1,6 @@
 //  aws s3 cp --recursive build s3://riordan-calculator-01-riordancalculatorwebsites3b-aje7xaa0lcip && aws cloudfront create-invalidation --distribution-id E2MWL5V2A3TXGX --paths "/*"
 //  aws s3 cp --recursive build s3://riordancalculator.com                                          && aws cloudfront create-invalidation --distribution-id E2JU45ZDYZG6SU --paths "/*"
+//  aws s3 cp --recursive build s3://riordan-calculator-01-tweedles3bucket-a3gd2fb9r6xh             && aws cloudfront create-invalidation --distribution-id ERFB1E1NP2DJE --paths "/*"
 
 import React, { Component } from 'react'
 //import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
@@ -60,7 +61,13 @@ class App extends Component {
 
   isExponential = () => {
     return (
-      window.location.toString().toLowerCase().includes('exponential') ||
+      window.location.toString().toLowerCase().includes('exponential')
+    )
+  }
+
+  isTweedle = () => {
+    return (
+      window.location.toString().toLowerCase().includes('tweedle') ||
       window.location.toString().toLowerCase().includes('localhost:3000')
     )
   }
@@ -111,6 +118,25 @@ class App extends Component {
 
     const zSequence = <Vector sequenceSelector="Z-sequence" />
 
+    const tweedleLeftASequence = <Vector sequenceSelector="Tweedle Left A-sequence" />
+    let tweedleLeftBSequence = null
+
+    if (this.props.tweedleLeftIsPseudo) {
+      tweedleLeftBSequence = <Vector sequenceSelector="Tweedle Left B-sequence" />
+    }
+
+    const tweedleLeftZSequence = <Vector sequenceSelector="Tweedle Left Z-sequence" />
+
+    const tweedleRightASequence = <Vector sequenceSelector="Tweedle Right A-sequence" />
+    let tweedleRightBSequence = null
+
+    if (this.props.tweedleRightIsPseudo) {
+      tweedleRightBSequence = <Vector sequenceSelector="Tweedle Right B-sequence" />
+    }
+
+    const tweedleRightZSequence = <Vector sequenceSelector="Tweedle Right Z-sequence" />
+
+
     let hideStieltjesCheckbox = null
     if (this.props.riordanGroupElem) {
       hideStieltjesCheckbox = (
@@ -123,7 +149,10 @@ class App extends Component {
             defaultChecked={this.state.hideStieltjes}
             onClick={this.toggleStieltjes}
           ></input>
-          <label htmlFor="hideStieltjes"> Hide Stieltjes/Projection Matrix</label>
+          <label htmlFor="hideStieltjes">
+            {' '}
+            Hide Stieltjes/Projection Matrix
+          </label>
         </div>
       )
     }
@@ -141,7 +170,12 @@ class App extends Component {
 
     let stieltjes = null
     if (!this.state.hideStieltjes) {
-      stieltjes = <Matrix matrixSelector="stieltjes" matrixName="Stieltjes/Projection Matrix: " />
+      stieltjes = (
+        <Matrix
+          matrixSelector="stieltjes"
+          matrixName="Stieltjes/Projection Matrix: "
+        />
+      )
     }
 
     let exponentialstieltjes = null
@@ -153,6 +187,20 @@ class App extends Component {
         />
       )
     }
+
+    let tweedle_left = (
+      <Matrix 
+        matrixSelector='tweedle_left'
+        matrixName='Tweedle Left Matrix: '
+      />
+    )
+
+    let tweedle_right = (
+      <Matrix
+        matrixSelector='tweedle_right'
+        matrixName='Tweedle Right Matrix: '
+      />
+    )
 
     let sequences = (
       <span>
@@ -181,8 +229,7 @@ class App extends Component {
           return elem * (idx + 1)
         })
       if (this.isExponential()) {
-        newGSequence = this.props.fSequence.sequence
-          .slice(1)
+        newGSequence = this.props.fSequence.sequence.slice(1)
       }
       sequences = (
         <span>
@@ -287,9 +334,12 @@ class App extends Component {
       <span>
         <br />
         <strong>{'Quick Tutorial: '}</strong>
-        <a href="#" onClick={() => this.toggleTutorial()}>
+        {/* <a href="#" onClick={() => this.toggleTutorial()}>
           {this.state.showTutorial ? '(Hide)' : '(Show)'}
-        </a>
+        </a> */}
+        <button onClick={() => this.toggleTutorial()}>
+          {this.state.showTutorial ? '(Hide)' : '(Show)'}
+        </button>
       </span>
     )
 
@@ -363,7 +413,9 @@ class App extends Component {
                   }
                 </li>
                 <li>
-                  {"Show the Stieltjes/Projection Matrix by unchecking 'Hide Stieltjes/Projection Matrix'."}
+                  {
+                    "Show the Stieltjes/Projection Matrix by unchecking 'Hide Stieltjes/Projection Matrix'."
+                  }
                 </li>
               </ul>
             </li>
@@ -399,11 +451,19 @@ class App extends Component {
             {!this.isExponential() && zSequence}
             {!this.isExponential() && hideStieltjesCheckbox}
             {!this.isExponential() && stieltjes}
-            {!this.isExponential() && tutorialToggle}
-            {!this.isExponential() && tutorialText}
+            {!this.isExponential() && !this.isTweedle() && tutorialToggle}
+            {!this.isExponential() && !this.isTweedle() && tutorialText}
             {this.isExponential() && exponential}
             {this.isExponential() && hideStieltjesCheckbox}
             {this.isExponential() && exponentialstieltjes}
+            {this.isTweedle() && tweedle_left}
+            {this.isTweedle() && tweedleLeftASequence}
+            {this.isTweedle() && tweedleLeftBSequence}
+            {this.isTweedle() && tweedleLeftZSequence}
+            {this.isTweedle() && tweedle_right}
+            {this.isTweedle() && tweedleRightASequence}
+            {this.isTweedle() && tweedleRightBSequence}
+            {this.isTweedle() && tweedleRightZSequence}
           </div>
         </Layout>
       </div>
@@ -417,6 +477,8 @@ const mapStateToProps = (state) => {
     fSequence: state.calc.fSequence,
     gSequence: state.calc.gSequence,
     riordanIsPseudo: state.calc.riordan_is_pseudo,
+    tweedleLeftIsPseudo: state.calc.tweedle_left_is_pseudo,
+    tweedleRightIsPseudo: state.calc.tweedle_right_is_pseudo,
     newSequenceLoading: state.calc.newSequenceLoading,
     riordanGroupElem: state.calc.riordan_group_elem,
     exponential: state.calc.exponential,

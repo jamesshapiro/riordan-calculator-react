@@ -38,7 +38,7 @@ class MatrixTable extends Component {
     const alternatingRowSums = matrixData.map((row) => {
       const newVector = new Array(row.length).fill(1);
       for (let idx in newVector) {
-        if (idx % 2 == 1) {
+        if (idx % 2 === 1) {
           newVector[idx] = -1;
         }
       }
@@ -56,6 +56,7 @@ class MatrixTable extends Component {
         <td key={"oeis-" + index} className={classes.MatrixCell}>
           <a
             target="_blank"
+            rel="noreferrer"
             href={
               "http://oeis.org/search?q=" +
               subsequence.join("%2C") +
@@ -71,6 +72,7 @@ class MatrixTable extends Component {
       <td key={"oeis-row-sums"} className={classes.MatrixCell}>
         <a
           target="_blank"
+          rel="noreferrer"
           href={
             "http://oeis.org/search?q=" +
             rowSums.slice(0, -1).join("%2C") +
@@ -86,6 +88,7 @@ class MatrixTable extends Component {
       <td key={"oeis-alternating-row-sums"} className={classes.MatrixCell}>
         <a
           target="_blank"
+          rel="noreferrer"
           href={
             "http://oeis.org/search?q=" +
             alternatingRowSums.slice(0, -1).join("%2C") +
@@ -114,6 +117,7 @@ class MatrixTable extends Component {
           <td key={"oeis-row-" + rowIdx} className={classes.MatrixCell}>
             <a
               target="_blank"
+              rel="noreferrer"
               href={
                 "http://oeis.org/search?q=" +
                 subsequence.join("%2C") +
@@ -178,7 +182,9 @@ const mapStateToProps = (state) => {
     loadingMatrix: state.calc.loadingMatrix,
     riordanGroupElem: state.calc.riordan_group_elem,
     exponential: state.calc.exponential,
-    exponentialstieltjes: state.calc.exponentialstieltjes
+    exponentialstieltjes: state.calc.exponentialstieltjes,
+    tweedle_left: state.calc.tweedle_left,
+    tweedle_right: state.calc.tweedle_right,
   };
 };
 

@@ -24,6 +24,12 @@ class Matrix extends Component {
       case "exponentialstieltjes":
         matrixData = this.props.exponentialstieltjes;
         break;
+      case "tweedle_left":
+        matrixData = this.props.tweedle_left;
+        break;
+      case "tweedle_right":
+        matrixData = this.props.tweedle_right;
+        break;
       default:
         break;
     }
@@ -55,7 +61,9 @@ const mapStateToProps = (state) => {
     riordanGroupElem: state.calc.riordan_group_elem,
     stieltjes: state.calc.stieltjes,
     exponential: state.calc.exponential,
-    exponentialstieltjes: state.calc.exponentialstieltjes
+    exponentialstieltjes: state.calc.exponentialstieltjes,
+    tweedle_left: state.calc.tweedle_left,
+    tweedle_right: state.calc.tweedle_right
   };
 };
 

@@ -187,7 +187,7 @@ export const fetchOEISSequence = (sequenceId, oeisSequenceId) => {
     dispatch(fetchOEISSequenceStart());
     const url =
       "https://fh3cm0x1k4.execute-api.us-east-1.amazonaws.com/prod/getsequence";
-    const state = getState();
+    // const state = getState();
     const queryParams = "?sequence=" + oeisSequenceId;
     axios
       .get(url + queryParams)

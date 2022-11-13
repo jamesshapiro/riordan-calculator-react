@@ -17,6 +17,24 @@ class Vector extends Component {
       case "Z-sequence":
         sequenceData = this.props.zSequence;
         break;
+      case "Tweedle Left A-sequence":
+        sequenceData = this.props.tweedleLeftASequence;
+        break;
+      case "Tweedle Left B-sequence":
+        sequenceData = this.props.tweedleLeftBSequence;
+        break;
+      case "Tweedle Left Z-sequence":
+        sequenceData = this.props.tweedleLeftZSequence;
+        break;
+      case "Tweedle Right A-sequence":
+        sequenceData = this.props.tweedleRightASequence;
+        break;
+      case "Tweedle Right B-sequence":
+        sequenceData = this.props.tweedleRightBSequence;
+        break;
+      case "Tweedle Right Z-sequence":
+        sequenceData = this.props.tweedleRightZSequence;
+        break;
       default:
         break;
     }
@@ -49,6 +67,7 @@ class Vector extends Component {
                       "&language=english&go=Search"
                     }
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <button id="oeisButton">OEIS</button>
                   </a>
@@ -69,6 +88,12 @@ const mapStateToProps = (state) => {
     aSequence: state.calc.a_sequence,
     bSequence: state.calc.b_sequence,
     zSequence: state.calc.z_sequence,
+    tweedleLeftASequence: state.calc.tweedle_left_a_sequence,
+    tweedleLeftBSequence: state.calc.tweedle_left_b_sequence,
+    tweedleLeftZSequence: state.calc.tweedle_left_z_sequence,
+    tweedleRightASequence: state.calc.tweedle_right_a_sequence,
+    tweedleRightBSequence: state.calc.tweedle_right_b_sequence,
+    tweedleRightZSequence: state.calc.tweedle_right_z_sequence,
     loadingMatrix: state.calc.loadingMatrix,
   };
 };
